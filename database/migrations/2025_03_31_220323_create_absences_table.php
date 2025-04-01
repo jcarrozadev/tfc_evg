@@ -22,8 +22,19 @@ return new class extends Migration
             $table->unsignedInteger('reason_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
-            $table->foreign('user_id')->references('id')->on('users_evg')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('reason_id')->references('id')->on('reasons')->onDelete('cascade')->onUpdate('cascade');
+            
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users_evg')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+
+            $table->foreign('reason_id')
+                ->references('id')
+                ->on('reasons')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

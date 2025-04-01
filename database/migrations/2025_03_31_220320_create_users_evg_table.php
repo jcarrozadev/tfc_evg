@@ -23,8 +23,16 @@ return new class extends Migration
             $table->unsignedInteger('bookguard_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
-            $table->foreign('bookguard_id')->references('id')->on('bookguards')->onDelete('set null');
+            
+            $table->foreign('role_id')
+                ->references('id')
+                ->on('roles')
+                ->onDelete('set null');
+
+            $table->foreign('bookguard_id')
+                ->references('id')
+                ->on('bookguards')
+                ->onDelete('set null');
         });
     }
 

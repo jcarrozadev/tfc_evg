@@ -11,23 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('classes', function (Blueprint $table) {
-            $table->unsignedInteger('num_class');
-            $table->unsignedInteger('course_id');
-            $table->char('code', 1);
-            $table->unsignedInteger('bookguard_id');
+        Schema::create('class_users', function (Blueprint $table) {
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('class_id');
+
+            $table->primary(['user_id', 'class_id']);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
-    
-            $table->primary(['num_class', 'course_id', 'code']);
 
-            $table->foreign('course_id')
-                ->references('id')->on('courses')
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users_evg')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->foreign('bookguard_id')
-                ->references('id')->on('bookguards')
+            $table->foreign('class_id')
+                ->references('id')
+                ->on('classes')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
@@ -38,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('classes');
+        Schema::dropIfExists('class_users');
     }
 };
