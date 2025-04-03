@@ -16,17 +16,10 @@ return new class extends Migration
             $table->date('date');
             $table->string('archive', 150)->nullable();
             $table->time('hour');
-            $table->unsignedInteger('status_id');
             $table->unsignedInteger('user_sender_id');
             $table->unsignedInteger('user_receiver_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
-
-            $table->foreign('status_id')
-                ->references('id')
-                ->on('status')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
 
             $table->foreign('user_sender_id')
                 ->references('id')

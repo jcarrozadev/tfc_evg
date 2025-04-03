@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('info_task', 255);
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('reason_id');
+            $table->unsignedInteger('status_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
             
@@ -33,6 +34,12 @@ return new class extends Migration
             $table->foreign('reason_id')
                 ->references('id')
                 ->on('reasons')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreign('status_id')
+                ->references('id')
+                ->on('status')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
