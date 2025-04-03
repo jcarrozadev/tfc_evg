@@ -12,17 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('class_guards', function (Blueprint $table) {
-            $table->unsignedInteger('class_id');
+            $table->unsignedInteger('num_class');
+            $table->unsignedInteger('course_id');
+            $table->char('code', 1);
             $table->unsignedInteger('guard_id');
             $table->date('date');
             $table->time('hour');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
 
-            $table->primary(['class_id', 'guard_id']);
+            $table->primary(['num_class', 'course_id', 'code', 'guard_id']);
 
-            $table->foreign('class_id')
-                ->references('id')
+            $table->foreign(['num_class', 'course_id', 'code'])
+                ->references(['num_class', 'course_id', 'code'])
                 ->on('classes')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');

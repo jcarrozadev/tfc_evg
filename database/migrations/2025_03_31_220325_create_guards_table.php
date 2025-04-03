@@ -23,13 +23,13 @@ return new class extends Migration
 
             $table->foreign('user_sender_id')
                 ->references('id')
-                ->on('users_evg')
+                ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->foreign('user_receiver_id')
                 ->references('id')
-                ->on('users_evg')
+                ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });

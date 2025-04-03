@@ -13,20 +13,22 @@ return new class extends Migration
     {
         Schema::create('class_users', function (Blueprint $table) {
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('class_id');
+            $table->unsignedInteger('num_class');
+            $table->unsignedInteger('course_id');
+            $table->char('code', 1);
 
-            $table->primary(['user_id', 'class_id']);
+            $table->primary(['user_id', 'num_class', 'course_id', 'code']);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
 
             $table->foreign('user_id')
                 ->references('id')
-                ->on('users_evg')
+                ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->foreign('class_id')
-                ->references('id')
+            $table->foreign(['num_class', 'course_id', 'code'])
+                ->references(['num_class', 'course_id', 'code'])
                 ->on('classes')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');

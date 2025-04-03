@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users_evg', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->unsignedInteger('id')->autoIncrement()->primary();
             $table->string('name', 50);
             $table->string('email', 100)->unique();
@@ -41,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users_evg');
+        Schema::dropIfExists('users');
     }
 };

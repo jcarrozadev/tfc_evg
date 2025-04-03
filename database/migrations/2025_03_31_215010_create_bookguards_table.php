@@ -16,9 +16,9 @@ return new class extends Migration
             $table->char('day', 1)->unique();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
-            $table->unsignedBigInteger('sesion_id');
+            $table->unsignedInteger('session_id');
             
-            $table->foreign('sesion_id')
+            $table->foreign('session_id')
                 ->references('id')
                 ->on('sessions')
                 ->onDelete('cascade')
