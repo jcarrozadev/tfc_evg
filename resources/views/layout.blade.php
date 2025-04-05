@@ -7,10 +7,10 @@
         <meta name="author" content="Javier Arias Carroza | Zeus Martin Llera">
         <title>@yield('title')</title>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         @stack('styles')
     </head>
     <body>
-
         @include('header')
 
         @yield('content') 
