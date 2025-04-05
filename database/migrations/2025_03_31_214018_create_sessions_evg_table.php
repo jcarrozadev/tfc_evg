@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sessions', function (Blueprint $table) {
+        Schema::create('sessions_evg', function (Blueprint $table) {
             $table->unsignedInteger('id')->autoIncrement()->primary();
             $table->time('hour_start');
             $table->time('hour_end');
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('sessions_evg');
     }
 };

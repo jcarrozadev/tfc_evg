@@ -20,7 +20,7 @@ return new class extends Migration
             
             $table->foreign('session_id')
                 ->references('id')
-                ->on('sessions')
+                ->on('sessions_evg')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
