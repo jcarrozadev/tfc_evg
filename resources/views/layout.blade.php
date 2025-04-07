@@ -18,6 +18,9 @@
         
         @include('footer')
 
+        @include('projectCSS')
+        @include('projectJS')
+
         @stack('scripts')
     </body>
 </html>
