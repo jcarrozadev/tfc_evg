@@ -2,7 +2,7 @@
     <img src="{{ asset('img/logo.png') }}" alt="Logo" class="img-fluid me-3" style="max-width: 120px;">
 </header>
 
-<nav class="navbar navbar-expand-lg navbar-evg">
+<nav class="navbar navbar-expand-lg navbar-evg mb-4">
     <div class="container-fluid">
         <div class="collapse navbar-collapse show">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-2">
