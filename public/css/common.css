@@ -34,6 +34,15 @@ body {
     gap: 0.25rem;
 }
 
+.bg-custom{
+    background-color: #172952;
+}
+
+.container-custom{
+    max-width: 85%;
+    margin: 0 auto;
+}
+
 @media (max-width: 768px) {
     .logo-evg {
         font-size: 1.4rem;
