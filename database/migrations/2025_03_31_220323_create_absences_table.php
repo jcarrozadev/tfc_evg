@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('absences', function (Blueprint $table) {
@@ -20,34 +17,25 @@ return new class extends Migration
             $table->string('info_task', 255);
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('reason_id');
-            $table->unsignedInteger('status_id');
+            $table->string('reason_description', 255)->nullable();
+            $table->boolean('status')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
-            
+
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-
             $table->foreign('reason_id')
                 ->references('id')
                 ->on('reasons')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-
-            $table->foreign('status_id')
-                ->references('id')
-                ->on('status')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('absences');

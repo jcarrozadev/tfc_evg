@@ -6,18 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('guards', function (Blueprint $table) {
             $table->unsignedInteger('id')->autoIncrement()->primary();
             $table->date('date');
-            $table->string('archive', 150)->nullable();
+            $table->string('text_guard', 150)->nullable();
             $table->time('hour');
             $table->unsignedInteger('user_sender_id');
-            $table->unsignedInteger('user_receiver_id');
+            $table->unsignedInteger('absence_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
 
@@ -27,17 +24,14 @@ return new class extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->foreign('user_receiver_id')
+            $table->foreign('absence_id')
                 ->references('id')
-                ->on('users')
+                ->on('absences')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('guards');
