@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 use App\Models\User;
 
-class TeacherController extends Controller
-{
+class TeacherController extends Controller {
     public int $id;
     public string $name;
     public string $email;

@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('classes', function (Blueprint $table) {
             $table->unsignedInteger('num_class');
-            $table->unsignedInteger('course');
+            $table->char('course',5);
             $table->char('code', 1);
             $table->unsignedInteger('bookguard_id');
             $table->timestamp('created_at')->useCurrent();
