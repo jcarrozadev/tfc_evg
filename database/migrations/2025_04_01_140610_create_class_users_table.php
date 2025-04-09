@@ -12,7 +12,7 @@ return new class extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('num_class');
             $table->unsignedInteger('course');
-            $table->char('code', 1)->nullable();
+            $table->char('code', 1);
 
             $table->primary(['user_id', 'num_class', 'course', 'code']);
             $table->timestamp('created_at')->useCurrent();

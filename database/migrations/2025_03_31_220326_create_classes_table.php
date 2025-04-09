@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('classes', function (Blueprint $table) {
             $table->unsignedInteger('num_class');
             $table->unsignedInteger('course');
-            $table->char('code', 1)->nullable();
+            $table->char('code', 1);
             $table->unsignedInteger('bookguard_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
