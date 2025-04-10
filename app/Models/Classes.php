@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Classes extends Model {
 
     protected $table = 'classes';
-    protected $primaryKey = ['num_class', 'course', 'code'];
     public $timestamps = true;
 
     protected $fillable = [
@@ -17,8 +16,13 @@ class Classes extends Model {
         'bookguard_id'
     ];
 
+    public function getKeyName()
+    {
+        return ['num_class', 'course', 'code'];
+    }
+
     public static function getAllClasses() {
-        return self::select('num_class', 'course', 'code')
+        return self::select('id', 'num_class', 'course', 'code')
             ->get();
     }
 }

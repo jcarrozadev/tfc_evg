@@ -12,6 +12,7 @@
                 <div class="col-12">
                     @include('components.tables.table', [
                         'headers' => [
+                            'ID' => 'id',
                             'Nº Clase' => 'num_class',
                             'Curso' => 'course',
                             'Letra' => 'code'
