@@ -1,0 +1,167 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+
+class UsersTableSeeder extends Seeder
+{
+    public function run(): void
+    {
+        DB::table('users')->insert([
+            [
+                'name' => 'Juan Pérez',
+                'email' => 'juan@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '612345678',
+                'dni' => '12345678A',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 1,
+            ],
+            [
+                'name' => 'Ana López',
+                'email' => 'ana@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '622345678',
+                'dni' => '87654321B',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 2,
+            ],
+            [
+                'name' => 'Carlos García',
+                'email' => 'carlos@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '632345678',
+                'dni' => '11223344C',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 3,
+            ],
+            [
+                'name' => 'Laura Martínez',
+                'email' => 'laura@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '642345678',
+                'dni' => '22334455D',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 4,
+            ],
+            [
+                'name' => 'Pedro Sánchez',
+                'email' => 'pedro@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '652345678',
+                'dni' => '33445566E',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 5,
+            ],
+            [
+                'name' => 'Marta Pérez',
+                'email' => 'marta@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '662345678',
+                'dni' => '44556677F',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 6,
+            ],
+            [
+                'name' => 'José Gómez',
+                'email' => 'jose@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '672345678',
+                'dni' => '55667788G',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 7,
+            ],
+            [
+                'name' => 'Elena Ruiz',
+                'email' => 'elena@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '682345678',
+                'dni' => '66778899H',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 8,
+            ],
+            [
+                'name' => 'David Fernández',
+                'email' => 'david@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '692345678',
+                'dni' => '77889900I',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 9,
+            ],
+            [
+                'name' => 'Sofia López',
+                'email' => 'sofia@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '702345678',
+                'dni' => '88990011J',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 10,
+            ],
+            [
+                'name' => 'Javier Martín',
+                'email' => 'javier@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '712345678',
+                'dni' => '99001122K',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 11,
+            ],
+            [
+                'name' => 'Raquel García',
+                'email' => 'raquel@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '722345678',
+                'dni' => '10112233L',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 12,
+            ],
+            [
+                'name' => 'Luis Torres',
+                'email' => 'luis@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '732345678',
+                'dni' => '11223344M',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 13,
+            ],
+            [
+                'name' => 'Julia Sánchez',
+                'email' => 'julia@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '742345678',
+                'dni' => '22334455N',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 14,
+            ],
+            [
+                'name' => 'Antonio Ruiz',
+                'email' => 'antonio@example.com',
+                'password' => Hash::make('password'),
+                'phone' => '752345678',
+                'dni' => '33445566O',
+                'available' => true,
+                'role_id' => 2,
+                'bookguard_id' => 15,
+            ],
+        ]);
+        
+    }
+}

@@ -9,12 +9,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('class_users', function (Blueprint $table) {
+            $table->unsignedInteger('id')->autoIncrement()->primary();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('num_class');
-            $table->unsignedInteger('course');
+            $table->char('course',5);
             $table->char('code', 1);
 
-            $table->primary(['user_id', 'num_class', 'course', 'code']);
+            $table->unique(['user_id', 'num_class', 'course', 'code'], 'class_user_unique');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
 

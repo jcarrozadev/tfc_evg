@@ -13,8 +13,8 @@ return new class extends Migration
             $table->date('date');
             $table->time('hour_start');
             $table->time('hour_end');
-            $table->string('justify', 255);
-            $table->string('info_task', 255);
+            $table->string('justify', 255)->nullable();
+            $table->string('info_task', 255)->nullable();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('reason_id');
             $table->string('reason_description', 255)->nullable();
