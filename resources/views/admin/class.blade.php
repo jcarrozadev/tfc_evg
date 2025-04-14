@@ -18,7 +18,7 @@
                             'Letra' => 'code'
                         ],
                         'rows' => $classes,
-                        'route' => 'classes',
+                        'route' => 'class',
                         'actions' => ['edit', 'delete'],
                     ])
                 </div>
