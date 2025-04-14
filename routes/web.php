@@ -10,11 +10,13 @@ Route::get('/', function () {
     return view('login.login');
 })->name('home');
 
+
 Route::prefix('teacher')->name('teacher.')->group(function () {
     Route::get('/', [TeacherController::class, 'index'])->name('index');
     Route::post('/create', [TeacherController::class, 'create'])->name('create');
     Route::get('/{id}/edit', [TeacherController::class, 'edit'])->name('edit');
     Route::delete('/{id}', [TeacherController::class, 'destroy'])->name('destroy');
+    Route::get('/home', [TeacherController::class, 'home'])->name('home');
 });
 
 Route::prefix('class')->name('class.')->group(function () {
@@ -27,5 +29,5 @@ Route::prefix('class')->name('class.')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {
         return view('admin.adminPanel');
-    });
+    })->name('admin');
 });
