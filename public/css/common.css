@@ -30,6 +30,10 @@ body {
     border-radius: 0.5rem;
 }
 
+.navbar-evg .nav-link:hover {
+    color: rgb(170, 170, 170);
+}
+
 .navbar-nav {
     gap: 0.25rem;
 }
