@@ -4,7 +4,7 @@
 
 @section('content')
     @include('templates.navBar')
-    <div class="container-custom shadow-sm bg-light">
+    <div class="container-custom shadow-sm bg-container-medium p-2 rounded">
         @include('components.titles.title', ['title' => 'Clases'])
 
         <div class="container">

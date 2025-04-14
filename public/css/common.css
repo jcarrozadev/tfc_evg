@@ -1,7 +1,14 @@
+:root {
+    --primary-color: #003366;
+    --secondary-color: #ffffff;
+    --container-color: #ffffff;
+    --font-family: 'Open Sans', sans-serif;
+}
+
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: var(--font-family);
     margin: 0;
-    background-color: #ffffff;
+    background-color: #f0f0f0;
 }
 
 .header-evg {
@@ -9,7 +16,7 @@ body {
 }
 
 .logo-evg {
-    background-color: #003366;
+    background-color: var(--primary-color);
     color: #ffffff;
     font-weight: bold;
     font-size: 1.8rem;
@@ -19,7 +26,7 @@ body {
 }
 
 .navbar-evg {
-    background-color: #003366;
+    background-color: var(--primary-color);
 }
 
 .navbar-evg .nav-link {
@@ -39,7 +46,12 @@ body {
 }
 
 .bg-custom{
-    background-color: #172952;
+    background-color: var(--primary-color);
+}
+
+.bg-container-medium {
+    background-color: var(--container-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
 }
 
 .container-custom{
