@@ -1,5 +1,6 @@
 :root {
     --primary-color: #003366;
+    --primary-color-dark: #001d3a;
     --secondary-color: #ffffff;
     --container-color: #ffffff;
     --font-family: 'Open Sans', sans-serif;
@@ -52,6 +53,29 @@ body {
 .bg-container-medium {
     background-color: var(--container-color);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
+}
+
+.button {
+    width:70px;
+}
+
+.button i {
+    font-size: 0.9rem;
+}
+
+.button-add {
+    margin-right: 1%;
+}
+
+.button-edit {
+    margin-right: 2%;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.button-edit:hover {
+    background-color: var(--primary-color-dark);
+    color: var(--secondary-color);
 }
 
 .container-custom{
