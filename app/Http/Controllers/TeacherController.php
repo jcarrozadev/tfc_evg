@@ -42,4 +42,9 @@ class TeacherController extends Controller {
         return redirect()->route('teacher.index')->with('success', 'Profesor eliminado');
     }
 
+    public function home()
+    {
+        return view('admin.home');
+    }
+
 }

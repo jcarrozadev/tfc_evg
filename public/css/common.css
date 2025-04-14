@@ -1,6 +1,8 @@
 :root {
-    --primary-color: #003366;
-    --primary-color-dark: #001d3a;
+    --primary-color: #0F4C81;
+    --primary-color-dark: #0c3c66;
+    --primary-color-light: #4A6FA5;
+    --bg-celeste : 	#9DC3D4;
     --secondary-color: #ffffff;
     --container-color: #ffffff;
     --font-family: 'Open Sans', sans-serif;
@@ -48,6 +50,14 @@ body {
 
 .bg-custom{
     background-color: var(--primary-color);
+}
+
+.bg-celeste{
+    background-color: var(--bg-celeste);
+}
+
+.bg-medium{
+    background-color: var(--primary-color-light);
 }
 
 .bg-container-medium {
