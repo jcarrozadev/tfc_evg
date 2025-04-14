@@ -5,11 +5,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ClassesController;
+use App\Http\Controllers\Auth\CustomLoginController;
 
 Route::get('/', function () {
-    return view('login.login');
-})->name('home');
+    return view('welcome');
+});
 
+Route::get('/login', [CustomLoginController::class, 'showLoginForm'])->middleware('guest')->name('login');
+Route::post('/login', [CustomLoginController::class, 'login'])->middleware('guest');
+Route::post('/logout', [CustomLoginController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::prefix('teacher')->name('teacher.')->group(function () {
     Route::get('/', [TeacherController::class, 'index'])->name('index');
