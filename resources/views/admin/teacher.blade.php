@@ -4,8 +4,18 @@
 
 @section('content')
     @include('templates.navBar')
-    <div class="container-custom shadow-sm bg-light">
+    <div class="container-custom shadow-sm bg-container-medium p-2 rounded">
         @include('components.titles.title', ['title' => 'Profesores'])
+
+        <div class="row mt-3 mb-3 ms-3 justify-content-end button-add">
+            <div class="col-auto">
+                @include('components.buttons.button', [
+                    'text' => '<i class="fas fa-user-plus"></i>',
+                    'route' => 'teacher.create',
+                    'class' => 'btn btn-success button text-center',
+                ])
+            </div>
+        </div>
 
         <div class="container">
             <div class="row">
@@ -20,16 +30,6 @@
                         'rows' => $teachers,
                         'route' => 'teacher',
                         'actions' => ['edit', 'delete'],
-                    ])
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-12">
-                    @include('components.buttons.button', [
-                        'text' => 'Agregar Profesor',
-                        'route' => 'teacher.create',
-                        'class' => 'btn btn-success',
                     ])
                 </div>
             </div>
