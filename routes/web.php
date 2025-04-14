@@ -8,24 +8,24 @@ use App\Http\Controllers\ClassesController;
 
 Route::get('/', function () {
     return view('login.login');
+})->name('home');
+
+Route::prefix('teacher')->name('teacher.')->group(function () {
+    Route::get('/', [TeacherController::class, 'index'])->name('index');
+    Route::post('/create', [TeacherController::class, 'create'])->name('create');
+    Route::get('/{id}/edit', [TeacherController::class, 'edit'])->name('edit');
+    Route::delete('/{id}', [TeacherController::class, 'destroy'])->name('destroy');
 });
 
-Route::get('/admin', function () {
-    return view('admin.adminPanel');
+Route::prefix('class')->name('class.')->group(function () {
+    Route::get('/', [ClassesController::class, 'index'])->name('index');
+    Route::get('/create', [ClassesController::class, 'create'])->name('create');
+    Route::get('/{id}/edit', [ClassesController::class, 'edit'])->name('edit');
+    Route::delete('/{id}', [ClassesController::class, 'destroy'])->name('destroy');
 });
 
-Route::get('/teacher', [TeacherController::class, 'index'])->name('teacher.index');
-
-Route::post('/teacher/create', [TeacherController::class, 'create'])->name('teacher.create');
-
-Route::get('/teacher/{id}/edit', [TeacherController::class, 'edit'])->name('teacher.edit');
-
-Route::delete('/teacher/{id}', [TeacherController::class, 'destroy'])->name('teacher.destroy');
-
-Route::get('/class', [ClassesController::class, 'index'])->name('class.index');
-
-Route::get('/class/create', [ClassesController::class, 'create'])->name('class.create');
-
-Route::get('/class/{id}/edit', [ClassesController::class, 'edit'])->name('class.edit');
-
-Route::delete('/class/{id}', [ClassesController::class, 'destroy'])->name('class.destroy');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', function () {
+        return view('admin.adminPanel');
+    });
+});
