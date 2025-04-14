@@ -8,8 +8,8 @@
 }
 
 body{
-    background-color: #c9d6ff;
-    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    background: #003366;
+    background: linear-gradient(270deg,rgba(0, 51, 102, 0.72) 0%, rgba(255, 255, 255, 1) 50%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,7 +47,7 @@ body{
 }
 
 .container button{
-    background-color: #512da8;
+    background-color: var(--primary-color);
     color: #fff;
     font-size: 12px;
     padding: 10px 45px;
@@ -144,13 +144,13 @@ body{
     font-weight: 600;
     text-decoration: none;
     gap: 10px;
-    color: #485cb4;
-    border-color: #485cb4;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .social-icons a:hover {
-    background-color: #485cb4;
+    background-color: var(--primary-color-dark);
     color: white;
 }
 
@@ -173,9 +173,9 @@ body{
 }
 
 .toggle{
-    background-color: #512da8;
+    background-color: var(--primary-color);
     height: 100%;
-    background: linear-gradient(to right, #5c6bc0, #512da8);
+    background: linear-gradient(to right, var(--primary-color-light), var(--primary-color));
     color: #fff;
     position: relative;
     left: -100%;
