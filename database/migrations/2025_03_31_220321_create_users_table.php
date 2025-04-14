@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password', 255);
             $table->string('phone', 15);
             $table->char('dni', 9)->unique();
+            $table->string('image_profile', 255);
             $table->boolean('available')->default(true);
             $table->unsignedInteger('role_id')->nullable();
             $table->unsignedInteger('bookguard_id')->nullable();
