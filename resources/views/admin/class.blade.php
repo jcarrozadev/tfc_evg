@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Clases')
+@section('title', 'Gestor de Clases')
 
 @section('content')
     @include('templates.navBar')

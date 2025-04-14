@@ -5,7 +5,7 @@
     'actions' => [],
 ])
 
-<table class="table table-striped" id="dataTable">
+<table class="table table-striped datatable rounded" id="dataTable">
     <thead>
         <tr>
             @foreach ($headers as $label => $attr)
