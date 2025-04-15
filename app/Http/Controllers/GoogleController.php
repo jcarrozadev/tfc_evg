@@ -29,6 +29,7 @@ class GoogleController extends Controller
                 'password' => bcrypt(uniqid()),
                 'phone' => '',
                 'dni' => '',
+                'role_id' => 2,
             ]);
         }
 
