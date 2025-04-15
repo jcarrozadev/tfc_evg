@@ -16,7 +16,7 @@ El gestor de guardias es una aplicación diseñada para facilitar la organizaci�
 ## Tecnologías utilizadas
 
 - **Frontend:** HTML5, CSS, JavaScript, Bootstrap 5.
-- **Backend:** Laravel.
+- **Backend:** PHP (Laravel 12).
 - **Base de datos:** MySQL.
 - **Control de versiones:** Git.
 
@@ -31,4 +31,4 @@ Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para má
 
 ## Contacto
 
-Para más información, puedes contactar a los autores a través de [ zmartinllera1@gmail.com ].
+Para más información, puedes contactar a los autores a través de [ jariascarroza@gmail.com | zmartinllera1@gmail.com ].

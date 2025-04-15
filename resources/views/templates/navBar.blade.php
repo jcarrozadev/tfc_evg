@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse show">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-2">
                 <li class="nav-item">
-                    <a class="nav-link" href="">Inicio</a>
+                    <a class="nav-link" href="{{ route('admin.admin') }}">Inicio</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Libro Guardias</a>
