@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class Classes extends Model {
@@ -15,8 +16,13 @@ class Classes extends Model {
         'bookguard_id'
     ];
 
-    public static function getAllClasses() {
+    public static function getAllClasses(): Collection {
         return self::select('id', 'num_class', 'course', 'code')
             ->get();
+    }
+
+    public static function getClassesCount(): int
+    {
+        return self::all()->count();
     }
 }

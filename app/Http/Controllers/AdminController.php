@@ -2,12 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classes;
+use App\Models\Guard;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller {
-    public function index()
+    public static function index()
     {
-        return view('admin.adminPanel');
+        
+        $weeklyGuards = Guard::getWeeklySummary();
+        $todayGuards = Guard::getTodaySummary();
+        $classesCount = Classes::getClassesCount();
+        $teachersCount = User::getTeachersCount();
+
+        return view('admin.adminPanel')->with([
+            'guardiasSemanales' => $weeklyGuards,
+            'guardiasHoy' => $todayGuards,
+            'clasesCount' => $classesCount,
+            'profesoresCount' => $teachersCount,
+        ]);
+
     }
 
     public function create()
