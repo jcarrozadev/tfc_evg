@@ -2,16 +2,16 @@
 
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Models\Admin;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\GoogleController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 Route::get('/login', [CustomLoginController::class, 'showLoginForm'])->middleware('guest')->name('login');
 Route::post('/login', [CustomLoginController::class, 'login'])->middleware('guest');
