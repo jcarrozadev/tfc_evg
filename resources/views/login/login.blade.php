@@ -20,7 +20,7 @@
                 @csrf
                 <h1>Crear Cuenta</h1>
                 <div class="social-icons w-80">
-                    <a href="{{ route('google.login') }}" class="icon"><i class="fa-brands fa-google-plus-g"></i>Registrarse con Google</a>
+                    <a href="{{ route('google.login') }}" class="icon"><i class="fa-brands fa-google-plus-g"></i>Continuar con Google</a>
                 </div>
                 <span>o tu correo para registrarte</span>
             
@@ -39,7 +39,7 @@
                 @csrf
                 <h1>Iniciar Sesión</h1>
                 <div class="social-icons w-80">
-                    <a href="{{ route('google.login') }}" class="icon"><i class="fa-brands fa-google-plus-g"></i>Iniciar con Google</a>
+                    <a href="{{ route('google.login') }}" class="icon"><i class="fa-brands fa-google-plus-g"></i>Continuar con Google</a>
                 </div>
                 <span>o correo y contraseña</span>
                 <input type="email" name="email" placeholder="Email" required>
