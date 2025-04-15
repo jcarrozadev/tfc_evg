@@ -15,10 +15,11 @@ return new class extends Migration
             $table->unsignedInteger('id')->autoIncrement()->primary();
             $table->string('name', 50);
             $table->string('email', 100)->unique();
-            $table->string('password', 255);
-            $table->string('phone', 15);
-            $table->char('dni', 9)->unique();
-            $table->string('image_profile', 255);
+            $table->string('password', 255)->nullable();
+            $table->string('phone', 15)->nullable();
+            $table->char('dni', 9)->unique()->nullable();
+            $table->string('google_id')->nullable();
+            $table->string('avatar', 255)->nullable();
             $table->boolean('available')->default(true);
             $table->unsignedInteger('role_id')->nullable();
             $table->unsignedInteger('bookguard_id')->nullable();

@@ -16,7 +16,8 @@ class User extends Authenticatable
         'password',
         'phone',
         'dni',
-        'role_id'
+        'role_id',
+        'google_id',
     ];
 
     public function __construct()
