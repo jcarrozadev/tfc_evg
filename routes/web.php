@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\Auth\CustomLoginController;
+use App\Models\Admin;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 Route::get('/', function () {
@@ -31,7 +32,7 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('teacher'
 
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {
-        return view('admin.adminPanel');
+        return AdminController::index();
     })->name('admin');
 });
 
