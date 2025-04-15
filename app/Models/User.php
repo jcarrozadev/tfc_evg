@@ -16,7 +16,8 @@ class User extends Authenticatable
         'password',
         'phone',
         'dni',
-        'role_id'
+        'role_id',
+        'google_id',
     ];
 
     public function __construct()
@@ -33,5 +34,10 @@ class User extends Authenticatable
     {
         return self::where('role_id', 2)
             ->get();
+    }
+
+    public static function getTeachersCount()
+    {
+        return self::where('role_id', 2)->count();
     }
 }
