@@ -12,7 +12,7 @@
         <div class="text-center mt-4">
             @include('components.buttons.button', [
                 'text' => 'Cerrar Sesión',
-                'route' => 'login',
+                'route' => 'logout',
                 'class' => 'btn btn-salir'
             ])
         </div>
