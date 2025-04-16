@@ -31,7 +31,7 @@
                 <input type="text" name="phone" placeholder="Teléfono" required>
                 <input type="text" name="dni" placeholder="DNI" required>
             
-                <button type="submit">Registrarse</button>
+                <button type="submit" class="mb-3">Registrarse</button>
             </form>            
         </div>
         <div class="form-container sign-in">
