@@ -28,7 +28,7 @@ class GoogleController extends Controller
                 'avatar' => $googleUser->getAvatar() ?? '',
                 'password' => bcrypt(uniqid()),
                 'phone' => '',
-                'dni' => '',
+                'dni' => substr(uniqid(), 0, 9),
                 'role_id' => 2,
             ]);
         }
