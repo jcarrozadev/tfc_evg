@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('avatar', 255)->nullable();
             $table->string('image_profile', 255)->default('default.png');
             $table->boolean('available')->default(true);
+            $table->boolean('enabled')->default(true);
             $table->unsignedInteger('role_id')->nullable();
             $table->unsignedInteger('bookguard_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
