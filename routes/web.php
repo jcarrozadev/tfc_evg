@@ -31,7 +31,7 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('teacher'
     Route::get('/', [TeacherController::class, 'index'])->name('index');
     Route::post('/create', [TeacherController::class, 'create'])->name('create');
     Route::get('/{id}/edit', [TeacherController::class, 'edit'])->name('edit');
-    Route::delete('/{id}', [TeacherController::class, 'destroy'])->name('destroy');
+    Route::delete('/{id}', [TeacherController::class, 'deleteTeacher'])->name('destroy');
 });
 
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('admin')->name('admin.')->group(function () {

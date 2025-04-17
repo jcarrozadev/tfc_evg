@@ -3,6 +3,7 @@
     'rows' => [],
     'route' => '',
     'actions' => [],
+    'labelButton' => 'este registro',
 ])
 
 <table class="table table-striped datatable rounded" id="dataTable">
@@ -33,17 +34,15 @@
                     @endif
 
                     @if (in_array('delete', $actions))
-                        <form action="{{ route($route . '.destroy', $row->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-sm btn-danger button" onclick="return confirm('¿Eliminar este registro?')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
+                    <button 
+                        class="btn btn-sm btn-danger button" 
+                        onclick="deleteItem('{{ route($route . '.destroy', $row->id) }}', '{{ $labelButton }}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
                     @endif
                 </td>
             @endif
         </tr>
-@endforeach
+        @endforeach
     </tbody>
 </table>
