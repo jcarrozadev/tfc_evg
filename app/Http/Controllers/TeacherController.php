@@ -19,6 +19,11 @@ class TeacherController extends Controller {
 
     public function index(): View {
         $teachers = User::getAllEnabledTeachers();
+
+        foreach ($teachers as $teacher) {
+            $teacher->available = $teacher->available === 1 ? 'Sí' : 'No';
+        }
+
         return view('admin.teacher', compact('teachers'));
     }
 

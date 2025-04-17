@@ -25,6 +25,7 @@
                             'Nombre' => 'name',
                             'Correo' => 'email',
                             'Teléfono' => 'phone',
+                            'DNI' => 'dni',
                             'Disponible' => 'available',
                         ],
                         'rows' => $teachers,
