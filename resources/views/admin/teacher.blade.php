@@ -30,6 +30,7 @@
                         'rows' => $teachers,
                         'route' => 'teacher',
                         'actions' => ['edit', 'delete'],
+                        'labelButton' => 'este profesor',
                     ])
                 </div>
             </div>
@@ -39,4 +40,5 @@
 
 @push('scripts')
     <script src="{{ asset('js/Datatables/datatable.js') }}"></script>
+    <script src="{{ asset('js/sweetAlerts/swalDelete.js') }}"></script>
 @endpush

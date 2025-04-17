@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Collection;
-
 use App\Models\User;
+use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
 
 class TeacherController extends Controller {
     public int $id;
@@ -15,35 +15,31 @@ class TeacherController extends Controller {
     public string $dni;
     public ?string $rol;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
-    public function index()
-    {
-        $teachers = User::getAllTeachers();
+    public function index(): View {
+        $teachers = User::getAllEnabledTeachers();
         return view('admin.teacher', compact('teachers'));
     }
 
-    public function create()
-    {
+    public function create(): View {
         return view('admin.teacherCreate');
     }
 
-    public function edit($id)
-    {
+    public function edit($id): View {
         $teacher = User::findOrFail($id);
         return view('admin.teacherEdit', compact('teacher'));
     }
 
-    public function destroy($id)
-    {
-        User::destroy($id);
-        return redirect()->route('teacher.index')->with('success', 'Profesor eliminado');
+    public function deleteTeacher($id): JsonResponse {
+        if (User::deleteTeacher($id)) {
+            return response()->json(['success' => 'Profesor eliminado correctamente.']);
+        } else {
+            return response()->json(['error' => 'Error al eliminar profesor.']);
+        }
     }
 
-    public function home()
-    {
+    public function home(): View {
         return view('admin.home');
     }
 
