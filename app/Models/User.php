@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Http\Request;
 
 class User extends Authenticatable
 {
@@ -66,6 +65,10 @@ class User extends Authenticatable
 
         if (isset($data['phone']) && $teacher->phone !== $data['phone']) {
             $teacher->phone = $data['phone'];
+            $changed = true;
+        }
+        if (isset($data['dni']) && $teacher->dni !== $data['dni']) {
+            $teacher->dni = $data['dni'];
             $changed = true;
         }
 
