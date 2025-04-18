@@ -30,7 +30,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="editDNI" class="form-label">DNI</label>
-                        <input type="text" class="form-control" id="editDNI" name="DNI">
+                        <input type="text" class="form-control" id="editDNI" name="dni">
                     </div>
                 </div>
 

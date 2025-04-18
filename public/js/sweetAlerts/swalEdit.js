@@ -26,6 +26,8 @@ document.getElementById('editTeacherForm').addEventListener('submit', function(e
             let form = document.getElementById('editTeacherForm');
             let formData = new FormData(form);
 
+            console.log(formData);
+
             fetch(form.action, {
                 method: 'POST',
                 body: formData
