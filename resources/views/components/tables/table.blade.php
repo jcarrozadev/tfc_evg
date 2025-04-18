@@ -4,6 +4,7 @@
     'route' => '',
     'actions' => [],
     'labelButton' => 'este registro',
+    'editModal' => '',
 ])
 
 <table class="table table-striped datatable rounded" id="dataTable">
@@ -27,11 +28,21 @@
 
             @if ($actions)
                 <td>
-                    @if (in_array('edit', $actions))
+                    @if (in_array('edit', $actions) && $editModal)
+                        <button 
+                            class="btn btn-sm button-edit button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#{{ $editModal }}Modal"
+                            onclick="fillEditModal({{ $row }})"
+                        >
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    @elseif (in_array('edit', $actions))
                         <a href="{{ route($route . '.edit', $row->id) }}" class="btn btn-sm button-edit button">
                             <i class="fas fa-edit"></i>
                         </a>
                     @endif
+
 
                     @if (in_array('delete', $actions))
                     <button 
@@ -46,3 +57,8 @@
         @endforeach
     </tbody>
 </table>
+
+@if ($editModal)
+    @include('components.modals.' . $editModal)
+@endif
+

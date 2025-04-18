@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Http\Request;
 
 class User extends Authenticatable
 {
@@ -44,4 +45,31 @@ class User extends Authenticatable
         return self::where('id', $id)
             ->update(['enabled' => false]) > 0;
     }
+
+    public static function getTeacherById($id): ?User {
+        return self::where('id', $id)
+            ->first();
+    }
+
+    public static function editTeacher(User $teacher, array $data): bool {
+        $changed = false;
+
+        if (isset($data['name']) && $teacher->name !== $data['name']) {
+            $teacher->name = $data['name'];
+            $changed = true;
+        }
+
+        if (isset($data['email']) && $teacher->email !== $data['email']) {
+            $teacher->email = $data['email'];
+            $changed = true;
+        }
+
+        if (isset($data['phone']) && $teacher->phone !== $data['phone']) {
+            $teacher->phone = $data['phone'];
+            $changed = true;
+        }
+
+        return $changed ? $teacher->save() : true;
+    }
+
 }
