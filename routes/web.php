@@ -30,7 +30,7 @@ Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->na
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('teacher')->name('teacher.')->group(function () {
     Route::get('/', [TeacherController::class, 'index'])->name('index');
     Route::post('/create', [TeacherController::class, 'create'])->name('create');
-    Route::get('/{id}/edit', [TeacherController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [TeacherController::class, 'editTeacher'])->name('update');
     Route::delete('/{id}', [TeacherController::class, 'deleteTeacher'])->name('destroy');
 });
 

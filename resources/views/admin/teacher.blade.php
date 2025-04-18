@@ -32,6 +32,7 @@
                         'route' => 'teacher',
                         'actions' => ['edit', 'delete'],
                         'labelButton' => 'este profesor',
+                        'editModal' => 'editTeacher',
                     ])
                 </div>
             </div>
@@ -42,4 +43,6 @@
 @push('scripts')
     <script src="{{ asset('js/Datatables/datatable.js') }}"></script>
     <script src="{{ asset('js/sweetAlerts/swalDelete.js') }}"></script>
+    <script src="{{ asset('js/sweetAlerts/swalEdit.js') }}" ></script>
+    <script src="{{ asset('js/modals/editTeacher.js') }}"></script>
 @endpush
