@@ -13,7 +13,7 @@ return new class extends Migration
             $table->unsignedInteger('num_class');
             $table->char('course',5);
             $table->char('code', 1);
-            $table->unsignedInteger('bookguard_id');
+            $table->unsignedInteger('bookguard_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
 
