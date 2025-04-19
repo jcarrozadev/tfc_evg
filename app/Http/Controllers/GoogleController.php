@@ -7,8 +7,11 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
-class GoogleController extends Controller
-{
+class GoogleController extends Controller {
+
+    private const ROLE_ADMIN = 1;
+    private const ROLE_TEACHER = 2;
+
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
@@ -35,6 +38,9 @@ class GoogleController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('teacher.home');
+        if ($user->role_id === self::ROLE_ADMIN)
+            return redirect()->route('admin.admin');
+        elseif ($user->role_id === self::ROLE_TEACHER)
+            return redirect()->route('teacher.home');
     }
 }
