@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class TeacherController extends Controller {
     public int $id;
@@ -32,14 +31,9 @@ class TeacherController extends Controller {
         return view('admin.teacherCreate');
     }
 
-    public function editTeacher(Request $request, $id): JsonResponse {
-        $teacher = User::getTeacherById($id);
-
-        return !$teacher
-            ? response()->json(['error' => 'Profesor no encontrado.'])
-            : (User::editTeacher($teacher, $request->all())
-                ? response()->json(['success' => 'Profesor editado correctamente.'])
-                : response()->json(['error' => 'Error al editar profesor.']));
+    public function edit($id): View {
+        $teacher = User::findOrFail($id);
+        return view('admin.teacherEdit', compact('teacher'));
     }
 
     public function deleteTeacher($id): JsonResponse {

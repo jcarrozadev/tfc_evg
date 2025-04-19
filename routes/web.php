@@ -42,7 +42,7 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('admin')-
 
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('class')->name('class.')->group(function () {
     Route::get('/', [ClassesController::class, 'index'])->name('index');
-    Route::get('/create', [ClassesController::class, 'create'])->name('create');
-    Route::get('/{id}/edit', [ClassesController::class, 'edit'])->name('edit');
+    Route::post('/create', [ClassesController::class, 'create'])->name('create');
+    Route::put('/{id}', [ClassesController::class, 'edit'])->name('edit');
     Route::delete('/{id}', [ClassesController::class, 'destroy'])->name('destroy');
 });
