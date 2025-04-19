@@ -21,8 +21,18 @@ class Classes extends Model {
             ->get();
     }
 
-    public static function getClassesCount(): int
-    {
+    public static function getClassesCount(): int {
         return self::all()->count();
     }
+
+    public static function addClass(array $data): self {
+        return self::create([
+            'num_class' => $data['num_class'],
+            'course'    => $data['course'],
+            'code'      => $data['code'],
+            'bookguard_id' => $data['bookguard_id'] ?? null,
+        ]);
+    }
+
+    
 }

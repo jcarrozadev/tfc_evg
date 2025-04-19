@@ -62,3 +62,5 @@
     @include('components.modals.' . $editModal)
 @endif
 
+@include('components.modals.classCreateModal')
+
