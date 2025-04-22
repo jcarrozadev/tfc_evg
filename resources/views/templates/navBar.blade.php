@@ -5,6 +5,7 @@
 <nav class="navbar navbar-expand-lg navbar-evg mb-4">
     <div class="container-fluid">
         <div class="collapse navbar-collapse show">
+            <!-- Navegación izquierda -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-2">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.admin') }}">Inicio</a>
@@ -22,6 +23,19 @@
                     <a class="nav-link" href="{{ route('class.index') }}">Clases</a>
                 </li>
             </ul>
+
+            @if (Auth::user()->role_id === 1)
+                <ul class="navbar-nav ms-auto px-2">
+                    <li class="nav-item">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="nav-link btn btn-link" style="text-decoration: none;">
+                                Cerrar sesión
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            @endif
         </div>
     </div>
-</nav>  
+</nav>
