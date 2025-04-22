@@ -1,0 +1,8 @@
+body.error-page {
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(270deg, rgba(0, 51, 102, 0.72) 0%, rgba(255, 255, 255, 1) 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
