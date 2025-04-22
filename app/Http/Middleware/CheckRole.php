@@ -17,14 +17,17 @@ class CheckRole
         
         $user = Auth::user();  
         if (!$user || !$user->role) {
-            abort(403, 'No tienes permiso para acceder a esta ruta');
+            return response()->view('errors.error403', [], 403);
         }
-
         
         $userRole = $user->role->name ?? null; 
 
         if (!in_array($userRole, $roles)) {
-            abort(403, 'No tienes permiso para acceder a esta ruta');
+            return response()->view('errors.error403', [], 403);
+        }
+
+        if (!$request->route()) {
+            return response()->view('errors.error404', [], 404);
         }
 
         return $next($request);
