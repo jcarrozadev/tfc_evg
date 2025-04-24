@@ -5,7 +5,6 @@
 <nav class="navbar navbar-expand-lg navbar-evg mb-4">
     <div class="container-fluid">
         <div class="collapse navbar-collapse show">
-            <!-- Navegación izquierda -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-2">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.admin') }}">Inicio</a>

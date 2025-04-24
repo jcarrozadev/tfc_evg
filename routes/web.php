@@ -10,6 +10,10 @@ use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\AdminController;
 
+Route::get('/', function () {
+    return redirect()->route('login');
+})->name('home');
+
 /* ROUTES GOOGLE */
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
@@ -30,8 +34,8 @@ Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->na
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('teacher')->name('teacher.')->group(function () {
     Route::get('/', [TeacherController::class, 'index'])->name('index');
     Route::post('/create', [TeacherController::class, 'create'])->name('create');
-    Route::put('/{id}', [TeacherController::class, 'editTeacher'])->name('update');
-    Route::delete('/{id}', [TeacherController::class, 'deleteTeacher'])->name('destroy');
+    Route::put('/{id}', [TeacherController::class, 'edit'])->name('update');
+    Route::delete('/{id}', [TeacherController::class, 'destroy'])->name('destroy');
 });
 
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('admin')->name('admin.')->group(function () {
