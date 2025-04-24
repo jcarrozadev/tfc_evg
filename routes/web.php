@@ -10,6 +10,10 @@ use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\AdminController;
 
+Route::get('/', function () {
+    return redirect()->route('login');
+})->name('home');
+
 /* ROUTES GOOGLE */
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
