@@ -59,8 +59,5 @@
 </table>
 
 @if ($editModal)
-    @include('components.modals.' . $editModal)
+@include('components.modals.' . $editModal)
 @endif
-
-@include('components.modals.classCreateModal')
-

@@ -33,6 +33,9 @@
             </div>
         </div>
     </div>
+
+    @include('components.modals.classCreateModal')
+
 @endsection
 
 @push('scripts')

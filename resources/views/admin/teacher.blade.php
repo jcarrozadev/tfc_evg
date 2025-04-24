@@ -36,11 +36,17 @@
             </div>
         </div>
     </div>
+
+    @include('components.modals.teacherCreateModal')
+
 @endsection
 
 @push('scripts')
     <script src="{{ asset('js/Datatables/datatable.js') }}"></script>
+    <script src="{{ asset('js/sweetAlerts/swalCreate.js') }}"></script>
     <script src="{{ asset('js/sweetAlerts/swalDelete.js') }}"></script>
     <script src="{{ asset('js/sweetAlerts/swalEdit.js') }}" ></script>
+    <script src="{{ asset('js/modals/addTeacher.js') }}"></script>
     <script src="{{ asset('js/modals/editTeacher.js') }}"></script>
+    @include('components.sweetAlert.swal')
 @endpush
