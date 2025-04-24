@@ -9,11 +9,9 @@
 
         <div class="row mt-3 mb-3 ms-3 justify-content-end button-add">
             <div class="col-auto">
-                @include('components.buttons.button', [
-                    'text' => '<i class="fas fa-user-plus"></i>',
-                    'route' => 'teacher.create',
-                    'class' => 'btn btn-success button text-center',
-                ])
+                <button class="btn btn-success button text-center" data-bs-toggle="modal" data-bs-target="#createTeacherModal">
+                    <i class="fas fa-user-plus"></i>
+                </button>
             </div>
         </div>
 
