@@ -23,7 +23,7 @@ class ClassesController extends Controller {
         $request = request();
 
         $request->validate([
-            'num_class' => 'required|integer',
+            'num_class' => 'required|integer|unique:classes,num_class,NULL,id,course,' . $request->input('course'),
             'course' => 'required|string|max:255',
             'code' => 'required|string|max:10',
         ]);

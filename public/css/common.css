@@ -110,6 +110,23 @@ body {
     margin-bottom: 2%;
 }
 
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    color: var(--secondary-color) !important;
+    border: 1px solid var(--primary-color) !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color-dark) !important;
+    color: var(--secondary-color) !important;
+    border: 1px solid var(--primary-color-dark) !important;
+}
+
+.modal-header {
+    background-color: var(--primary-color) !important;
+    color: var(--secondary-color) !important;
+}
+
 /* DATATABLE STYLE */
 
 table.datatable {

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -48,6 +49,19 @@ class User extends Authenticatable
     public static function getTeacherById($id): ?User {
         return self::where('id', $id)
             ->first();
+    }
+
+    public static function addTeacher(array $data): self {
+        return self::create([
+            'name' => $data['name'],
+            'email'    => $data['email'],
+            'password'      => Hash::make($data['password']),
+            'phone' => $data['phone'],
+            'dni' => $data['dni'],
+            'avatar' => $data['avatar'] ?? 'default.png',
+            'available' => $data['available'] ?? 1,
+            'role_id' => $data['role_id'] ?? 2,
+        ]);
     }
 
     public static function editTeacher(User $teacher, array $data): bool {
