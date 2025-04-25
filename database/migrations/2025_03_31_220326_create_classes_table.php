@@ -14,6 +14,7 @@ return new class extends Migration
             $table->char('course',5);
             $table->char('code', 1);
             $table->unsignedInteger('bookguard_id')->nullable();
+            $table->boolean('enabled')->default(true);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
 
