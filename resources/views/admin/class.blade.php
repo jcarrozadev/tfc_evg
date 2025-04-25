@@ -28,6 +28,8 @@
                         'rows' => $classes,
                         'route' => 'class',
                         'actions' => ['edit', 'delete'],
+                        'labelButton' => 'esta clase',
+                        'editModal' => 'editClass',
                     ])
                 </div>
             </div>
@@ -40,5 +42,8 @@
 
 @push('scripts')
     <script src="{{ asset('js/Datatables/datatable.js') }}"></script>
+    <script src="{{ asset('js/sweetAlerts/swalDelete.js') }}"></script>
+    <script src="{{ asset('js/sweetAlerts/swalEdit.js') }}" ></script>
+    <script src="{{ asset('js/modals/editClass.js') }}"></script>
     @include('components.sweetAlert.swal')
 @endpush
