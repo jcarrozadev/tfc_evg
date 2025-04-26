@@ -62,7 +62,7 @@
                 <div class="col-6 col-md-3">
                 <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
                     <i class="bi bi-gear"></i>
-                    <div>AJUSTES</div>
+                    <div><a href="{{ route('teacher.settings') }}">AJUSTES</a></div>
                 </div>
                 </div>
             </div>
