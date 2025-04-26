@@ -84,6 +84,10 @@ class TeacherController extends Controller {
         }
     }
 
+    public function settings(): View {
+        return view('user.setting');
+    }
+
     public function home(): View {
         return view('admin.home');
     }
