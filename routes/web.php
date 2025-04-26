@@ -25,9 +25,11 @@ Route::post('/logout', [CustomLoginController::class, 'logout'])->middleware('au
 
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest')->name('register');
 
+
 /* ROUTES TEACHERS */
 Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->name('teacher.')->group(function () {
     Route::get('/home', [TeacherController::class, 'home'])->name('home');
+    Route::get('/settings', [TeacherController::class, 'settings'])->name('settings');
 });
 
 /* ROUTES ADMINISTRATORS */
