@@ -122,7 +122,7 @@
             </div>
 
             <div class="card-footer text-center text-muted py-3">
-                <small>Sistema de Gestión de Ausencias - Escuela Virgen de Guadalupe © 2025</small>
+                <small>Sistema de Gestión de Ausencias - Escuela Virgen de Guadalupe © 2025 </small>
             </div>
         </div>
     </div>
