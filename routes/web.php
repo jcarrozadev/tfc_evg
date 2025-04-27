@@ -30,6 +30,7 @@ Route::post('/register', [RegisteredUserController::class, 'store'])->middleware
 Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->name('teacher.')->group(function () {
     Route::get('/home', [TeacherController::class, 'home'])->name('home');
     Route::get('/settings', [TeacherController::class, 'settings'])->name('settings');
+    Route::get('/notifyAbsence' , [TeacherController::class, 'notifyAbsence'])->name('notifyAbsence');
     Route::get('/consultAbsence' , [TeacherController::class, 'consultAbsence'])->name('consultAbsence');
 });
 
