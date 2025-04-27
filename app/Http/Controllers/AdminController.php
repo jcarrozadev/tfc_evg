@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absence;
 use App\Models\Classes;
 use App\Models\Guard;
 use App\Models\User;
@@ -26,18 +27,14 @@ class AdminController extends Controller {
 
     }
 
-    public function create()
+    public static function guards()
     {
-        // Logic to create a new admin
-    }
+        $absences = Absence::getAbsencesTodayWithDetails();
+        $teachers = User::getAllEnabledTeachers();
 
-    public function edit($id)
-    {
-        // Logic to edit an existing admin
-    }
-
-    public function destroy($id)
-    {
-        // Logic to delete an admin
+        return view('admin.guards.config')->with([
+            'absences' => $absences,
+            'teachers' => $teachers,
+        ]);
     }
 }

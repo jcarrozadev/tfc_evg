@@ -47,6 +47,9 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('admin')-
     Route::get('/', function () {
         return AdminController::index();
     })->name('admin');
+    Route::get('/guards', function () {
+        return AdminController::guards();
+    })->name('guards');
 });
 
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('class')->name('class.')->group(function () {
