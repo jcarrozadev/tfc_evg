@@ -88,6 +88,10 @@ class TeacherController extends Controller {
         return view('user.setting');
     }
 
+    public function notifyAbsence(): View {
+        return view('user.notifyAbsence');
+    }
+
     public function consultAbsence(): View {
         return view('user.consultAbsence');
     }
