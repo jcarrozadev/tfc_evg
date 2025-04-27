@@ -54,16 +54,20 @@
                 </div>
                 </div>
                 <div class="col-6 col-md-3">
-                <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
-                    <i class="bi bi-paperclip"></i>
-                    <div>CONSULTAR AUSENCIA</div>
-                </div>
+                <a href="{{ route('teacher.consultAbsence') }}" class="text-decoration-none">
+                    <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
+                        <i class="bi bi-paperclip"></i>
+                        CONSULTAR AUSENCIA
+                    </div>
+                </a>
                 </div>
                 <div class="col-6 col-md-3">
-                <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
-                    <i class="bi bi-gear"></i>
-                    <div><a href="{{ route('teacher.settings') }}">AJUSTES</a></div>
-                </div>
+                <a href="{{ route('teacher.settings') }}" class="text-decoration-none">
+                    <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
+                        <i class="bi bi-gear"></i>
+                        AJUSTES
+                    </div>
+                </a>
                 </div>
             </div>
         </div>

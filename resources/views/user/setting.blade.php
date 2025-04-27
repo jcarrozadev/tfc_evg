@@ -14,7 +14,7 @@
         <div class="row justify-content-center align-items-center mt-custom">
             <div class="col-md-4 text-center mb-4 mb-md-0">
                 <div class="rounded-circle overflow-hidden mx-auto profile-pic mb-3">
-                    <img src="ruta-de-la-imagen.png" alt="Foto del Profesor" class="img-fluid">
+                    <img src="https://github.com/zmartinl.png" alt="Foto del Profesor" class="img-fluid">
                 </div>
                 <button class="btn btn-primary">Subir Imagen</button>
             </div>
@@ -53,7 +53,9 @@
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary">Volver</button>
+                        <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i> Volver
+                        </a>
                         <button type="submit" class="btn btn-primary">Modificar</button>
                     </div>
                 </form>
