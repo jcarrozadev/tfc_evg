@@ -78,4 +78,5 @@
 
 @push('scripts')
     <script src="{{ asset('js/home.js') }}"></script>
+    @include('sweetAlerts.swal')
 @endpush
