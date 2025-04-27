@@ -16,6 +16,7 @@ class GuardsTableSeeder extends Seeder
                 'hour' => '09:15:00',
                 'user_sender_id' => 2,
                 'absence_id' => 1,
+                'class_id' => 1,
             ],
             [
                 'date' => now()->toDateString(),
@@ -23,6 +24,7 @@ class GuardsTableSeeder extends Seeder
                 'hour' => '10:15:00',
                 'user_sender_id' => 3,
                 'absence_id' => 2,
+                'class_id' => 2,
             ],
             [
                 'date' => now()->toDateString(),
@@ -30,6 +32,7 @@ class GuardsTableSeeder extends Seeder
                 'hour' => '11:15:00',
                 'user_sender_id' => 4,
                 'absence_id' => 3,
+                'class_id' => 1,
             ],
             [
                 'date' => now()->toDateString(),
@@ -37,6 +40,7 @@ class GuardsTableSeeder extends Seeder
                 'hour' => '12:15:00',
                 'user_sender_id' => 5,
                 'absence_id' => 4,
+                'class_id' => 2,
             ],
             [
                 'date' => now()->toDateString(),
@@ -44,6 +48,7 @@ class GuardsTableSeeder extends Seeder
                 'hour' => '13:15:00',
                 'user_sender_id' => 6,
                 'absence_id' => 5,
+                'class_id' => 1,
             ],
             [
                 'date' => now()->toDateString(),
@@ -51,6 +56,7 @@ class GuardsTableSeeder extends Seeder
                 'hour' => '14:15:00',
                 'user_sender_id' => 7,
                 'absence_id' => 6,
+                'class_id' => 2,
             ],
         ]);
     }

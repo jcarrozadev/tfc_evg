@@ -13,7 +13,7 @@
                     <a class="nav-link" href="#">Libro Guardias</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Guardias</a>
+                    <a class="nav-link" href="{{ route('admin.guards') }}">Guardias</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('teacher.index') }}">Profesores</a>
