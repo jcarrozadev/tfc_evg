@@ -128,7 +128,6 @@ body {
 }
 
 /* DATATABLE STYLE */
-
 table.datatable {
     border-collapse: collapse;
     background-color: var(--container-color);
@@ -137,11 +136,18 @@ table.datatable {
     font-size: 0.95rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    border-spacing: 0; 
+    border-spacing: 0;
+    table-layout: fixed; /* Asegura que las celdas tengan un tamaño fijo y evita el desbordamiento */
+    word-wrap: break-word; /* Asegura que el contenido largo se divida en lugar de desbordar */
+    overflow-x: hidden; /* Evita el desbordamiento horizontal */
 }
 
 table.datatable td, table.datatable th {
-    border-right: 1px solid #ddd; 
+    border-right: 1px solid #ddd;
+    overflow: hidden; /* Evita el desbordamiento de contenido */
+    max-width: 200px; /* Limita el ancho máximo de las celdas */
+    text-overflow: ellipsis; /* Agrega "..." si el texto se desborda */
+    white-space: nowrap; /* Impide el salto de línea en el texto largo */
 }
 
 table.datatable td:last-child, table.datatable th:last-child {
@@ -170,6 +176,29 @@ table.datatable tbody tr:hover {
     background-color: #f5f5f5;
     transition: background-color 0.2s ease-in-out;
 }
+
+table.datatable .button-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+table.datatable .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 30px;
+    padding: 0.25rem 0.5rem;
+    margin: 0 2px;
+}
+
+table.datatable td .button i {
+    font-size: 0.9rem;
+}
+
+/* STYLES DATATABLES PLUGIN */
 .dataTables_wrapper .dataTables_info {
     margin-top: 0.5rem;
     font-size: 0.85rem;
@@ -244,13 +273,21 @@ table.datatable tbody tr:hover {
     font-weight: bold;
 }
 
-table.datatable td .button i {
-    font-size: 0.9rem;
-}
-
+/* RESPONSIVE */
 @media (max-width: 768px) {
     .logo-evg {
         font-size: 1.4rem;
         padding: 0.5rem 1rem;
+    }
+
+    table.datatable .button-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+    }
+
+    table.datatable .button {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.8rem;
     }
 }

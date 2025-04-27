@@ -18,7 +18,24 @@
                 <th>Acciones</th>
             @endif
         </tr>
+        <tr>
+            @foreach ($headers as $label => $attr)
+                <th>
+                    <input 
+                        type="text" 
+                        class="form-control column-filter text-center" 
+                        placeholder="Buscar"
+                        data-column="{{ $loop->index }}"
+                    >
+                </th>
+            @endforeach
+
+            @if ($actions)
+                <th></th>
+            @endif
+        </tr>
     </thead>
+
     <tbody>
         @foreach ($rows as $row)
         <tr>
@@ -43,7 +60,6 @@
                         </a>
                     @endif
 
-
                     @if (in_array('delete', $actions))
                     <button 
                         class="btn btn-sm btn-danger button" 
@@ -59,5 +75,5 @@
 </table>
 
 @if ($editModal)
-@include('components.modals.' . $editModal)
+    @include('components.modals.' . $editModal)
 @endif
