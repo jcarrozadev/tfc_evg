@@ -3,12 +3,12 @@
 @section('title', 'Modificar Ausencia')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/consultAbsence.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/absence.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-datepicker.min.css">
 @endpush
 
 @push('scripts')
-    <script src="{{ asset('js/teacher/consultAbsence.js') }}"></script>
+    <script src="{{ asset('js/teacher/absence.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/locales/bootstrap-datepicker.es.min.js"></script>
 @endpush
