@@ -16,7 +16,7 @@
     @endif
     <div class="container" id="container">
         <div class="form-container sign-up">
-            <form method="POST" action="{{ route('register') }}">
+            <form method="POST" action="{{ route('custom.register') }}">
                 @csrf
                 <h1>Crear Cuenta</h1>
                 <div class="social-icons w-80">

@@ -23,7 +23,7 @@ Route::get('/login', [CustomLoginController::class, 'showLoginForm'])->middlewar
 Route::post('/login', [CustomLoginController::class, 'login'])->middleware('guest');
 Route::post('/logout', [CustomLoginController::class, 'logout'])->middleware('auth')->name('logout');
 
-Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest')->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest')->name('custom.register');
 
 
 /* ROUTES TEACHERS */
