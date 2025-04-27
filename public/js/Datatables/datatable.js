@@ -6,12 +6,21 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
-    new DataTable(table, {
+    // Inicializar DataTable
+    const dataTable = new DataTable(table, {
         language: {
             url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
         },
         paging: true,
         searching: true,
-        ordering: true
+        ordering: false,
+    });
+
+    document.querySelectorAll('.column-filter').forEach(input => {
+        const columnIndex = input.getAttribute('data-column');
+        
+        input.addEventListener('keyup', function() {
+            dataTable.column(columnIndex).search(this.value).draw();
+        });
     });
 });
