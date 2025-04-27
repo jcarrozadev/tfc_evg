@@ -1,0 +1,23 @@
+.draggable {
+    cursor: move;
+    transition: all 0.3s ease;
+}
+
+.draggable.dragging {
+    opacity: 0.5;
+}
+
+.dropzone {
+    transition: all 0.3s ease;
+}
+
+.dropzone-hover {
+    background-color: #e9f7fe !important;
+    border: 2px dashed var(--primary-color-dark) !important;
+}
+
+.dropzone.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
