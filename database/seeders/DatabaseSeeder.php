@@ -21,12 +21,12 @@ class DatabaseSeeder extends Seeder {
             RolesTableSeeder::class,
             ReasonsTableSeeder::class,
             SessionsEvgTableSeeder::class,
-            BookguardsTableSeeder::class,
-            UsersTableSeeder::class,
-            ClassesTableSeeder::class,
+            ClassesTableSeeder::class,      
+            BookguardsTableSeeder::class,      
+            UsersTableSeeder::class,        
             ClassUsersTableSeeder::class,
             AbsencesTableSeeder::class,
             GuardsTableSeeder::class,
         ]);
-    }
+    } 
 }

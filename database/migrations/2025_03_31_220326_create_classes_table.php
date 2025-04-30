@@ -13,18 +13,11 @@ return new class extends Migration
             $table->unsignedInteger('num_class');
             $table->char('course',5);
             $table->char('code', 1);
-            $table->unsignedInteger('bookguard_id')->nullable();
             $table->boolean('enabled')->default(true);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
 
             $table->unique(['num_class', 'course', 'code'], 'class_unique');
-
-            $table->foreign('bookguard_id')
-                ->references('id')
-                ->on('bookguards')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
         });
     }
 

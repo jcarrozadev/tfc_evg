@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('bookguard_user', function (Blueprint $table) {
             $table->unsignedInteger('bookguard_id');
             $table->unsignedInteger('user_id');
+            $table->unsignedInteger('class_id')->nullable();
             $table->timestamps();
 
             $table->primary(['bookguard_id', 'user_id']);
@@ -23,6 +24,11 @@ return new class extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onDelete('cascade');
+
+            $table->foreign('class_id')
+                ->references('id')
+                ->on('classes')
                 ->onDelete('cascade');
         });
     }
