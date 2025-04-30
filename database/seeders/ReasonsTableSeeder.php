@@ -24,7 +24,7 @@ class ReasonsTableSeeder extends Seeder
             ['name' => 'Problemas familiares'],
             ['name' => 'Cita médica urgente'],
             ['name' => 'Tareas admin'],
-            ['name' => 'Otros motivos'],
+            ['name' => 'Otros motivos']
         ]);        
     }
 }
