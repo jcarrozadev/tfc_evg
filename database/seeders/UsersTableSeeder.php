@@ -31,7 +31,7 @@ class UsersTableSeeder extends Seeder
         $now = now();
         $insertedUserIds = [];
 
-        foreach ($users as $index => $user) {
+        foreach ($users as $user) {
             $userId = DB::table('users')->insertGetId([
                 'name' => $user['name'],
                 'email' => $user['email'],
@@ -48,12 +48,16 @@ class UsersTableSeeder extends Seeder
             $insertedUserIds[] = $userId;
         }
 
+        $classIds = DB::table('classes')->pluck('id')->toArray();
+        $bookguardIds = DB::table('bookguards')->pluck('id')->toArray();
+
         $relations = [];
 
-        foreach ($insertedUserIds as $i => $userId) {
+        for ($i = 0; $i < count($insertedUserIds); $i++) {
             $relations[] = [
-                'user_id' => $userId,
-                'bookguard_id' => $i + 1,
+                'user_id' => $insertedUserIds[$i],
+                'bookguard_id' => $bookguardIds[$i % count($bookguardIds)],
+                'class_id' => $classIds[$i % count($classIds)],
                 'created_at' => $now,
                 'updated_at' => $now,
             ];
@@ -62,3 +66,4 @@ class UsersTableSeeder extends Seeder
         DB::table('bookguard_user')->insert($relations);
     }
 }
+
