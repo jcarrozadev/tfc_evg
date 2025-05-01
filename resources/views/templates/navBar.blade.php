@@ -10,7 +10,7 @@
                     <a class="nav-link" href="{{ route('admin.admin') }}">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Libro Guardias</a>
+                    <a class="nav-link" href="{{ route('bookGuard.index') }}">Libro Guardias</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admin.guards') }}">Guardias</a>
