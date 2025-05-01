@@ -1,0 +1,11 @@
+table.table {
+    font-size: 0.85rem;
+}
+
+table.table select {
+    font-size: 0.85rem;
+}
+
+td select[name*="[clase]"] {
+    min-width: 140px;
+}
