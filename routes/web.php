@@ -9,6 +9,7 @@ use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BookGuardController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -57,4 +58,8 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('class')-
     Route::post('/create', [ClassesController::class, 'create'])->name('create');
     Route::put('/{id}', [ClassesController::class, 'edit'])->name('edit');
     Route::delete('/{id}', [ClassesController::class, 'destroy'])->name('destroy');
+});
+
+Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('bookGuard')->name('bookGuard.')->group(function () {
+    Route::get('/', [BookGuardController::class, 'index'])->name('index');
 });

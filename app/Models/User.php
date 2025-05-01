@@ -37,6 +37,13 @@ class User extends Authenticatable
             ->get();
     }
 
+    public static function getNameEnabledTeachers(): Collection {
+        return self::where('role_id', 2)
+            ->where('enabled', 1)
+            ->select('id', 'name')
+            ->get();
+    }
+
     public static function getTeachersCount(): int {
         return self::where('role_id', 2)->count();
     }
