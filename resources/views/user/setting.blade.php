@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
 @endpush
 
+@push('scripts')
+    <script src="{{ asset('js/settings.js') }}"></script>
+@endpush
+
 @section('content')
     <div class="container py-5">
 
@@ -27,25 +31,26 @@
             </div>
 
             <div class="col-md-6">
-                <form>
+                <form action="{{ route('teacher.updateSettings') }}" method="POST">
+                    @csrf
                     <div class="mb-3">
                         <label class="form-label fw-bold">Nombre</label>
-                        <input type="text" class="form-control" placeholder="Nombre">
+                        <input type="text" id="name" name="name" value="{{ $user->name ?? '' }}" class="form-control" placeholder="Nombre">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-bold">Correo Electrónico</label>
-                        <input type="email" class="form-control" placeholder="Correo Electrónico">
+                        <input type="email" id="email" name="email" value="{{ $user->email ?? '' }}" class="form-control" placeholder="Correo Electrónico">
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label fw-bold">Teléfono</label>
-                        <input type="text" class="form-control" placeholder="Teléfono">
+                        <input type="text" id="phone" name="phone" value="{{ $user->phone ?? '' }}" class="form-control" placeholder="Teléfono">
                     </div>
 
                     <div class="mb-4">
                         <label class="form-label fw-bold">DNI</label>
-                        <input type="text" class="form-control" placeholder="DNI">
+                        <input type="text" id="dni" name="dni" value="{{ $user->dni ?? '' }}" class="form-control" placeholder="DNI">
                     </div>
 
                     <div class="d-grid mb-4">

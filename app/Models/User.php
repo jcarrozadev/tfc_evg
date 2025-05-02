@@ -32,6 +32,12 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public static function getNameTeacherById($id): User {
+        return self::select('name')
+            ->where('id', $id)
+            ->first();
+    }
+
     public static function getAllEnabledTeachers():  Collection {
         return self::where('role_id', 2)
             ->where('enabled', 1)
@@ -63,6 +69,12 @@ class User extends Authenticatable
 
     public static function getTeacherById($id): ?User {
         return self::where('id', $id)
+            ->first();
+    }
+
+    public static function getDataSettingTeacherById($id): ?User {
+        return self::where('id', $id)
+            ->select('name', 'email', 'phone', 'dni')
             ->first();
     }
 
