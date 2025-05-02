@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookGuardController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
@@ -9,7 +10,6 @@ use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BookGuardController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -48,9 +48,12 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('admin')-
     Route::get('/', function () {
         return AdminController::index();
     })->name('admin');
+    
     Route::get('/guards', function () {
         return AdminController::guards();
     })->name('guards');
+
+    Route::post('/guards/assign', [AdminController::class, 'assignGuard'])->name('guardsAssign');
 });
 
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('class')->name('class.')->group(function () {

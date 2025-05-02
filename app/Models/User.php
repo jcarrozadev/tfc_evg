@@ -19,6 +19,7 @@ class User extends Authenticatable
         'password',
         'phone',
         'dni',
+        'available',
         'role_id',
         'google_id',
     ];
@@ -33,6 +34,13 @@ class User extends Authenticatable
 
     public static function getAllEnabledTeachers():  Collection {
         return self::where('role_id', 2)
+            ->where('enabled', 1)
+            ->get();
+    }
+
+    public static function getAllAvailableTeachers(): Collection {
+        return self::where('role_id', 2)
+            ->where('available', 1)
             ->where('enabled', 1)
             ->get();
     }
@@ -94,6 +102,18 @@ class User extends Authenticatable
         }
 
         return $changed ? $teacher->save() : true;
+    }
+
+    public static function disbledTeacher(int $id): bool {
+        $teacher = self::find($id);
+
+        if (!$teacher) {
+            return false;
+        }
+
+        $updated = $teacher->update(['available' => 0]);
+
+        return $updated > 0;
     }
 
 }
