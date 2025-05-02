@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('bookguards', function (Blueprint $table) {
             $table->unsignedInteger('id')->autoIncrement()->primary();
             $table->char('day', 1);
+            $table->unsignedInteger('session_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
-            $table->unsignedInteger('session_id');
             
             $table->foreign('session_id')
                 ->references('id')
