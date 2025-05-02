@@ -20,7 +20,7 @@
         <div class="container text-center container-center">
             <div class="row align-items-center">
                 <div class="col-md-4 text-md-start text-center">
-                    <h1 class="fw-bold">Bienvenido, <br>Profesor</h1>
+                    <h1 class="fw-bold">Bienvenid@, <br>{{ $user->name }}</h1>
                     <p class="text-muted">Bienvenido a tu panel de Profesor desde aquí podrás gestionar todo lo que necesites</p>
                 </div>
                 <div class="col-md-4">

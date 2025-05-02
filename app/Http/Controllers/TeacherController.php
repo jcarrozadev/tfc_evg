@@ -47,8 +47,7 @@ class TeacherController extends Controller
                 : response()->json(['error' => 'Error al editar profesor.']));
     }
 
-    public function destroy($id): JsonResponse
-    {
+    public function destroy($id): JsonResponse {
         if (User::deleteTeacher($id)) {
             return response()->json(['success' => 'Profesor eliminado correctamente.']);
         } else {
@@ -56,18 +55,28 @@ class TeacherController extends Controller
         }
     }
 
-    public function home(): View
-    {
-        return view('user.home');
+    public function home(): View {
+        $user = User::getNameTeacherById(auth()->user()->id);
+        return view('user.home')->with('user', $user);
     }
 
-    public function settings(): View
-    {
-        return view('user.setting');
+    public function settings(): View {
+        $user = User::getDataSettingTeacherById(auth()->user()->id);
+        
+        return view('user.setting')->with('user', $user);
     }
 
-    public function notifyAbsence(): View
-    {
+    public function updateSettings(): RedirectResponse {
+        $request = request();
+
+        $user = User::getTeacherById(auth()->user()->id);
+
+        return User::editTeacher($user, $request->all())
+            ? redirect()->route('teacher.home')->with('success', 'Datos actualizados correctamente.')
+            : redirect()->route('teacher.home')->with('error', 'Error al actualizar los datos.');
+    }
+
+    public function notifyAbsence(): View {
         $reasons = Reason::getAllReasons();
         return view('user.notifyAbsence', compact('reasons'));
     }
@@ -99,8 +108,7 @@ class TeacherController extends Controller
             : redirect()->route('teacher.home')->with('error', 'Error al notificar ausencia.');
     }
 
-    public function consultAbsence(): View
-    {
+    public function consultAbsence(): View {
         return view('user.consultAbsence');
     }
 }
