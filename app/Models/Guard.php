@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 class Guard extends Model
@@ -13,8 +14,15 @@ class Guard extends Model
         'date', 'text_guard', 'hour', 'user_sender_id', 'absence_id',
     ];
 
-    public static function getWeeklySummary(): array
-    {
+    public function absence(): BelongsTo{
+        return $this->belongsTo(Absence::class);
+    }
+
+    public function teacher(): BelongsTo{
+        return $this->belongsTo(User::class);
+    }
+
+    public static function getWeeklySummary(): array {
         $startOfWeek = Carbon::now()->startOfWeek(); 
         $endOfWeek = Carbon::now()->startOfWeek()->addDays(4); 
 
@@ -33,9 +41,12 @@ class Guard extends Model
         return $resum;
     }
 
-    public static function getTodaySummary():int 
-    {
+    public static function getTodaySummary(): int {
         return self::whereDate('date', Carbon::today())->count();
+    }
+
+    public static function getGuardByAbsenceId($absenceId): ?Guard {
+        dd(self::where('absence_id', $absenceId)->first());
     }
 }
 

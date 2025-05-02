@@ -92,10 +92,12 @@ class TeacherController extends Controller
             $absenceData['justify'] = $justifyPath;
         }
 
+        User::disbledTeacher(auth()->user()->id);
+
         return Absence::createAbsence($absenceData)
             ? redirect()->route('teacher.home')->with('success', 'Ausencia notificada correctamente.')
             : redirect()->route('teacher.home')->with('error', 'Error al notificar ausencia.');
-        }
+    }
 
     public function consultAbsence(): View
     {
