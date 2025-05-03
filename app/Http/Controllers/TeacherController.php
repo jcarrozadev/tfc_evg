@@ -8,9 +8,10 @@ use App\Models\Absence;
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Controllers\TeacherValidatorController;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TeacherController extends Controller
 {
@@ -36,8 +37,9 @@ class TeacherController extends Controller
             : redirect()->back()->with('error', 'Error al crear el profesor.');
     }
 
-    public function edit(Request $request, $id): JsonResponse
-    {
+    public function edit($id): JsonResponse {
+        $request = request();
+
         $teacher = User::getTeacherById($id);
 
         return !$teacher
@@ -56,13 +58,13 @@ class TeacherController extends Controller
     }
 
     public function home(): View {
-        $user = User::getNameTeacherById(auth()->user()->id);
+        $user = User::getHomeTeacherById(auth()->user()->id);
         return view('user.home')->with('user', $user);
     }
 
     public function settings(): View {
         $user = User::getDataSettingTeacherById(auth()->user()->id);
-        
+
         return view('user.setting')->with('user', $user);
     }
 
@@ -75,6 +77,34 @@ class TeacherController extends Controller
             ? redirect()->route('teacher.home')->with('success', 'Datos actualizados correctamente.')
             : redirect()->route('teacher.home')->with('error', 'Error al actualizar los datos.');
     }
+
+    public function uploadAvatar(): RedirectResponse {
+
+        $request = request();
+
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        $user = auth()->user();
+
+        if ($user->image_profile && $user->image_profile !== 'default.png') {
+            Storage::disk('public')->delete($user->image_profile);
+        }
+
+        $file = $request->file('avatar');
+        $filename = 'avatar_' . $user->id . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+        $path = 'avatars/' . $user->name . '/' . $filename;
+
+        $file->storeAs('avatars/' . $user->name, $filename, 'public');
+
+        $user->image_profile = $path;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Imagen de perfil actualizada.');
+    }
+
+
 
     public function notifyAbsence(): View {
         $reasons = Reason::getAllReasons();

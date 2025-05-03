@@ -17,10 +17,18 @@
 
         <div class="row justify-content-center align-items-center mt-custom">
             <div class="col-md-4 text-center mb-4 mb-md-0">
-                <div class="rounded-circle overflow-hidden mx-auto profile-pic mb-3">
-                    <img src="https://github.com/zmartinl.png" alt="Foto del Profesor" class="img-fluid">
+                <div class="rounded-circle overflow-hidden mx-auto profile-pic mb-3" style="width: 300px; height: 300px;">
+                    <img src="{{ asset('storage/' . ($user->image_profile ?: 'avatars/default.png')) }}" 
+                        alt="Foto del Profesor" 
+                        class="img-fluid h-100 w-100 object-fit-cover">
                 </div>
-                <button class="btn btn-primary">Subir Imagen</button>
+
+                <form action="{{ route('teacher.uploadAvatar') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="avatar" class="d-none" id="avatarInput" accept="image/*" required>
+                    <button type="button" class="btn btn-primary" onclick="document.getElementById('avatarInput').click()">Subir Imagen</button>
+                    <button type="submit" class="d-none" id="submitAvatarForm"></button>
+                </form>
             </div>
 
             <div class="col-12 d-md-none my-4">
@@ -58,7 +66,7 @@
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <a href="{{ url()->previous() }}" class="btn btn-secondary">
+                        <a href="{{ route('teacher.home') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left me-2"></i> Volver
                         </a>
                         <button type="submit" class="btn btn-primary">Modificar</button>

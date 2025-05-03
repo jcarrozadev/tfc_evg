@@ -24,7 +24,11 @@
                     <p class="text-muted">Bienvenido a tu panel de Profesor desde aquí podrás gestionar todo lo que necesites</p>
                 </div>
                 <div class="col-md-4">
-                    <img src="https://github.com/zmartinl.png" alt="Perfil" class="profile-img">
+                    <div class="rounded-circle overflow-hidden mx-auto profile-pic mb-3" style="width: 250px; height: 250px;">
+                        <img src="{{ asset('storage/' . ($user->image_profile ?: 'avatars/default.png')) }}" 
+                            alt="Foto del Profesor" 
+                            class="img-fluid h-100 w-100 object-fit-cover">
+                    </div>
                     <div class="hora" id="hora">--:--</div>
                 </div>
                 <div class="col-md-4 text-md-end text-center">
