@@ -32,8 +32,8 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-    public static function getNameTeacherById($id): User {
-        return self::select('name')
+    public static function getHomeTeacherById($id): User {
+        return self::select('name', 'image_profile')
             ->where('id', $id)
             ->first();
     }
@@ -74,7 +74,7 @@ class User extends Authenticatable
 
     public static function getDataSettingTeacherById($id): ?User {
         return self::where('id', $id)
-            ->select('name', 'email', 'phone', 'dni')
+            ->select('name', 'email', 'phone', 'dni', 'image_profile')
             ->first();
     }
 

@@ -70,3 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+document.getElementById('avatarInput').addEventListener('change', function() {
+    document.getElementById('submitAvatarForm').click();
+});
