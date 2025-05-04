@@ -26,12 +26,17 @@
                     <div class="mb-4">
                         <label for="datepicker" class="form-label fw-bold">Fecha</label>
                         <div class="input-group date" id="datepicker-container">
-                            <input type="text" name="date" class="form-control py-2" id="datepicker" value="">
+                            <input type="text" name="date" class="form-control py-2" id="datepicker" value="" autocomplete="off">
                             <span class="input-group-text bg-white">
                                 <i class="fas fa-calendar-alt"></i>
                             </span>
                         </div>
-                    </div>
+                    
+                        <div class="mt-2 d-flex gap-2">
+                            <button type="button" class="btn btn-outline-primary btn-sm" id="btn-today">Hoy</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-tomorrow">Mañana</button>
+                        </div>                        
+                    </div>                    
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-6">
