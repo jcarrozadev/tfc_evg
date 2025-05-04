@@ -1,17 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const guardarBtn = document.getElementById('btn-confirmar');
-    const form = document.querySelector('form');
+    const form = document.getElementById('form-guardias');
 
     guardarBtn.addEventListener('click', function (e) {
         e.preventDefault();
 
-        const selectsProfesores = document.querySelectorAll('select[name*="[profesor]"]');
+        const selectsProfesores = document.querySelectorAll('select[name*="[user_id]"]');
         if (selectsProfesores.length === 0) {
-            console.warn('⚠ No se han encontrado selects. ¿Estás seguro de que el DOM ya ha cargado?');
+            console.warn('⚠ No se han encontrado selects de profesores.');
             return;
         }
 
         let vacios = 0;
+        let rellenos = 0;
 
         selectsProfesores.forEach(select => {
             const valor = select.value?.trim();
@@ -19,14 +20,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 vacios++;
                 select.classList.add('is-invalid', 'is-warning');
             } else {
+                rellenos++;
                 select.classList.remove('is-invalid', 'is-warning');
             }
         });
 
+        if (rellenos === 0) {
+            swal({
+                title: "Formulario vacío",
+                text: "No has asignado ningún profesor. No se puede guardar nada.",
+                icon: "info",
+                button: "Aceptar"
+            });
+            return;
+        }
+
         if (vacios > 0) {
             swal({
                 title: "Huecos incompletos",
-                text: `Hay ${vacios} profesores sin rellenar. ¿Guardar igualmente?`,
+                text: `Hay ${vacios} profesores sin asignar. ¿Guardar igualmente?`,
                 icon: "warning",
                 buttons: {
                     cancel: "Cancelar",
@@ -38,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }).then((confirmado) => {
                 if (confirmado) {
-                    form.submit();
+                    form.requestSubmit();
                 }
             });
         } else {
@@ -56,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }).then((confirmado) => {
                 if (confirmado) {
-                    form.submit();
+                    form.requestSubmit();
                 }
             });
         }
@@ -65,8 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('reset').addEventListener('click', function (e) {
         e.preventDefault();
         swal({
-            title: "¿Resetear guardias?",
-            text: "¿Estás seguro de que deseas resetear todas las guardias?",
+            title: "¿Restablecer guardias?",
+            text: "¿Estás seguro de que deseas restablecer todas las guardias?",
             icon: "warning",
             buttons: {
                 cancel: "Cancelar",
@@ -84,8 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     select.classList.remove('is-invalid', 'is-warning');
                 });
                 swal({
-                    title: "Guardias reseteadas",
-                    text: "Todas las guardias han sido reseteadas.",
+                    title: "Guardias restablecidas",
+                    text: "Todas las guardias han sido restablecidas.",
                     icon: "success",
                     timer: 2000,
                     buttons: false

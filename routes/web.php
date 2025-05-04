@@ -71,4 +71,6 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('class')-
 
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('bookGuard')->name('bookGuard.')->group(function () {
     Route::get('/', [BookGuardController::class, 'index'])->name('index');
+
+    Route::post('/store', [BookGuardController::class, 'store'])->name('store');
 });
