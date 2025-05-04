@@ -24,7 +24,7 @@
                     <input 
                         type="text" 
                         class="form-control column-filter text-center" 
-                        placeholder="Buscar"
+                        placeholder="Buscar..."
                         data-column="{{ $loop->index }}"
                     >
                 </th>

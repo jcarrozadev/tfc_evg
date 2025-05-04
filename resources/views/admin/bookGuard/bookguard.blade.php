@@ -12,7 +12,7 @@
     ];
 @endphp
 
-@section('title', 'Libro de Guardias')
+@section('title', 'Libro    de Guardias')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/bookGuard.css') }}">
@@ -21,7 +21,7 @@
 @section('content')
     @include('templates.navBar')
     <div class="container-custom shadow-sm bg-container-medium p-2 rounded">
-        @include('components.titles.titleWeek', ['title' => 'Libro de Guardias'])
+        @include('components.titles.titleWeek', ['title' => 'Libro Guardias'])
 
         <div class="container-fluid mt-5">
             <form method="POST" action="">
@@ -45,7 +45,7 @@
                     <tbody>
                         @foreach ($slots as $index => $slot)
                             <tr @if ($slot === '11:00-11:30') style="background-color: #f3e600" @endif>
-                                <td class="fw-bold">{{ $slot }}</td>
+                                <td class="fw-bold slot-session">{{ $slot }}</td>
                                 @foreach ($days as $day)
                                     <td>
                                         @for ($i = 0; $i < 2; $i++)
