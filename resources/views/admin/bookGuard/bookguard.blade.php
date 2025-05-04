@@ -49,8 +49,8 @@
                                 @foreach ($days as $day)
                                     <td>
                                         @for ($i = 0; $i < 2; $i++)
-                                            <select name="guardias[{{ $day }}][{{ $slot }}][{{ $i }}][profesor]" class="form-select mb-1">
-                                                <option disabled selected hidden ></option>
+                                            <select name="guardias[{{ $day }}][{{ $slot }}][{{ $i }}][profesor]" class="form-select mb-1 profesor-select">
+                                                <option value="-" disabled selected hidden>--</option>
                                                 @foreach ($teachers as $teacher)
                                                     <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
                                                 @endforeach
@@ -60,7 +60,7 @@
                                     <td>
                                         @for ($i = 0; $i < 2; $i++)
                                             <select name="guardias[{{ $day }}][{{ $slot }}][{{ $i }}][clase]" class="form-select mb-1">
-                                                <option disabled selected hidden ></option>
+                                                <option value="-" disabled selected hidden>--</option>
                                                 @foreach ($classes as $class)
                                                     <option value="{{ $class->id }}">{{ $class->num_class }} {{ $class->course }} {{ $class->code }}</option>
                                                 @endforeach
@@ -74,10 +74,15 @@
                 </table>
     
                 <div class="d-flex justify-content-end gap-2 mt-3">
-                    <input type="reset" class="btn btn-secondary" value="Resetear">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>                
+                    <input type="reset" id="reset" class="btn btn-secondary" value="Resetear">
+                    <button id="btn-confirmar" class="btn btn-primary">Guardar cambios</button>
+                </div>
             </form>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{ asset('js/bookGuard.js') }}"></script>
+@endpush
