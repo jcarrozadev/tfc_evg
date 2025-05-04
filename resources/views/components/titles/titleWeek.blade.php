@@ -1,19 +1,24 @@
 <?php
-    $hoy = new DateTime();
-    $dia_semana = date('N', $hoy->getTimestamp());
+    $today = new DateTime();
+    $day_of_week = (int) $today->format('N');
 
-    $diferencia_lunes = ($dia_semana == 1) ? 0 : (1 - $dia_semana);
-    $lunes_obj = $hoy->modify("$diferencia_lunes day");
-    $lunes_formateado = $lunes_obj->format('d/m/Y');
+    if ($day_of_week >= 6) {
+        $today->modify('next monday');
+    }
 
-    $hoy = new DateTime();
-    $diferencia_viernes = (5 - date('N', $hoy->getTimestamp()));
-    $viernes_obj = $hoy->modify("+$diferencia_viernes day");
-    $viernes_formateado = $viernes_obj->format('d/m/Y');
+    $monday = clone $today;
+    $day_of_week = (int) $monday->format('N');
+    $difference_to_monday = ($day_of_week == 1) ? 0 : (1 - $day_of_week);
+    $monday->modify("$difference_to_monday days");
+    $monday_formatted = $monday->format('d/m/Y');
 
-    $rango_fechas_semanal = "$lunes_formateado - $viernes_formateado";
+    $friday = clone $monday;
+    $friday->modify('+4 days');
+    $friday_formatted = $friday->format('d/m/Y');
+
+    $weekly_date_range = "$monday_formatted - $friday_formatted";
 ?>
 
 <div class="text-white p-3 px-3 mb-3 bg-custom rounded">
-    <h1 class="fw-bold fs-3">{{ $title }} - {{ $rango_fechas_semanal }}</h1>
+    <h1 class="fw-bold fs-3">{{ $title }} - {{ $weekly_date_range }}</h1>
 </div>
