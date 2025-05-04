@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon;
 use App\Http\Controllers\TeacherValidatorController;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -77,6 +78,26 @@ class TeacherController extends Controller
             ? redirect()->route('teacher.home')->with('success', 'Datos actualizados correctamente.')
             : redirect()->route('teacher.home')->with('error', 'Error al actualizar los datos.');
     }
+
+    public function updatePassword(): RedirectResponse {
+        $request = request();
+
+        $request->validate([
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = auth()->user();
+
+        if (!is_null($user->google_id)) {
+            return redirect()->route('teacher.home')->with('error', 'No puedes cambiar la contraseña de una cuenta de Google.');
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return redirect()->route('teacher.home')->with('success', 'Contraseña actualizada correctamente.');
+    }
+
 
     public function uploadAvatar(): RedirectResponse {
 

@@ -16,6 +16,10 @@ body {
     background-color: #f0f0f0;
 }
 
+label > span {
+    color: darkorange;
+}
+
 .alert-danger {
     color: #b40000;
     background-color: #ffe0e0;
