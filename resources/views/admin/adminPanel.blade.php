@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Panel Admin')
+@section('title', 'Administración | Panel de control')
 
 @section('content')
     @include('templates.navBar')

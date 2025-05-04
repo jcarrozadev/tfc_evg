@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Gestor de Guardias')
+@section('title', 'Administración | Gestor de Guardias')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/guards.css') }}">

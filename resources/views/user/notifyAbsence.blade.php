@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Modificar Ausencia')
+@section('title', 'Profesorado | Modificar Ausencia')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/absence.css') }}">
