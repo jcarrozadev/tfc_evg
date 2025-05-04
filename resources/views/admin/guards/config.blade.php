@@ -24,7 +24,7 @@
 
                     <div class="card shadow-sm p-3 rounded bg-white"
                         data-session-ids='@json($absence->session_ids)'
-                        style="border-left: 4px solid {{ $color }};">
+                        style="border-left: 5px solid {{ $color }};">
                         <div class="row align-items-center text-center">
                             <div class="col-3">
                                 <div class="fw-bold text-primary">{{ $absence->hour_start . " - " . $absence->hour_end}}</div>
@@ -63,7 +63,7 @@
                         draggable="true"
                         data-teacher-id="{{ $teacher->id }}"
                         data-sessions='@json($teacherSessions)'
-                        style="border-left: 4px solid {{ $color }};">
+                        style="border-left: 5px solid {{ $color }};">
                         <div class="bg-light rounded-circle" style="width: 32px; height: 32px;"></div>
                         <span class="fw-semibold">{{ $teacher->name }}</span>
                     </div>
