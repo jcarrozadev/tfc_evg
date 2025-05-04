@@ -76,16 +76,17 @@ class AdminController extends Controller {
 
     private static function getSessionColors(): array {
         return [
-            1 => '#ffadad',
-            2 => '#ffd6a5',
-            3 => '#fdffb6',
-            4 => '#caffbf',
-            5 => '#9bf6ff',
-            6 => '#a0c4ff',
-            7 => '#bdb2ff',
-            8 => '#ffc6ff',
+            1 => '#77d9ca',
+            2 => '#2f4b7c',
+            3 => '#665191',
+            4 => '#a05195',
+            5 => '#d45087', 
+            6 => '#f95d6a', 
+            7 => '#ff7c43', 
+            8 => '#ffa600', 
         ];
     }
+    
 
 
     public function assignGuard(): JsonResponse {

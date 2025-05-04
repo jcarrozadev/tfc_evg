@@ -2,14 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const draggables = document.querySelectorAll('.draggable');
     const dropzones = document.querySelectorAll('.dropzone');
     const availableTeachersColumn = document.querySelector('.col-md-4');
-    const sessionColors = {
-        1: '#e74c3c',
-        2: '#f39c12',
-        3: '#27ae60',
-        4: '#2980b9',
-        5: '#8e44ad',
-        6: '#2c3e50'
-    };
 
     let draggedItem = null;
     let originalDropzone = null;
