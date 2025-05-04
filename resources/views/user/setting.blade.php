@@ -62,7 +62,10 @@
                     </div>
 
                     <div class="d-grid mb-4">
-                        <button type="button" class="btn btn-outline-primary">Cambiar Contraseña</button>
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal" 
+                            @if($user->google_id) disabled @endif>
+                            Cambiar Contraseña
+                        </button>                        
                     </div>
 
                     <div class="d-flex justify-content-between">
@@ -76,3 +79,5 @@
         </div>
     </div>
 @endsection
+
+@include('components.modals.changePassword')
