@@ -16,34 +16,34 @@
     @endif
     <div class="container" id="container">
         <div class="form-container sign-up">
-            <form method="POST" action="{{ route('custom.register') }}">
+            <form method="POST" action="{{ route('custom.register') }}" autocomplete="off">
                 @csrf
                 <h1>Crear Cuenta</h1>
                 <div class="social-icons w-80">
                     <a href="{{ route('google.login') }}" class="icon"><i class="fa-brands fa-google-plus-g"></i>Continuar con Google</a>
                 </div>
                 <span>o tu correo para registrarte</span>
-            
+
                 <input type="text" name="name" placeholder="Nombre completo" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Contraseña (min 8 caracteres)" required>
-                <input type="password" name="password_confirmation" placeholder="Confirmar Contraseña" required>
+                <input type="email" name="email" placeholder="Email" required autocomplete="off">
+                <input type="password" name="password" placeholder="Contraseña (min 8 caracteres)" required autocomplete="new-password">
+                <input type="password" name="password_confirmation" placeholder="Confirmar Contraseña" required autocomplete="new-password">
                 <input type="text" name="phone" placeholder="Teléfono" required>
                 <input type="text" name="dni" placeholder="DNI" required>
-            
+
                 <button type="submit" class="mb-3">Registrarse</button>
             </form>            
         </div>
         <div class="form-container sign-in">
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('login') }}" autocomplete="off">
                 @csrf
                 <h1>Iniciar Sesión</h1>
                 <div class="social-icons w-80">
                     <a href="{{ route('google.login') }}" class="icon"><i class="fa-brands fa-google-plus-g"></i>Continuar con Google</a>
                 </div>
                 <span>o correo y contraseña</span>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
+                <input type="email" name="email" placeholder="Email" required autocomplete="off">
+                <input type="password" name="password" placeholder="Contraseña" required autocomplete="new-password">
                 <a href="{{ route('password.request') }}">¿Olvidaste la contraseña?</a>
                 <button type="submit">Entrar</button>
             </form>

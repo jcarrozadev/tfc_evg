@@ -74,7 +74,7 @@ class User extends Authenticatable
 
     public static function getDataSettingTeacherById($id): ?User {
         return self::where('id', $id)
-            ->select('name', 'email', 'phone', 'dni', 'image_profile')
+            ->select('name', 'email', 'phone', 'dni', 'image_profile', 'google_id')
             ->first();
     }
 

@@ -32,6 +32,7 @@ Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->na
     Route::get('/home', [TeacherController::class, 'home'])->name('home');
     Route::get('/settings', [TeacherController::class, 'settings'])->name('settings');
     Route::post('/settings', [TeacherController::class, 'updateSettings'])->name('updateSettings');
+    Route::post('/teacher/updatePassword', [TeacherController::class, 'updatePassword'])->name('updatePassword');
     Route::post('/upload-avatar', [TeacherController::class, 'uploadAvatar'])->name('uploadAvatar');
 
     Route::get('/notifyAbsence' , [TeacherController::class, 'notifyAbsence'])->name('notifyAbsence');
