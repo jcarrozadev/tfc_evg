@@ -38,7 +38,7 @@ class AdminController extends Controller {
 
         $absences = Absence::withSessionIdsForToday();
         if ($absences->isEmpty()) {
-            return view('admin.guards.empty')->with('message', 'Hoy no hay profesores ausentes.');
+            return view('admin.guards.empty')->with('message', 'Hoy no hay profesores ausentes / ya asignados.');
         }
 
         $allSessionIds = self::collectAllSessionIds($absences);
@@ -61,7 +61,7 @@ class AdminController extends Controller {
     }
 
     private static function getNowLetter(): ?string {
-        return match (now()->addDay()->dayOfWeek) { // QUITAR ADD DAY 
+        return match (now()->dayOfWeek) { 
             1 => 'L', 2 => 'M', 3 => 'X', 4 => 'J', 5 => 'V', default => null,
         };
     }
@@ -86,8 +86,6 @@ class AdminController extends Controller {
             8 => '#ffa600', 
         ];
     }
-    
-
 
     public function assignGuard(): JsonResponse {
 
