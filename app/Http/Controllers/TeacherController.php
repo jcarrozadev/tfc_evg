@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon;
 use App\Http\Controllers\TeacherValidatorController;
+use App\Models\Guard;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -67,6 +68,13 @@ class TeacherController extends Controller
         $user = User::getDataSettingTeacherById(auth()->user()->id);
 
         return view('user.setting')->with('user', $user);
+    }
+
+    public function guardsToday(): View {
+        $user = User::getDataSettingTeacherById(auth()->user()->id);
+        $guards = Guard::getGuardsToday();
+
+        return view('user.guardsToday')->with('user', $user)->with('guards', $guards);
     }
 
     public function updateSettings(): RedirectResponse {

@@ -44,14 +44,15 @@
                 </div>
             </div>
     
-            <div class="row mt-5 g-4">
-                <div class="col-6 col-md-3">
-                <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
-                    <i class="bi bi-clock"></i>
-                    <div>HORARIO</div>
+            <div class="row mt-5 row-cols-2 row-cols-md-5 g-4">
+                <div class="col">
+                    <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
+                        <i class="bi bi-clock"></i>
+                        <div>HORARIO</div>
+                    </div>
                 </div>
-                </div>
-                <div class="col-6 col-md-3">
+                
+                <div class="col">
                     <a href="{{ route('teacher.notifyAbsence') }}" class="text-decoration-none">
                         <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
                             <i class="bi bi-bell"></i>
@@ -59,7 +60,8 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-3">
+                
+                <div class="col">
                     <a href="{{ route('teacher.consultAbsence') }}" class="text-decoration-none">
                         <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
                             <i class="bi bi-paperclip"></i>
@@ -67,7 +69,17 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-6 col-md-3">
+                
+                <div class="col">
+                    <a href="{{ route('teacher.guardsToday') }}" class="text-decoration-none">
+                        <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
+                            <i class="bi bi-calendar-check"></i>
+                            GUARDIAS DEL DÍA
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="col">
                     <a href="{{ route('teacher.settings') }}" class="text-decoration-none">
                         <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
                             <i class="bi bi-gear"></i>
@@ -76,6 +88,7 @@
                     </a>
                 </div>
             </div>
+            
         </div>
     </div>
 @endsection
