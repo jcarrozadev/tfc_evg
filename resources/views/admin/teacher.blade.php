@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Gestor de Profesores')
+@section('title', 'Administración | Gestor de Profesores')
 
 @section('content')
     @include('templates.navBar')

@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Guardias del Día')
+@section('title', 'Profesorado | Guardias del Día')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/guardsToday.css') }}">
