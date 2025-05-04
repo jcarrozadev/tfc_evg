@@ -51,6 +51,33 @@ class User extends Authenticatable
             ->get();
     }
 
+    public static function getAvailableTeachersForSessions(array $sessionIds, string $day): Collection {
+        return self::where('role_id', 2)
+            ->where('available', 1)
+            ->where('enabled', 1)
+            ->whereHas('bookguards', function ($query) use ($sessionIds, $day) {
+                $query->whereIn('session_id', $sessionIds)
+                      ->where('day', $day);
+            })
+            ->with(['bookguards' => function ($query) use ($sessionIds, $day) {
+                $query->whereIn('session_id', $sessionIds)
+                      ->where('day', $day);
+            }])
+            ->get();
+    }
+
+    public function loadSessionIds(): void {
+        $this->session_ids = $this->bookguards
+            ->pluck('session_id')
+            ->unique()
+            ->values()
+            ->toArray();
+    }
+
+    public function bookguards(){
+        return $this->belongsToMany(Bookguard::class, 'bookguard_user', 'user_id', 'bookguard_id');
+    }
+
     public static function getNameEnabledTeachers(): Collection {
         return self::where('role_id', 2)
             ->where('enabled', 1)

@@ -41,7 +41,6 @@ class Classes extends Model {
             'num_class' => $data['num_class'],
             'course'    => $data['course'],
             'code'      => $data['code'],
-            'bookguard_id' => $data['bookguard_id'] ?? null,
         ]);
     }
 

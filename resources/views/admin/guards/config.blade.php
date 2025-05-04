@@ -11,12 +11,13 @@
     @include('templates.navBar')
 
     <div class="container-custom shadow-sm bg-container-medium p-2 rounded">
-        @include('components.titles.title', ['title' => 'Gestor de Guardias'])
+        @include('components.titles.title', ['title' => 'Guardias'])
 
         <div class="row g-5 p-4">
             <div class="col-md-8 d-flex flex-column gap-4">
                 @foreach ($absences as $absence)
-                <div class="card shadow-sm p-3 rounded bg-white">
+                    <div class="card shadow-sm p-3 rounded bg-white"
+                        data-session-ids='@json($absence->session_ids)'>
                     <div class="row align-items-center text-center">
                         
                         <div class="col-3">
@@ -31,7 +32,8 @@
                         <div class="col-4">
                             <div class="dropzone border rounded p-2 bg-light"
                                 style="min-height: 50px;"
-                                data-absence-id="{{ $absence->id }}">
+                                data-absence-id="{{ $absence->id }}"
+                                data-session-ids='@json($absence->session_ids)'>
                                 <span class="text-muted">Arrastra profesor</span>
                             </div>
                         </div>
@@ -42,14 +44,29 @@
 
             <div class="col-md-4 d-flex flex-column gap-3">
                 @foreach ($teachers as $teacher)
+                    @php
+                        $todayLetter = $todayLetter ?? 'L';
+                        $teacherSessions = array_map(function ($id) use ($todayLetter) {
+                            return ['day' => $todayLetter, 'session_id' => $id];
+                        }, $teacher->session_ids ?? []);
+                    
+                        $sortedSessionIds = collect($teacher->session_ids ?? [])->sort()->values();
+                        $mainSessionId = $sortedSessionIds->first();
+                        $color = $mainSessionId ? ($sessionColors[$mainSessionId] ?? '#ccc') : '#ccc';
+                    @endphp
+                    
                     <div class="draggable card p-2 bg-custom text-white shadow-sm rounded d-flex align-items-center gap-2"
                         draggable="true"
-                        data-teacher-id="{{ $teacher->id }}">
+                        data-teacher-id="{{ $teacher->id }}"
+                        data-sessions='@json($teacherSessions)'
+                        style="border-left: 4px solid {{ $color }};">
                         <div class="bg-light rounded-circle" style="width: 32px; height: 32px;"></div>
                         <span class="fw-semibold">{{ $teacher->name }}</span>
                     </div>
                 @endforeach
             </div>
+
+            <button id="saveAssignmentsBtn" class="btn btn-primary mt-3">Guardar cambios</button>
 
         </div>
     </div>
