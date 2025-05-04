@@ -141,17 +141,17 @@ table.datatable {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     border-spacing: 0;
-    table-layout: fixed; /* Asegura que las celdas tengan un tamaño fijo y evita el desbordamiento */
-    word-wrap: break-word; /* Asegura que el contenido largo se divida en lugar de desbordar */
-    overflow-x: hidden; /* Evita el desbordamiento horizontal */
+    table-layout: fixed; 
+    word-wrap: break-word; 
+    overflow-x: hidden; 
 }
 
 table.datatable td, table.datatable th {
     border-right: 1px solid #ddd;
-    overflow: hidden; /* Evita el desbordamiento de contenido */
-    max-width: 200px; /* Limita el ancho máximo de las celdas */
-    text-overflow: ellipsis; /* Agrega "..." si el texto se desborda */
-    white-space: nowrap; /* Impide el salto de línea en el texto largo */
+    overflow: hidden;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
 }
 
 table.datatable td:last-child, table.datatable th:last-child {
@@ -275,6 +275,10 @@ table.datatable td .button i {
     color: var(--secondary-color);
     border-color: var(--primary-color-dark);
     font-weight: bold;
+}
+
+.column-filter {
+    font-size: 0.85rem;
 }
 
 /* RESPONSIVE */

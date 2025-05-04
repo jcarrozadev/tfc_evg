@@ -15,26 +15,21 @@
             </div>
         </div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    @include('components.tables.table', [
-                        'headers' => [
-                            'Nombre' => 'name',
-                            'Correo' => 'email',
-                            'Teléfono' => 'phone',
-                            'DNI' => 'dni',
-                            'Disponible' => 'available',
-                        ],
-                        'rows' => $teachers,
-                        'route' => 'teacher',
-                        'actions' => ['edit', 'delete'],
-                        'labelButton' => 'este profesor',
-                        'editModal' => 'editTeacher',
-                    ])
-                </div>
-            </div>
-        </div>
+        @include('components.tables.table', [
+            'headers' => [
+                'Nombre' => 'name',
+                'Correo' => 'email',
+                'Teléfono' => 'phone',
+                'DNI' => 'dni',
+                'Disponible' => 'available',
+            ],
+            'rows' => $teachers,
+            'route' => 'teacher',
+            'actions' => ['edit', 'delete'],
+            'labelButton' => 'este profesor',
+            'editModal' => 'editTeacher',
+        ])
+
     </div>
 
     @include('components.modals.teacherCreateModal')

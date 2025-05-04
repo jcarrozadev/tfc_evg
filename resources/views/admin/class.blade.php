@@ -15,25 +15,19 @@
             </div>
         </div>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    @include('components.tables.table', [
-                        'headers' => [
-                            'ID' => 'id',
-                            'Nº Clase' => 'num_class',
-                            'Curso' => 'course',
-                            'Letra' => 'code'
-                        ],
-                        'rows' => $classes,
-                        'route' => 'class',
-                        'actions' => ['edit', 'delete'],
-                        'labelButton' => 'esta clase',
-                        'editModal' => 'editClass',
-                    ])
-                </div>
-            </div>
-        </div>
+        @include('components.tables.table', [
+            'headers' => [
+                'ID' => 'id',
+                'Nº Clase' => 'num_class',
+                'Curso' => 'course',
+                'Letra' => 'code'
+            ],
+            'rows' => $classes,
+            'route' => 'class',
+            'actions' => ['edit', 'delete'],
+            'labelButton' => 'esta clase',
+            'editModal' => 'editClass',
+        ])
     </div>
 
     @include('components.modals.classCreateModal')
