@@ -12,7 +12,7 @@
     ];
 @endphp
 
-@section('title', 'Libro    de Guardias')
+@section('title', 'Administración | Libro de Guardias')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/bookGuard.css') }}">

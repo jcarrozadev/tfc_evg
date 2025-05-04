@@ -3,3 +3,82 @@ body{
     background: linear-gradient(270deg,rgba(0, 51, 102, 0.72) 0%, rgba(255, 255, 255, 1) 50%);
 }
 
+/* DATEPICKER STYLE */
+.datepicker {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1050 !important;
+}
+
+.datepicker .datepicker-days .datepicker-switch,
+.datepicker .datepicker-days th {
+    font-weight: 600;
+    color: #212529;
+}
+
+.datepicker .prev, 
+.datepicker .next {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.datepicker .day.today {
+    background-color: #e9f5ff;
+    border-radius: 50%;
+    font-weight: 600;
+}
+
+.datepicker .day.active,
+.datepicker .day.active:hover {
+    background-color: var(--primary-color-dark);
+    color: #fff !important;
+    border-radius: 50%;
+}
+
+.datepicker .day {
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.datepicker .day:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+
+.datepicker .day.disabled,
+.datepicker .day.disabled:hover {
+    color: #ccc;
+    cursor: not-allowed;
+    background: none;
+}
+
+.input-group.date .form-control {
+    border-right: 0;
+}
+
+.input-group.date .input-group-text {
+    background-color: #fff;
+    border-left: 0;
+    cursor: pointer;
+}
+
+/* BUTTONS DATEPICKER */
+
+#btn-today {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+#btn-today:hover {
+    background-color: var(--primary-color-dark);
+}

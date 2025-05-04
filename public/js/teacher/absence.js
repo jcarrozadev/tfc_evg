@@ -129,4 +129,50 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
         }
     });
+    
+});
+
+
+$(document).ready(function () {
+    const datepicker = $('#datepicker');    
+
+    datepicker.datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'es',
+        autoclose: true,
+        todayHighlight: true,
+        clearBtn: true,
+        orientation: "bottom auto",
+        container: '#datepicker-container',
+    });
+
+    $('#datepicker-container .input-group-text').on('click', function () {
+        $('#datepicker').datepicker('show');
+    });
+
+    function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    }
+
+    const btnToday = document.getElementById('btn-today');
+    const btnTomorrow = document.getElementById('btn-tomorrow');
+
+    if (btnToday && btnTomorrow) {
+        btnToday.addEventListener('click', function () {
+            const today = new Date();
+            const formatted = formatDate(today);
+            datepicker.datepicker('update', formatted);
+        });
+
+        btnTomorrow.addEventListener('click', function () {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const formatted = formatDate(tomorrow);
+            datepicker.datepicker('update', formatted);
+        });
+    }
+
 });

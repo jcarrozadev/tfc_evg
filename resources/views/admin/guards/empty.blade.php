@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'Administración | Gestor de Guardias')
+
 @section('content')
     @include('templates.navBar')
 

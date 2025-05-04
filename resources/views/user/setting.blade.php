@@ -1,6 +1,6 @@
 @extends('layout')
 
-@section('title', 'Ajustes del Profesor')
+@section('title', 'Profesorado | Ajustes del Profesor')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
