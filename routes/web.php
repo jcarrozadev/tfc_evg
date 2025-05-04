@@ -38,6 +38,8 @@ Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->na
     Route::get('/notifyAbsence' , [TeacherController::class, 'notifyAbsence'])->name('notifyAbsence');
     Route::post('/notifyAbsence' , [TeacherController::class, 'storeNotifyAbsence'])->name('storeNotifyAbsence');
     Route::get('/consultAbsence' , [TeacherController::class, 'consultAbsence'])->name('consultAbsence');
+
+    Route::get('/guardsToday', [TeacherController::class, 'guardsToday'])->name('guardsToday');
 });
 
 /* ROUTES ADMINISTRATORS */
