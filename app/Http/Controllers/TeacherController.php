@@ -61,7 +61,15 @@ class TeacherController extends Controller
 
     public function home(): View {
         $user = User::getHomeTeacherById(auth()->user()->id);
-        return view('user.home')->with('user', $user);
+        $guard = Guard::hasGuardByUserId(auth()->user()->id);
+
+        $view = view('user.home')->with('user', $user);
+
+        if ($guard) {
+            $view->with('guard', $guard);
+        }
+
+        return $view;
     }
 
     public function settings(): View {
@@ -104,6 +112,12 @@ class TeacherController extends Controller
         $user->save();
 
         return redirect()->route('teacher.home')->with('success', 'Contraseña actualizada correctamente.');
+    }
+
+    public function personalGuard(): View {
+        $guards = Guard::getGuardsTodayById(auth()->user()->id);
+
+        return view('user.personalGuard')->with('guards', $guards);
     }
 
 
