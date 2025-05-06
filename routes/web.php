@@ -60,6 +60,7 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('admin')-
     })->name('guards');
 
     Route::post('/guards/assign', [AdminController::class, 'assignGuard'])->name('guardsAssign');
+
 });
 
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('class')->name('class.')->group(function () {
@@ -73,4 +74,6 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('bookGuar
     Route::get('/', [BookGuardController::class, 'index'])->name('index');
 
     Route::post('/store', [BookGuardController::class, 'store'])->name('store');
+
+    Route::delete('/reset', [AdminController::class, 'resetBookGuard'])->name('reset');
 });

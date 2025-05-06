@@ -17,10 +17,10 @@
             <div class="col-md-8 d-flex flex-column gap-4">
                 @foreach ($absences as $absence)
                     @php
-                        $firstSession = collect($absence->sessions)->pluck('id')->sort()->first();
-                        $color = $firstSession ? ($sessionColors[$firstSession] ?? '#ccc') : '#ccc';
+                        $isFullDay = is_null($absence->hour_start) && is_null($absence->hour_end);
+                        $color = $isFullDay ? '#ccc' : ($sessionColors[collect($absence->sessions)->pluck('id')->sort()->first()] ?? '#ccc');
                     @endphp
-
+                    
                     <div class="card shadow-sm p-3 rounded bg-white"
                         style="border-left: 5px solid {{ $color }};">
                         <div class="fw-semibold mb-2">{{ $absence->user_name }}</div>
@@ -30,7 +30,14 @@
                         </div>
 
                         @foreach ($absence->sessions as $session)
-                            <div class="row align-items-center text-center mb-4">
+                            @php
+                                $sessionColor = $sessionColors[$session['id']] ?? '#ccc';
+                            @endphp
+                            <div class="row align-items-center text-center mb-4"
+                                @if ($isFullDay)
+                                    style="border-left: 4px solid {{ $sessionColor }}; padding-left: 8px;"
+                                @endif
+                            >  
                                 <div class="col-4">
                                     <div class="fw-bold text-primary">
                                         {{ $session['hour_start'] . " - " . $session['hour_end'] }}

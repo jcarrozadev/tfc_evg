@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absence;
+use App\Models\Bookguard;
+use App\Models\BookguardUser;
 use App\Models\Classes;
 use App\Models\Guard;
 use App\Models\User;
@@ -76,14 +78,14 @@ class AdminController extends Controller {
 
     private static function getSessionColors(): array {
         return [
-            1 => '#77d9ca',
-            2 => '#2f4b7c',
-            3 => '#665191',
+            1 => '#752948',
+            2 => '#66d95b',
+            3 => '#7340db',
             4 => '#a05195',
-            5 => '#d45087', 
-            6 => '#f95d6a', 
-            7 => '#ff7c43', 
-            8 => '#ffa600', 
+            5 => '#d42a71', 
+            6 => '#f52a3b', 
+            7 => '#f59064', 
+            8 => '#00fffb', 
         ];
     }
 
@@ -149,5 +151,11 @@ class AdminController extends Controller {
         ]);
     }
 
+    public function resetBookGuard() {
+        BookguardUser::query()->delete();
+        Bookguard::query()->delete();  
     
+        return response()->json(['message' => 'Guardias restablecidas correctamente.']);
+    
+    }
 }
