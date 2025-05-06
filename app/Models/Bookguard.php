@@ -19,32 +19,36 @@ class Bookguard extends Model
             ->get();
     }
 
-    public static function storeFromWeeklyInput(array $guards): bool {
+    public static function storeFromWeeklyInput(array $guards): bool
+    {
+        BookguardUser::query()->delete();
+        Bookguard::query()->delete();
+    
         foreach ($guards as $day => $slots) {
             foreach ($slots as $timeRange => $entries) {
-
+    
                 [$start, $end] = explode('-', $timeRange);
                 $start = self::formatTime($start);
                 $end = self::formatTime($end);
-
+    
                 $session = Session::where('hour_start', $start)
                     ->where('hour_end', $end)
                     ->first();
-
+    
                 if (!$session) {
-                    continue; 
+                    continue;
                 }
-
+    
                 $bookguard = self::create([
                     'day' => $day[0], // 'L', 'M', etc.
                     'session_id' => $session->id,
                 ]);
-
+    
                 foreach ($entries as $entry) {
                     if (!isset($entry['user_id']) || $entry['user_id'] === '-') {
                         continue;
                     }
-
+    
                     BookguardUser::create([
                         'bookguard_id' => $bookguard->id,
                         'user_id' => $entry['user_id'],
@@ -53,10 +57,10 @@ class Bookguard extends Model
                 }
             }
         }
-
+    
         return true;
     }
-
+    
     protected static function formatTime(string $short): string {
         // De '8:15' a '08:15:00'
         [$h, $m] = explode(':', $short);

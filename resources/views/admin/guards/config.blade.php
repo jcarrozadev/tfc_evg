@@ -14,64 +14,105 @@
         @include('components.titles.title', ['title' => 'Guardias'])
 
         <div class="row g-5 p-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <strong>Instrucciones:</strong>
+                    <ul>
+                        <li>Arrastra un profesor a la sesión correspondiente.</li>
+                        <li>Los colores están en conjunto con la sesión que se puede cubrir.</li>
+                        <li>Haz clic en "Guardar cambios" para aplicar los cambios.</li>
+                    </ul>
+                </div>
+                <div class="alert alert-warning">
+                    <strong>Nota:</strong>
+                    <ul>
+                        <li>Si un profesor está repetido dos veces con distintos colores, puede cubrir dos sesiones el mismo día.</li>
+                        <li>Si un profesor que está en el libro de guardias para este día, está ausente, no aparece.</li>
+                    </ul>
+                </div>
+            </div>
             <div class="col-md-8 d-flex flex-column gap-4">
                 @foreach ($absences as $absence)
                     @php
-                        $sortedSessions = collect($absence->session_ids ?? [])->sort()->values();
-                        $mainSessionId = $sortedSessions->first();
-                        $color = $mainSessionId ? ($sessionColors[$mainSessionId] ?? '#ccc') : '#ccc';
+                        $isFullDay = is_null($absence->hour_start) && is_null($absence->hour_end);
+                        $color = $isFullDay ? '#ccc' : ($sessionColors[collect($absence->sessions)->pluck('id')->sort()->first()] ?? '#ccc');
                     @endphp
-
+                    
                     <div class="card shadow-sm p-3 rounded bg-white"
-                        data-session-ids='@json($absence->session_ids)'
                         style="border-left: 5px solid {{ $color }};">
-                        <div class="row align-items-center text-center">
-                            <div class="col-3">
-                                <div class="fw-bold text-primary">{{ $absence->hour_start . " - " . $absence->hour_end}}</div>
-                            </div>
-                            <div class="col-5">
-                                <div class="fw-semibold">{{ $absence->user_name }}</div>
-                                <div class="small text-muted">{{ $absence->reason_name }}</div>
-                            </div>
-                            <div class="col-4">
-                                <div class="dropzone border rounded p-2 bg-light"
-                                    style="min-height: 50px;"
-                                    data-absence-id="{{ $absence->id }}"
-                                    data-session-ids='@json($absence->session_ids)'>
-                                    <span class="text-muted">Arrastra profesor</span>
+                        <div class="fw-semibold mb-2">{{ $absence->user_name }}</div>
+                        <div class="small text-muted mb-2">{{ $absence->reason_name }}</div>
+                        <div class="small text-muted mb-4">
+                            Ausencia generada {{ $absence->created_at->format('d/m/Y H:i') }}
+                        </div>
+
+                        @foreach ($absence->sessions as $session)
+                            @php
+                                $sessionColor = $sessionColors[$session['id']] ?? '#ccc';
+                                $assigned = $assignedGuards
+                                    ->first(fn($g) => $g->absence_id == $absence->id && $g->hour == $session['hour_start']);
+                                $assignedTeacher = $assigned ? $teachers->firstWhere('id', $assigned->user_sender_id) : null;
+                            @endphp
+                            <div class="row align-items-center text-center mb-4"
+                                @if ($isFullDay)
+                                    style="border-left: 4px solid {{ $sessionColor }}; padding-left: 8px;"
+                                @endif
+                            >  
+                                <div class="col-4">
+                                    <div class="fw-bold text-primary">
+                                        {{ 
+                                            \Carbon\Carbon::parse($session['hour_start'])->format('H:i') 
+                                            . " - " . 
+                                            \Carbon\Carbon::parse($session['hour_end'])->format('H:i') 
+                                        }}
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="dropzone border rounded p-2 bg-light"
+                                        style="min-height: 50px;"
+                                        data-absence-id="{{ $absence->id }}"
+                                        data-session-id="{{ $session['id'] }}">
+
+                                        @if ($assignedTeacher)
+                                            <div class="draggable card p-2 bg-custom text-white shadow-sm rounded d-flex align-items-center gap-2"
+                                                draggable="true"
+                                                data-teacher-id="{{ $assignedTeacher->id }}"
+                                                style="border-left: 5px solid {{ $sessionColor }};">
+                                                <div class="bg-light rounded-circle" style="width: 32px; height: 32px;"></div>
+                                                <span class="fw-semibold">{{ $assignedTeacher->name }}</span>
+                                            </div>
+                                        @else
+                                            <span class="text-muted">Arrastra profesor</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 @endforeach
+
             </div>
 
             <div class="col-md-4 d-flex flex-column gap-3">
                 @foreach ($teachers as $teacher)
                     @php
-                        $todayLetter = $todayLetter ?? 'L';
-                        $teacherSessions = array_map(function ($id) use ($todayLetter) {
-                            return ['day' => $todayLetter, 'session_id' => $id];
-                        }, $teacher->session_ids ?? []);
-                    
-                        $sortedSessionIds = collect($teacher->session_ids ?? [])->sort()->values();
-                        $mainSessionId = $sortedSessionIds->first();
-                        $color = $mainSessionId ? ($sessionColors[$mainSessionId] ?? '#ccc') : '#ccc';
+                        $color = $sessionColors[$teacher->session_id] ?? '#ccc';
+                        $sessionData = [['day' => $todayLetter, 'session_id' => $teacher->session_id]];
                     @endphp
-                    
+                
                     <div class="draggable card p-2 bg-custom text-white shadow-sm rounded d-flex align-items-center gap-2"
                         draggable="true"
                         data-teacher-id="{{ $teacher->id }}"
-                        data-sessions='@json($teacherSessions)'
+                        data-sessions='@json($sessionData ?? [])'
                         style="border-left: 5px solid {{ $color }};">
                         <div class="bg-light rounded-circle" style="width: 32px; height: 32px;"></div>
                         <span class="fw-semibold">{{ $teacher->name }}</span>
                     </div>
                 @endforeach
             </div>
-
-            <button id="saveAssignmentsBtn" class="btn btn-primary mt-3">Guardar cambios</button>
-
+            <div class="col-12">
+                <button id="saveAssignmentsBtn" class="btn btn-primary mt-3 w-100">Guardar cambios</button>
+            </div>
         </div>
     </div>
 

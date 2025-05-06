@@ -89,18 +89,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }).then((confirmado) => {
+            console.log(routeReset);
             if (confirmado) {
-                const selects = document.querySelectorAll('select');
-                selects.forEach(select => {
-                    select.value = '-';
-                    select.classList.remove('is-invalid', 'is-warning');
-                });
-                swal({
-                    title: "Guardias restablecidas",
-                    text: "Todas las guardias han sido restablecidas.",
-                    icon: "success",
-                    timer: 2000,
-                    buttons: false
+                fetch(routeReset, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({ _method: 'DELETE' })
+                })                
+                .then(response => {
+                    if (!response.ok) throw new Error('Error al restablecer guardias');
+                    return response.json();
+                })
+                .then(data => {
+                    const selects = document.querySelectorAll('select');
+                    selects.forEach(select => {
+                        select.value = '-';
+                        select.classList.remove('is-invalid', 'is-warning');
+                    });
+            
+                    swal({
+                        title: "Guardias restablecidas",
+                        text: data.message,
+                        icon: "success",
+                        timer: 2000,
+                        buttons: false
+                    });
+                })
+                .catch(error => {
+                    swal("Error", error.message, "error");
                 });
             }
         });
