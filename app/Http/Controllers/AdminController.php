@@ -36,7 +36,7 @@ class AdminController extends Controller {
             return view('admin.guards.empty')->with('message', 'Hoy no hay guardias (fin de semana).');
         }
 
-        $absences = Absence::withSessionIdsForToday();
+        $absences = Absence::withSessionsForToday();
         if ($absences->isEmpty()) {
             return view('admin.guards.empty')->with('message', 'Hoy no hay profesores ausentes / ya asignados.');
         }
@@ -88,10 +88,7 @@ class AdminController extends Controller {
     }
 
     public function assignGuard(): JsonResponse {
-
-        $request = request();
-
-        $assignments = $request->input('assignments', []);
+        $assignments = request()->input('assignments', []);
 
         if (empty($assignments)) {
             return response()->json(['success' => false, 'message' => 'No se han recibido asignaciones.'], 400);
@@ -102,32 +99,47 @@ class AdminController extends Controller {
 
         foreach ($assignments as $assignment) {
             $absenceId = $assignment['absence_id'] ?? null;
+            $sessionId = $assignment['session_id'] ?? null;
             $teacherId = $assignment['teacher_id'] ?? null;
 
-            if (!$absenceId || !$teacherId) {
-                $skipped[] = $absenceId;
+            if (!$absenceId || !$sessionId || !$teacherId) {
+                $skipped[] = $assignment;
                 continue;
             }
 
             $absence = Absence::find($absenceId);
-            if (!$absence || $absence->status == 1) {
-                $skipped[] = $absenceId;
+            $session = DB::table('sessions_evg')->where('id', $sessionId)->first();
+
+            if (!$absence || !$session) {
+                $skipped[] = $assignment;
+                continue;
+            }
+
+            $alreadyExists = Guard::where('absence_id', $absenceId)
+                ->where('hour', $session->hour_start)
+                ->exists();
+
+            if ($alreadyExists) {
+                $skipped[] = $assignment;
                 continue;
             }
 
             $guard = new Guard();
             $guard->date = now()->toDateString();
             $guard->text_guard = $absence->reason_description ?? '';
-            $guard->hour = $absence->hour_start;
+            $guard->hour = $session->hour_start;
             $guard->user_sender_id = $teacherId;
             $guard->absence_id = $absenceId;
             $guard->save();
 
-            $absence->status = 1;
-            $absence->save();
-
-            $saved[] = $absenceId;
+            $saved[] = $assignment;
         }
+
+        dd([
+            'saved' => $saved,
+            'skipped' => $skipped
+        ]);
+        
 
         return response()->json([
             'success' => true,
@@ -136,5 +148,6 @@ class AdminController extends Controller {
             'message' => count($saved) . ' guardias asignadas. ' . (count($skipped) > 0 ? count($skipped) . ' omitidas.' : '')
         ]);
     }
+
     
 }

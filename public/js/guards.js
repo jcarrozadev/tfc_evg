@@ -31,10 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
             dropzone.classList.remove('dropzone-hover');
             if (!draggedItem) return;
 
-            const absenceSessions = JSON.parse(dropzone.dataset.sessionIds);
+            const sessionId = dropzone.dataset.sessionId;
             const teacherSessions = JSON.parse(draggedItem.dataset.sessions);
-            const absenceSessionIds = absenceSessions.map(s => parseInt(s));
-            const canAssign = teacherSessions.some(ts => absenceSessionIds.includes(parseInt(ts.session_id)));
+            const canAssign = teacherSessions.some(ts => parseInt(ts.session_id) === parseInt(sessionId));
 
             if (!canAssign) {
                 swal("No se puede asignar", "El profesor no está disponible para esta sesión.", "error");
@@ -53,12 +52,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const absenceId = dropzone.dataset.absenceId;
             const teacherId = draggedItem.dataset.teacherId;
-            const existing = pendingAssignments.find(a => a.absence_id === absenceId);
+            const existing = pendingAssignments.find(a =>
+                a.absence_id === absenceId && a.session_id === sessionId
+            );
             if (existing) {
                 existing.teacher_id = teacherId;
             } else {
-                pendingAssignments.push({ absence_id: absenceId, teacher_id: teacherId });
-            }
+                pendingAssignments.push({
+                    absence_id: absenceId,
+                    session_id: sessionId,
+                    teacher_id: teacherId
+                });
+            }            
         });
     });
 
@@ -85,7 +90,10 @@ document.addEventListener('DOMContentLoaded', function() {
             originalDropzone.classList.add('bg-light');
             originalDropzone.classList.remove('bg-white');
             const absenceId = originalDropzone.dataset.absenceId;
-            pendingAssignments = pendingAssignments.filter(a => a.absence_id != absenceId);
+            const sessionId = originalDropzone.dataset.sessionId;
+            pendingAssignments = pendingAssignments.filter(a =>
+                !(a.absence_id === absenceId && a.session_id === sessionId)
+            );
         }
     });
 
@@ -137,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
             swal("Nada que guardar", "No hay cambios pendientes.", "info");
             return;
         }
+        console.log("Asignaciones que se enviarán:", pendingAssignments);
 
         fetch('/admin/guards/assign', {
             method: 'POST',

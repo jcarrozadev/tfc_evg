@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon;
 use App\Http\Controllers\TeacherValidatorController;
 use App\Models\Guard;
+use App\Models\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -137,35 +138,45 @@ class TeacherController extends Controller
 
     public function notifyAbsence(): View {
         $reasons = Reason::getAllReasons();
-        return view('user.notifyAbsence', compact('reasons'));
+        $sessions = Session::getAllSessions();
+        return view('user.notifyAbsence', compact('reasons', 'sessions'));
     }
 
     public function storeNotifyAbsence(): RedirectResponse {
         $request = request();
-
+    
         $absenceData = [
             'date' => Carbon::createFromFormat('d/m/Y', $request->input('date'))->format('Y-m-d'),
-            'hour_start' => $request->input('start_hour') . ':' . $request->input('start_minute') . ':00',
-            'hour_end' => $request->input('end_hour') . ':' . $request->input('end_minute') . ':00',
             'reason_id' => $request->input('typeAbsence'),
             'reason_description' => $request->input('description'),
             'info_task' => $request->input('description'),
             'user_id' => auth()->user()->id,
             'status' => 0,
         ];
-
+    
+        if ($request->filled('session_id')) {
+            $session = Session::findOrFail($request->input('session_id'));
+            $absenceData['hour_start'] = $session->hour_start;
+            $absenceData['hour_end'] = $session->hour_end;
+        } else {
+            $absenceData['hour_start'] = null; 
+            $absenceData['hour_end'] = null;   
+        }
+    
         if ($request->hasFile('justify')) {
             $justify = $request->file('justify');
             $justifyPath = $justify->storeAs('justificantes', $justify->getClientOriginalName(), 'public');
             $absenceData['justify'] = $justifyPath;
         }
-
-        User::disbledTeacher(auth()->user()->id);
-
+    
+        User::disabledTeacher(auth()->user()->id);
+    
         return Absence::createAbsence($absenceData)
             ? redirect()->route('teacher.home')->with('success', 'Ausencia notificada correctamente.')
             : redirect()->route('teacher.home')->with('error', 'Error al notificar ausencia.');
     }
+    
+    
 
     public function consultAbsence(): View {
         return view('user.consultAbsence');

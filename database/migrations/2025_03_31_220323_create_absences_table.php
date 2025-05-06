@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('absences', function (Blueprint $table) {
             $table->unsignedInteger('id')->autoIncrement()->primary();
             $table->date('date');
-            $table->time('hour_start');
-            $table->time('hour_end');
+            $table->time('hour_start')->nullable();
+            $table->time('hour_end')->nullable();
             $table->string('justify', 255)->nullable();
             $table->string('info_task', 255)->nullable();
             $table->unsignedInteger('user_id');

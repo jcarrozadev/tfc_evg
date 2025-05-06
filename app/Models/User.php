@@ -143,7 +143,7 @@ class User extends Authenticatable
         return $changed ? $teacher->save() : true;
     }
 
-    public static function disbledTeacher(int $id): bool {
+    public static function disabledTeacher(int $id): bool {
         $teacher = self::find($id);
 
         if (!$teacher) {

@@ -41,6 +41,7 @@ class Absence extends Model
                 'users.name as user_name',
                 DB::raw("DATE_FORMAT(absences.hour_start, '%H:%i') as hour_start"),
                 DB::raw("DATE_FORMAT(absences.hour_end, '%H:%i') as hour_end"),
+                'absences.created_at as created_at',
                 'reasons.name as reason_name'
             )
             ->get();
@@ -57,25 +58,41 @@ class Absence extends Model
         return $absences;
     }    
 
-    public static function withSessionIdsForToday(): Collection {
-        $absences = Absence::getAbsencesTodayWithDetails();
+    public static function withSessionsForToday(): Collection {
+        $absences = self::getAbsencesTodayWithDetails();
         $sessions = DB::table('sessions_evg')->get();
 
         foreach ($absences as $absence) {
+            if (!$absence->hour_start || !$absence->hour_end) {
+                $absence->sessions = $sessions->map(function ($session) { // Ausencia todo el día → todas las sesiones
+                    return [
+                        'id' => $session->id,
+                        'hour_start' => $session->hour_start,
+                        'hour_end' => $session->hour_end,
+                    ];
+                })->toArray();
+                continue;
+            }
+
             $absenceStart = Carbon::parse($absence->hour_start);
             $absenceEnd = Carbon::parse($absence->hour_end);
 
-            $absence->session_ids = $sessions->filter(function ($session) use ($absenceStart, $absenceEnd) {
-                $sessionStart = Carbon::parse($session->hour_start);
-                $sessionEnd = Carbon::parse($session->hour_end);
-
-                return $sessionStart->greaterThanOrEqualTo($absenceStart) &&
-                    $sessionEnd->lessThanOrEqualTo($absenceEnd);
-            })->pluck('id')->toArray();
+            $absence->sessions = $sessions->filter(function ($session) use ($absenceStart, $absenceEnd) {
+                $start = Carbon::parse($session->hour_start);
+                $end = Carbon::parse($session->hour_end);
+                return $start->greaterThanOrEqualTo($absenceStart) && $end->lessThanOrEqualTo($absenceEnd);
+            })->map(function ($session) {
+                return [
+                    'id' => $session->id,
+                    'hour_start' => $session->hour_start,
+                    'hour_end' => $session->hour_end,
+                ];
+            })->values()->toArray();
         }
 
         return $absences;
     }
+
 
     public static function assignPossibleTeachers(Collection $absences, Collection $teachers): void {
         foreach ($absences as $absence) {
