@@ -42,18 +42,24 @@ body{
 }
 
 .icon-card {
-    background-color: var(--primary-color);
+    border-radius: 15px;
+    background: #0F4C81;
+    box-shadow: inset 26px -26px 52px #0b3a62,
+                inset -26px 26px 52px #135ea0;
     color: #fff;
     font-weight: bold;
     text-align: center;
     padding: 20px;
-    border-radius: 10px;
-    transition: 0.3s ease;
+    transition: box-shadow 1.5s ease, transform 0.5s ease;
 }
 
 .icon-card:hover {
     cursor: pointer;
+    box-shadow: 0px 0px 20px #135ea0,
+                inset -26px 26px 52px #0b3a62;
+    transform: scale(0.9);
 }
+
 
 .icon-card i {
     font-size: 2.5rem;
@@ -62,11 +68,14 @@ body{
 
 .guardia-box {
     height: 15vh;
-    background-color: var(--primary-color);
+    border-radius: 12px;
+    background: #0F4C81;
+    box-shadow: inset 26px -26px 52px #0b3a62,
+                inset -26px 26px 52px #135ea0;
     padding: 20px;
-    border-radius: 10px;
     text-align: center;
 }
+
 
 .hora {
     font-size: 2rem;

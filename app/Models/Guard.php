@@ -71,8 +71,26 @@ class Guard extends Model
         return $guard;
     }
 
+    public static function getGuardsTodayById($userId): array {
+        return self::where('user_sender_id', $userId)
+            ->join('absences', 'guards.absence_id', '=', 'absences.id')
+            ->join('users as absent_teachers', 'absences.user_id', '=', 'absent_teachers.id')
+            ->leftJoin('users as covering_teachers', 'guards.user_sender_id', '=', 'covering_teachers.id')
+            ->select(
+                'guards.*',
+                'absent_teachers.name as absent_teacher_name',
+                'covering_teachers.name as covering_teacher_name'
+            )
+            ->get()
+            ->toArray();
+    }
+
     public static function getGuardByAbsenceId($absenceId): ?Guard {
         dd(self::where('absence_id', $absenceId)->first());
+    }
+
+    public static function hasGuardByUserId($userId): bool {
+        return self::where('user_sender_id', $userId)->exists();
     }
 }
 

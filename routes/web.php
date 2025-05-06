@@ -32,6 +32,7 @@ Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->na
     Route::get('/home', [TeacherController::class, 'home'])->name('home');
     Route::get('/settings', [TeacherController::class, 'settings'])->name('settings');
     Route::post('/settings', [TeacherController::class, 'updateSettings'])->name('updateSettings');
+    Route::get('/personalGuard' , [TeacherController::class, 'personalGuard'])->name('personalGuard');
     Route::post('/teacher/updatePassword', [TeacherController::class, 'updatePassword'])->name('updatePassword');
     Route::post('/upload-avatar', [TeacherController::class, 'uploadAvatar'])->name('uploadAvatar');
 
@@ -51,13 +52,7 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('teacher'
 });
 
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', function () {
-        return AdminController::index();
-    })->name('admin');
-    
-    Route::get('/guards', function () {
-        return AdminController::guards();
-    })->name('guards');
+    Route::get('/guards', [AdminController::class, 'guards'])->name('guards');
 
     Route::post('/guards/assign', [AdminController::class, 'assignGuard'])->name('guardsAssign');
 

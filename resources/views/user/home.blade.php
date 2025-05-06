@@ -25,22 +25,32 @@
                 </div>
                 <div class="col-md-4">
                     <div class="rounded-circle overflow-hidden mx-auto profile-pic mb-3" style="width: 250px; height: 250px;">
-                        <img src="{{ asset('storage/' . ($user->image_profile ?: 'avatars/default.png')) }}" 
+                        <img src="{{ asset('storage/' . ($user->image_profile ?: 'default.jpg')) }}" 
                             alt="Foto del Profesor" 
                             class="img-fluid h-100 w-100 object-fit-cover">
                     </div>
                     <div class="hora" id="hora">--:--</div>
                 </div>
                 <div class="col-md-4 text-md-end text-center">
-                    <h2 class="fw-bold">Guardia</h2>
-                    <div class="guardia-box mt-3">
-                        <p class="text-white fw-bold fs-4">¡Tienes Guardia!</p>
-                        @include('components.buttons.button', [
-                            'text' => 'Consultar Guardia',
-                            'route' => 'admin.admin',
-                            'class' => 'btn btn-guardia'
-                        ])
-                    </div>
+                    <h2 class="fw-bold">
+                        Tus <br>
+                        Guardias
+                    </h2>
+                    @if(isset($guard) && $guard)
+                        <a href="{{ route('teacher.personalGuard') }}" class="text-decoration-none">
+                            <div class="guardia-box mt-3">
+                                <div class="d-flex align-items-center justify-content-center h-100">
+                                    <p class="text-white fw-bold fs-4 text-center">¡Tienes Guardia!</p>
+                                </div>
+                            </div>
+                        </a>
+                    @else
+                        <div class="guardia-box mt-3">
+                            <div class="d-flex align-items-center justify-content-center h-100">
+                                <p class="text-white fw-bold fs-4 text-center">No tienes Guardia</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
     
