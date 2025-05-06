@@ -39,46 +39,16 @@
                     </div>                    
 
                     <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Hora inicio</label>
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold">Sesión específica <span class="form-label fw-bold fst-italic">(No rellenar si falta completa)</span></label>
                             <div class="row g-2">
-                                <div class="col-6">
-                                    <select name="start_hour" class="form-select py-2" required>
-                                        <option value="" disabled selected hidden>Hora</option>
-                                        @for($i = 8; $i <= 15; $i++)
-                                            <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <select name="start_minute" class="form-select py-2" required>
-                                        <option value="" disabled selected hidden>Minutos</option>
-                                        @for($i = 0; $i < 60; $i += 5)
-                                            <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Hora fin</label>
-                            <div class="row g-2">
-                                <div class="col-6">
-                                    <select name="end_hour" class="form-select py-2" required>
-                                        <option value="" disabled selected hidden>Hora</option>
-                                        @for($i = 8; $i <= 15; $i++)
-                                            <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                                <div class="col-6">
-                                    <select name="end_minute" class="form-select py-2" required>
-                                        <option value="" disabled selected hidden>Minutos</option>
-                                        @for($i = 0; $i < 60; $i += 5)
-                                            <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
-                                        @endfor
-                                    </select>
+                                <div class="col-md-12">
+                                    <select name="session_id" class="form-select py-2" id="sessions">
+                                        <option value="" disabled selected hidden>Selecciona una sesión</option>
+                                        @foreach($sessions as $session)
+                                            <option value="{{ $session->id }}">{{ $session->hour_start . " - " . $session->hour_end }}</option>
+                                        @endforeach
+                                    </select>                                    
                                 </div>
                             </div>
                         </div>
@@ -87,7 +57,7 @@
                     <div class="mb-4">
                         <label for="typeAbsence" class="form-label fw-bold">Tipo de ausencia</label>
                         <select name="typeAbsence" id="typeAbsence" class="form-select py-2" required>
-                            <option value="" disabled selected hidden>Selecciona una opción</option>
+                            <option value="" disabled selected hidden>Selecciona el motivo</option>
                             @foreach($reasons as $reason)
                                 <option value="{{ $reason->id }}">{{ $reason->name }}</option>
                             @endforeach

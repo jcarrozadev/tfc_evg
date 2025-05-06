@@ -59,6 +59,18 @@ class Guard extends Model
             ->toArray();
     }    
 
+    public static function assignToAbsence($absence, $session, $teacherId): self {
+        $guard = new self();
+        $guard->date = now()->toDateString();
+        $guard->text_guard = $absence->reason_description ?? '';
+        $guard->hour = $session->hour_start;
+        $guard->user_sender_id = $teacherId;
+        $guard->absence_id = $absence->id;
+        $guard->save();
+    
+        return $guard;
+    }
+
     public static function getGuardsTodayById($userId): array {
         return self::where('user_sender_id', $userId)
             ->join('absences', 'guards.absence_id', '=', 'absences.id')
