@@ -64,6 +64,21 @@ class User extends Authenticatable
                       ->where('day', $day);
             }])
             ->get();
+    }          
+    
+    public static function getAvailableTeachersToday(string $day): Collection {
+        return self::where('role_id', 2)
+            ->where('available', 1)
+            ->where('enabled', 1)
+            ->get();
+    }
+
+    public function sessions() {
+        return $this->hasManyThrough(Session::class, Bookguard::class, 'id', 'id', null, 'session_id');
+    }
+
+    public function bookguards(){
+        return $this->belongsToMany(Bookguard::class, 'bookguard_user', 'user_id', 'bookguard_id');
     }
 
     public function loadSessionIds(): void {
@@ -73,10 +88,7 @@ class User extends Authenticatable
             ->values()
             ->toArray();
     }
-
-    public function bookguards(){
-        return $this->belongsToMany(Bookguard::class, 'bookguard_user', 'user_id', 'bookguard_id');
-    }
+          
 
     public static function getNameEnabledTeachers(): Collection {
         return self::where('role_id', 2)

@@ -34,47 +34,95 @@ class AdminController extends Controller {
 
     public static function guards(): View {
         $todayLetter = self::getNowLetter();
+    
         if (is_null($todayLetter)) {
             return view('admin.guards.empty')->with('message', 'Hoy no hay guardias (fin de semana).');
         }
-
+    
         $absences = Absence::withSessionsForToday();
+    
         if ($absences->isEmpty()) {
             return view('admin.guards.empty')->with('message', 'Hoy no hay profesores ausentes / ya asignados.');
         }
-
+    
         $allSessionIds = self::collectAllSessionIds($absences);
-
+    
         $teachers = User::getAvailableTeachersForSessions($allSessionIds, $todayLetter);
+    
         foreach ($teachers as $teacher) {
             $teacher->loadSessionIds();
         }
 
+        $teacherCards = collect();
+
+        foreach ($teachers as $teacher) {
+            foreach ($teacher->session_ids as $sessionId) {
+                if (!in_array($sessionId, $allSessionIds)) {
+                    continue; 
+                }
+        
+                $teacherCards->push((object)[
+                    'id' => $teacher->id,
+                    'name' => $teacher->name,
+                    'session_id' => $sessionId,
+                ]);
+            }
+        }
+
+        $teacherCards = $teacherCards->sortBy('session_id')->values();
+
         Absence::assignPossibleTeachers($absences, $teachers);
-
+    
         $sessionColors = self::getSessionColors();
-
+    
+        $assignedGuards = Guard::where('date', now()->toDateString())->get();
+    
+        // dd(vars: $teacherCards);
         return view('admin.guards.config')->with([
             'absences' => $absences,
-            'teachers' => $teachers,
+            'teachers' => $teacherCards,
             'sessionColors' => $sessionColors,
             'todayLetter' => $todayLetter,
+            'assignedGuards' => $assignedGuards,
         ]);
-    }
+    }    
 
     private static function getNowLetter(): ?string {
         return match (now()->dayOfWeek) { 
             1 => 'L', 2 => 'M', 3 => 'X', 4 => 'J', 5 => 'V', default => null,
         };
-    }
+    }     
 
     private static function collectAllSessionIds(Collection $absences): array {
-        return $absences->pluck('session_ids')
-                        ->flatten() // pasar todo a un solo array
-                        ->unique()
-                        ->values()
-                        ->all();
+        $hasFullDayAbsence = $absences->contains(function ($absence) {
+            return is_null($absence->hour_start) || is_null($absence->hour_end);
+        });
+    
+        if ($hasFullDayAbsence) {
+            return DB::table('sessions_evg')->pluck('id')->unique()->toArray();
+        }
+    
+        $hours = $absences->map(function ($absence) {
+            return [
+                'start' => $absence->hour_start,
+                'end' => $absence->hour_end,
+            ];
+        });
+    
+        return DB::table('sessions_evg')
+            ->where(function ($q) use ($hours) {
+                foreach ($hours as $pair) {
+                    $q->orWhere(function ($subQ) use ($pair) {
+                        $subQ->where('hour_start', '>=', $pair['start'])
+                             ->where('hour_end', '<=', $pair['end']);
+                    });
+                }
+            })
+            ->pluck('id')
+            ->unique()
+            ->toArray();
     }
+    
 
     private static function getSessionColors(): array {
         return [
@@ -91,65 +139,70 @@ class AdminController extends Controller {
 
     public function assignGuard(): JsonResponse {
         $assignments = request()->input('assignments', []);
-
-        if (empty($assignments)) {
-            return response()->json(['success' => false, 'message' => 'No se han recibido asignaciones.'], 400);
-        }
-
+        $removals = request()->input('removals', []);
+    
         $saved = [];
         $skipped = [];
-
+        $deleted = [];
+    
         foreach ($assignments as $assignment) {
             $absenceId = $assignment['absence_id'] ?? null;
             $sessionId = $assignment['session_id'] ?? null;
             $teacherId = $assignment['teacher_id'] ?? null;
-
+    
             if (!$absenceId || !$sessionId || !$teacherId) {
                 $skipped[] = $assignment;
                 continue;
             }
-
+    
             $absence = Absence::find($absenceId);
             $session = DB::table('sessions_evg')->where('id', $sessionId)->first();
-
+    
             if (!$absence || !$session) {
                 $skipped[] = $assignment;
                 continue;
             }
-
+    
             $alreadyExists = Guard::where('absence_id', $absenceId)
                 ->where('hour', $session->hour_start)
                 ->exists();
-
+    
             if ($alreadyExists) {
                 $skipped[] = $assignment;
                 continue;
             }
-
-            $guard = new Guard();
-            $guard->date = now()->toDateString();
-            $guard->text_guard = $absence->reason_description ?? '';
-            $guard->hour = $session->hour_start;
-            $guard->user_sender_id = $teacherId;
-            $guard->absence_id = $absenceId;
-            $guard->save();
-
+    
+            Guard::assignToAbsence($absence, $session, $teacherId);
+    
             $saved[] = $assignment;
         }
-
-        dd([
-            'saved' => $saved,
-            'skipped' => $skipped
-        ]);
-        
-
+    
+        foreach ($removals as $removal) {
+            $absenceId = $removal['absence_id'] ?? null;
+            $sessionId = $removal['session_id'] ?? null;
+    
+            $session = DB::table('sessions_evg')->where('id', $sessionId)->first();
+    
+            if (!$absenceId || !$session) continue;
+    
+            $deletedRows = Guard::where('absence_id', $absenceId)
+                ->where('hour', $session->hour_start)
+                ->delete();
+    
+            if ($deletedRows > 0) {
+                $deleted[] = $removal;
+            }
+        }
+    
         return response()->json([
             'success' => true,
             'saved' => $saved,
             'skipped' => $skipped,
-            'message' => count($saved) . ' guardias asignadas. ' . (count($skipped) > 0 ? count($skipped) . ' omitidas.' : '')
+            'deleted' => $deleted,
+            'message' => count($saved) . ' asignadas, ' . count($deleted) . ' eliminadas, ' . count($skipped) . ' omitidas.'
         ]);
     }
+    
 
     public function resetBookGuard() {
         BookguardUser::query()->delete();

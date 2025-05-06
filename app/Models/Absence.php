@@ -58,6 +58,21 @@ class Absence extends Model
         return $absences;
     }    
 
+    public function checkAndMarkAsCompleted(): void {
+        $sessionIds = $this->sessions->pluck('hour_start'); 
+    
+        $assignedHours = Guard::where('absence_id', $this->id)
+            ->pluck('hour')
+            ->unique();
+    
+        $allCovered = $sessionIds->diff($assignedHours)->isEmpty();
+    
+        if ($allCovered) {
+            $this->status = 1; 
+            $this->save();
+        }
+    }    
+
     public static function withSessionsForToday(): Collection {
         $absences = self::getAbsencesTodayWithDetails();
         $sessions = DB::table('sessions_evg')->get();
