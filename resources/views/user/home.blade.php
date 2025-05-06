@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="rounded-circle overflow-hidden mx-auto profile-pic mb-3" style="width: 250px; height: 250px;">
-                        <img src="{{ asset('storage/' . ($user->image_profile ?: 'avatars/default.png')) }}" 
+                        <img src="{{ asset('storage/' . ($user->image_profile ?: 'default.jpg')) }}" 
                             alt="Foto del Profesor" 
                             class="img-fluid h-100 w-100 object-fit-cover">
                     </div>
@@ -33,8 +33,8 @@
                 </div>
                 <div class="col-md-4 text-md-end text-center">
                     <h2 class="fw-bold">
-                        Guardias<br>
-                        Personales
+                        Tus <br>
+                        Guardias
                     </h2>
                     @if(isset($guard) && $guard)
                         <a href="{{ route('teacher.personalGuard') }}" class="text-decoration-none">
