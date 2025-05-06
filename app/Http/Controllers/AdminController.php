@@ -36,56 +36,65 @@ class AdminController extends Controller {
         $todayLetter = self::getNowLetter();
     
         if (is_null($todayLetter)) {
-            return view('admin.guards.empty')->with('message', 'Hoy no hay guardias (fin de semana).');
+            return self::renderEmpty("Hoy no hay guardias (fin de semana).");
         }
     
-        $absences = Absence::withSessionsForToday();
+        $absences = self::getAbsencesForToday();
     
         if ($absences->isEmpty()) {
-            return view('admin.guards.empty')->with('message', 'Hoy no hay profesores ausentes / ya asignados.');
+            return self::renderEmpty("Hoy no hay profesores ausentes / ya asignados.");
         }
     
-        $allSessionIds = self::collectAllSessionIds($absences);
+        $sessionIds = self::collectAllSessionIds($absences);
+        $teachers = self::getAvailableTeachers($sessionIds, $todayLetter);
+        $teacherCards = self::prepareTeacherCards($teachers, $sessionIds);
     
-        $teachers = User::getAvailableTeachersForSessions($allSessionIds, $todayLetter);
+        Absence::assignPossibleTeachers($absences, $teachers);
+    
+        return view('admin.guards.config')->with([
+            'absences' => $absences,
+            'teachers' => $teacherCards,
+            'sessionColors' => self::getSessionColors(),
+            'todayLetter' => $todayLetter,
+            'assignedGuards' => Guard::where('date', now()->toDateString())->get(),
+        ]);
+    }
+
+    private static function renderEmpty(string $message): View {
+        return view('admin.guards.empty')->with('message', $message);
+    }
+    
+    private static function getAbsencesForToday(): Collection {
+        return Absence::withSessionsForToday();
+    }
+    
+    private static function getAvailableTeachers(array $sessionIds, string $todayLetter): Collection {
+        $teachers = User::getAvailableTeachersForSessions($sessionIds, $todayLetter);
     
         foreach ($teachers as $teacher) {
-            $teacher->loadSessionIds();
+            $teacher->loadSessionIds(); 
         }
-
-        $teacherCards = collect();
-
+    
+        return $teachers;
+    }
+    
+    private static function prepareTeacherCards($teachers, array $sessionIds): \Illuminate\Support\Collection {
+        $cards = collect();
+    
         foreach ($teachers as $teacher) {
             foreach ($teacher->session_ids as $sessionId) {
-                if (!in_array($sessionId, $allSessionIds)) {
-                    continue; 
-                }
-        
-                $teacherCards->push((object)[
+                if (!in_array($sessionId, $sessionIds)) continue;
+    
+                $cards->push((object)[
                     'id' => $teacher->id,
                     'name' => $teacher->name,
                     'session_id' => $sessionId,
                 ]);
             }
         }
-
-        $teacherCards = $teacherCards->sortBy('session_id')->values();
-
-        Absence::assignPossibleTeachers($absences, $teachers);
     
-        $sessionColors = self::getSessionColors();
-    
-        $assignedGuards = Guard::where('date', now()->toDateString())->get();
-    
-        // dd(vars: $teacherCards);
-        return view('admin.guards.config')->with([
-            'absences' => $absences,
-            'teachers' => $teacherCards,
-            'sessionColors' => $sessionColors,
-            'todayLetter' => $todayLetter,
-            'assignedGuards' => $assignedGuards,
-        ]);
-    }    
+        return $cards->sortBy('session_id')->values();
+    }
 
     private static function getNowLetter(): ?string {
         return match (now()->dayOfWeek) { 
