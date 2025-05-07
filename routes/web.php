@@ -52,6 +52,7 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('teacher'
 });
 
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin');
     Route::get('/guards', [AdminController::class, 'guards'])->name('guards');
 
     Route::post('/guards/assign', [AdminController::class, 'assignGuard'])->name('guardsAssign');

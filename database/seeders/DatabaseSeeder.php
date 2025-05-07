@@ -25,8 +25,6 @@ class DatabaseSeeder extends Seeder {
             BookguardsTableSeeder::class,      
             UsersTableSeeder::class,        
             ClassUsersTableSeeder::class,
-            AbsencesTableSeeder::class,
-            GuardsTableSeeder::class,
         ]);
     } 
 }
