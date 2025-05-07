@@ -39,7 +39,7 @@
                     @endphp
                     
                     <div class="card shadow-sm p-3 rounded bg-white"
-                        style="border-left: 5px solid {{ $color }};">
+                        style="border-left: 8px solid {{ $color }};">
                         <div class="fw-semibold mb-2">{{ $absence->user_name }}</div>
                         <div class="small text-muted mb-2">{{ $absence->reason_name }}</div>
                         <div class="small text-muted mb-4">
@@ -55,7 +55,7 @@
                             @endphp
                             <div class="row align-items-center text-center mb-4"
                                 @if ($isFullDay)
-                                    style="border-left: 4px solid {{ $sessionColor }}; padding-left: 8px;"
+                                    style="border-left: 6px solid {{ $sessionColor }}; padding-left: 8px; border-radius: 4px;"
                                 @endif
                             >  
                                 <div class="col-4">
@@ -77,7 +77,7 @@
                                             <div class="draggable card p-2 bg-custom text-white shadow-sm rounded d-flex align-items-center gap-2"
                                                 draggable="true"
                                                 data-teacher-id="{{ $assignedTeacher->id }}"
-                                                style="border-left: 5px solid {{ $sessionColor }};">
+                                                style="border-left: 8px solid {{ $sessionColor }};">
                                                 <div class="bg-light rounded-circle" style="width: 32px; height: 32px;"></div>
                                                 <span class="fw-semibold">{{ $assignedTeacher->name }}</span>
                                             </div>
@@ -104,7 +104,7 @@
                         draggable="true"
                         data-teacher-id="{{ $teacher->id }}"
                         data-sessions='@json($sessionData ?? [])'
-                        style="border-left: 5px solid {{ $color }};">
+                        style="border-left: 8px solid {{ $color }};">
                         <div class="bg-light rounded-circle" style="width: 32px; height: 32px;"></div>
                         <span class="fw-semibold">{{ $teacher->name }}</span>
                     </div>
