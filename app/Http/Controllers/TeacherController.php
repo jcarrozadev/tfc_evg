@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Carbon\Carbon;
 use App\Http\Controllers\TeacherValidatorController;
+use App\Models\BookguardUser;
 use App\Models\Guard;
 use App\Models\Session;
 use Illuminate\Support\Facades\Hash;
@@ -121,6 +122,13 @@ class TeacherController extends Controller
         return view('user.personalGuard')->with('guards', $guards);
     }
 
+    public function personalSchedule(): View {
+        $user = User::getDataSettingTeacherById(auth()->user()->id);
+        $sessions = Session::getAllSessions();
+        $bookguard = BookguardUser::getBookguardUserById(auth()->user()->id);
+
+        return view('user.schedule')->with('user', $user)->with('bookguard', $bookguard)->with('sessions', $sessions);
+    }
 
     public function uploadAvatar(): RedirectResponse {
 

@@ -56,10 +56,12 @@
     
             <div class="row mt-5 row-cols-2 row-cols-md-5 g-4">
                 <div class="col">
-                    <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
-                        <i class="bi bi-clock"></i>
-                        <div>HORARIO</div>
-                    </div>
+                    <a href="{{ route('teacher.personalSchedule') }}" class="text-decoration-none">
+                        <div class="icon-card d-flex flex-column justify-content-center align-items-center" style="height: 25vh;">
+                            <i class="bi bi-clock"></i>
+                            <div>HORARIO</div>
+                        </div>
+                    </a>
                 </div>
                 
                 <div class="col">

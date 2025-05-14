@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BookguardUser extends Model
 {
@@ -15,4 +17,24 @@ class BookguardUser extends Model
             ->get()
             ->toArray();
     }
+
+    public function bookguard(): BelongsTo {
+        return $this->belongsTo(Bookguard::class, 'bookguard_id');
+    }
+
+    public static function getBookguardUserById($userId):array {
+        return self::query()
+            ->where('bookguard_user.user_id', $userId)
+            ->join('bookguards', 'bookguard_user.bookguard_id', '=', 'bookguards.id')
+            ->join('sessions_evg', 'bookguards.session_id', '=', 'sessions_evg.id')
+            ->select([
+                'bookguards.day',
+                'bookguards.session_id',
+                'sessions_evg.hour_start',
+                'sessions_evg.hour_end',
+            ])
+            ->get()
+            ->toArray();
+    }
+
 }

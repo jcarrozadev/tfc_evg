@@ -33,6 +33,7 @@ Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->na
     Route::get('/settings', [TeacherController::class, 'settings'])->name('settings');
     Route::post('/settings', [TeacherController::class, 'updateSettings'])->name('updateSettings');
     Route::get('/personalGuard' , [TeacherController::class, 'personalGuard'])->name('personalGuard');
+    Route::get('/personalSchedule' , [TeacherController::class, 'personalSchedule'])->name('personalSchedule');
     Route::post('/teacher/updatePassword', [TeacherController::class, 'updatePassword'])->name('updatePassword');
     Route::post('/upload-avatar', [TeacherController::class, 'uploadAvatar'])->name('uploadAvatar');
 
