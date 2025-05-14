@@ -37,7 +37,7 @@
                     </h2>
                     @if(isset($guard) && $guard)
                         <a href="{{ route('teacher.personalGuard') }}" class="text-decoration-none">
-                            <div class="guardia-box mt-3">
+                            <div class="guardia-box mt-3 icon-card">
                                 <div class="d-flex align-items-center justify-content-center h-100">
                                     <p class="text-white fw-bold fs-4 text-center">¡Tienes Guardia!</p>
                                 </div>
