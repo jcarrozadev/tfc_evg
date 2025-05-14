@@ -14,8 +14,7 @@ $(document).ready(function() {
         $('#datepicker').datepicker('show');
     });
 
-
-    const justificanteInput = document.getElementById('justificante');
+    const justificanteInput = document.getElementById('justify');
     const filenameLabel = document.getElementById('filename-label');
 
     justificanteInput.addEventListener('change', function () {
