@@ -78,7 +78,9 @@
                                                 draggable="true"
                                                 data-teacher-id="{{ $assignedTeacher->id }}"
                                                 style="border-left: 8px solid {{ $sessionColor }};">
-                                                <div class="bg-light rounded-circle" style="width: 32px; height: 32px;"></div>
+                                                <img src="{{ $assignedTeacher->image_profile ? asset('storage/' . $assignedTeacher->image_profile) : asset('img/default.png') }}"
+                                                    class="rounded-circle bg-light"
+                                                    style="width: 32px; height: 32px; object-fit: cover;">
                                                 <span class="fw-semibold">{{ $assignedTeacher->name }}</span>
                                             </div>
                                         @else
@@ -106,7 +108,7 @@
                         data-sessions='@json($sessionData ?? [])'
                         style="border-left: 8px solid {{ $color }};">
                         
-                        <img src="{{ $teacher->image_profile !== 'default.png' ? asset('storage/' . $teacher->image_profile) : asset('img/default.png') }}"
+                        <img src="{{ $teacher->image_profile ? asset('storage/' . $teacher->image_profile) : asset('img/default.png') }}"
                             class="rounded-circle bg-light"
                             style="width: 32px; height: 32px; object-fit: cover;">
                             
