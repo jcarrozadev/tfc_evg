@@ -7,13 +7,14 @@ $(document).ready(function() {
         clearBtn: true,
         orientation: "bottom auto",
         container: '#datepicker-container',
+        startDate: new Date() 
     });
 
     $('#datepicker-container .input-group-text').on('click', function() {
         $('#datepicker').datepicker('show');
     });
 
-    const justificanteInput = document.getElementById('justificante');
+    const justificanteInput = document.getElementById('justify');
     const filenameLabel = document.getElementById('filename-label');
 
     justificanteInput.addEventListener('change', function () {

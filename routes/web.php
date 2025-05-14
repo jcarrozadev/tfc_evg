@@ -10,6 +10,7 @@ use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PasswordController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -25,6 +26,8 @@ Route::post('/login', [CustomLoginController::class, 'login'])->middleware('gues
 Route::post('/logout', [CustomLoginController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest')->name('custom.register');
+Route::post('/password/update', [PasswordController::class, 'update'])->name('password.update');
+
 
 
 /* ROUTES TEACHERS */

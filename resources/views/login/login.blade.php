@@ -8,12 +8,18 @@
 
 @section('content')
     @if ($errors->any())
-    <div class="alert alert-danger">
-        @foreach ($errors->all() as $error)
-        {{ $error }}
-        @endforeach
-    </div>
+        <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+            {{ $error }}
+            @endforeach
+        </div>
     @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <div class="container" id="container">
         <div class="form-container sign-up">
             <form method="POST" action="{{ route('custom.register') }}" autocomplete="off">
