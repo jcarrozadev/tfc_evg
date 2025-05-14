@@ -2,18 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Bookguard extends Model
 {
     protected $table = 'bookguards';
     protected $fillable = ['day', 'session_id'];
 
-    public function users() {
+    public function users(): BelongsToMany {
         return $this->belongsToMany(User::class, 'bookguard_user');
     }
 
-    public static function getAllBookguards() {
+    public static function getAllBookguards(): Collection {
         return self::select('id', 'day', 'session_id')
             ->orderBy('id')
             ->get();
