@@ -132,16 +132,23 @@ class TeacherController extends Controller
 
     public function uploadAvatar(): RedirectResponse {
         $request = request();
+
         $user = auth()->user();
+
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
         if ($user->image_profile && $user->image_profile !== 'default.png') {
             Storage::disk('public')->delete($user->image_profile);
         }
 
         $file = $request->file('avatar');
-        $filename = 'avatar_' . $user->id . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-        $directory = 'avatars/' . $user->name;
 
+        $filename = 'avatar_' . $user->id . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+
+        $safeFolder = Str::slug($user->name);
+        $directory = 'avatars/' . $safeFolder;
         Storage::disk('public')->makeDirectory($directory);
 
         $file->storeAs($directory, $filename, 'public');
@@ -151,7 +158,6 @@ class TeacherController extends Controller
 
         return redirect()->back()->with('success', 'Imagen de perfil actualizada.');
     }
-
 
 
     public function notifyAbsence(): View {
