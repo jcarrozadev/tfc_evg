@@ -25,10 +25,15 @@ class ClassesController extends Controller {
         $request = request();
 
         $request->validate([
-            'num_class' => 'required|integer|unique:classes,num_class,NULL,id,course,' . $request->input('course'),
+            'num_class' => 'required|integer',
             'course' => 'required|string|max:255',
             'code' => 'required|string|max:10',
         ]);
+
+
+        if(Classes::existClass($request->num_class, $request->course, $request->code)){
+            return redirect()->back()->with('success', 'Clase creada correctamente.');
+        }
     
         $created = Classes::addClass($request->only(['num_class', 'course', 'code']));
     

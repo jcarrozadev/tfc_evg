@@ -39,5 +39,6 @@
     <script src="{{ asset('js/sweetAlerts/swalDelete.js') }}"></script>
     <script src="{{ asset('js/sweetAlerts/swalEdit.js') }}" ></script>
     <script src="{{ asset('js/modals/editClass.js') }}"></script>
+    <script src="{{ asset('js/class.js') }}"></script>
     @include('components.sweetAlert.swal')
 @endpush
