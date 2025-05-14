@@ -26,7 +26,7 @@ Route::post('/login', [CustomLoginController::class, 'login'])->middleware('gues
 Route::post('/logout', [CustomLoginController::class, 'logout'])->middleware('auth')->name('logout');
 
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest')->name('custom.register');
-Route::post('/password/update', [PasswordController::class, 'update'])->name('password.update');
+Route::post('/password/update', [PasswordController::class, 'update'])->name('password.update.fortify');
 
 
 
