@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
@@ -16,6 +13,7 @@ return new class extends Migration
             $table->string('name', 50);
             $table->string('email', 100)->unique();
             $table->string('password', 255)->nullable();
+            $table->string('remember_token', 100)->nullable();
             $table->string('phone', 15)->nullable();
             $table->char('dni', 9)->unique()->nullable();
             $table->string('google_id')->nullable();
@@ -38,13 +36,17 @@ return new class extends Migration
                 ->on('bookguards')
                 ->onDelete('set null');
         });
-    }
 
-    /**
-     * Reverse the migrations.
-     */
+        Schema::create('password_reset_tokens', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
+    }
+    
     public function down(): void
     {
+        Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('users');
     }
 };
