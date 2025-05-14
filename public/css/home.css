@@ -3,15 +3,6 @@ body{
     background: linear-gradient(90deg,rgba(0, 51, 102, 0.72) 0%, rgba(255, 255, 255, 1) 50%)
 }
 
-.btn-salir {
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-}
-
 .btn-guardia {
     background-color: var(--primary-color-light);
     color: #fff;
@@ -27,10 +18,26 @@ body{
     cursor: pointer;
 }
 
+.btn-salir {
+    background: #0F4C81;
+    box-shadow: inset 26px -26px 52px #0b3a62,
+                inset -26px 26px 52px #135ea0;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 15px;
+    font-weight: bold;
+    text-align: center;
+    transition: box-shadow 1.5s ease, transform 0.5s ease;
+}
+
 .btn-salir:hover {
-    background-color: var(--primary-color-dark);
+    background: #0F4C81;
+    box-shadow: 0px 0px 20px #135ea0,
+                inset -26px 26px 52px #0b396242;
     color: #fff;
     cursor: pointer;
+    transform: scale(0.9);
 }
 
 .profile-img {
