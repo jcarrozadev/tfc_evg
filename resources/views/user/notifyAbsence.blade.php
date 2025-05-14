@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <label for="justify" class="form-label fw-bold">Justificante</label>
+                        <label for="justify" class="form-label fw-bold">Justificante</label><span class="text-muted ms-2 fst-italic">(Opcional)</span> 
                         <div class="d-flex align-items-center">
                             <input type="file" name="justify" class="form-control d-none" id="justify">
                             <button type="button" class="btn btn-sm btn-outline-secondary" onclick="document.getElementById('justify').click()">
