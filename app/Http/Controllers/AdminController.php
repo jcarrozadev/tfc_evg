@@ -89,6 +89,7 @@ class AdminController extends Controller {
                     'id' => $teacher->id,
                     'name' => $teacher->name,
                     'session_id' => $sessionId,
+                    'image_profile' => $teacher->image_profile,
                 ]);
             }
         }
