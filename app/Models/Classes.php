@@ -70,5 +70,18 @@ class Classes extends Model {
             ->update(['enabled' => 0]) > 0;
     }
 
-    
+    public static function existClass($numClass, $course, $code): bool {
+        $class = self::where('num_class', $numClass)
+            ->where('course', $course)
+            ->where('code', $code)
+            ->first();
+
+        if ($class) {
+            $class->enabled = 1;
+            $class->save();
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
