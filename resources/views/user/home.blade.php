@@ -25,8 +25,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="rounded-circle overflow-hidden mx-auto profile-pic mb-3" style="width: 250px; height: 250px;">
-                        <img src="{{ $user->image_profile !== 'default.png' ? asset('storage/' . $user->image_profile) : asset('img/default.png') }}" 
-                            alt="Foto del Profesor" 
+                        <img src="{{ $user->image_profile ? asset('storage/' . $user->image_profile) : asset('img/default.png') }}" 
                             class="img-fluid h-100 w-100 object-fit-cover">
                     </div>
                     <div class="hora" id="hora">--:--</div>

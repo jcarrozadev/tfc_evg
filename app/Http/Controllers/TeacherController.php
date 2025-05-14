@@ -131,13 +131,7 @@ class TeacherController extends Controller
     }
 
     public function uploadAvatar(): RedirectResponse {
-
         $request = request();
-
-        $request->validate([
-            'avatar' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
-
         $user = auth()->user();
 
         if ($user->image_profile && $user->image_profile !== 'default.png') {
@@ -146,11 +140,13 @@ class TeacherController extends Controller
 
         $file = $request->file('avatar');
         $filename = 'avatar_' . $user->id . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-        $path = 'avatars/' . $user->name . '/' . $filename;
+        $directory = 'avatars/' . $user->name;
 
-        $file->storeAs('avatars/' . $user->name, $filename, 'public');
+        Storage::disk('public')->makeDirectory($directory);
 
-        $user->image_profile = $path;
+        $file->storeAs($directory, $filename, 'public');
+
+        $user->image_profile = $directory . '/' . $filename;
         $user->save();
 
         return redirect()->back()->with('success', 'Imagen de perfil actualizada.');
