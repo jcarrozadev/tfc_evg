@@ -99,15 +99,20 @@
                         $color = $sessionColors[$teacher->session_id] ?? '#ccc';
                         $sessionData = [['day' => $todayLetter, 'session_id' => $teacher->session_id]];
                     @endphp
-                
+            
                     <div class="draggable card p-2 bg-custom text-white shadow-sm rounded d-flex align-items-center gap-2"
                         draggable="true"
                         data-teacher-id="{{ $teacher->id }}"
                         data-sessions='@json($sessionData ?? [])'
                         style="border-left: 8px solid {{ $color }};">
-                        <div class="bg-light rounded-circle" style="width: 32px; height: 32px;"></div>
+                        
+                        <img src="{{ $teacher->image_profile !== 'default.png' ? asset('storage/' . $teacher->image_profile) : asset('img/default.png') }}"
+                            class="rounded-circle bg-light"
+                            style="width: 32px; height: 32px; object-fit: cover;">
+                            
                         <span class="fw-semibold">{{ $teacher->name }}</span>
                     </div>
+
                 @endforeach
             </div>
             <div class="col-12">
