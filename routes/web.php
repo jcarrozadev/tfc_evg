@@ -73,6 +73,9 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('class')-
 Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('bookGuard')->name('bookGuard.')->group(function () {
     Route::get('/', [BookGuardController::class, 'index'])->name('index');
 
+    Route::get('/bookguard/download-pdf', [BookGuardController::class, 'downloadPdf'])->name('downloadPdf');
+
+
     Route::post('/store', [BookGuardController::class, 'store'])->name('store');
 
     Route::delete('/reset', [AdminController::class, 'resetBookGuard'])->name('reset');
