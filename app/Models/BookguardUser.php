@@ -36,5 +36,6 @@ class BookguardUser extends Model
             ->get()
             ->toArray();
     }
+    
 
 }

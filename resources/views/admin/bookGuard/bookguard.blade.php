@@ -17,6 +17,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/bookGuard.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 @endpush
 
 @section('content')
@@ -24,7 +25,13 @@
     <div class="container-custom shadow-sm bg-container-medium p-2 rounded">
         @include('components.titles.titleWeek', ['title' => 'Libro Guardias'])
 
-        <div class="container-fluid mt-5">
+        <div class="d-flex justify-content-end">
+            <a href="{{ route('bookGuard.downloadPdf') }}" class="btn btn-danger d-flex align-items-center gap-2">
+                <i class="bi bi-file-earmark-pdf-fill"></i> Descargar
+            </a>
+        </div>
+
+        <div class="container-fluid mt-3">
             @php
                 function toFullTime($time) {
                     [$h, $m] = explode(':', $time);

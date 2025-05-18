@@ -16,6 +16,10 @@ class Bookguard extends Model
         return $this->belongsToMany(User::class, 'bookguard_user');
     }
 
+    public function session(): BelongsTo {
+        return $this->belongsTo(Session::class, 'session_id');
+    }
+
     public static function getAllBookguards(): Collection {
         return self::select('id', 'day', 'session_id')
             ->orderBy('id')
