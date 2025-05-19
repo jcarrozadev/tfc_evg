@@ -119,6 +119,7 @@
             </div>
             <div class="col-12">
                 <button id="saveAssignmentsBtn" class="btn btn-primary mt-3 w-100">Guardar cambios</button>
+                <button id="sendEmailsBtn" class="btn btn-success mt-3 w-100">Enviar correos</button>
             </div>
         </div>
     </div>

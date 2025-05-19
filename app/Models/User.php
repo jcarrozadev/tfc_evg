@@ -167,4 +167,9 @@ class User extends Authenticatable
         return $updated > 0;
     }
 
+    // public static function getEmailsForTeachers($teacherIds): array {
+    //     return self::whereIn('id', $teacherIds)->pluck('email')->toArray();
+    // }
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NotificationCustom;
 use App\Models\Absence;
 use App\Models\Bookguard;
 use App\Models\BookguardUser;
@@ -11,9 +12,8 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller {
     public static function index(): View{
@@ -124,7 +124,7 @@ class AdminController extends Controller {
                 foreach ($hours as $pair) {
                     $q->orWhere(function ($subQ) use ($pair) {
                         $subQ->where('hour_start', '>=', $pair['start'])
-                             ->where('hour_end', '<=', $pair['end']);
+                            ->where('hour_end', '<=', $pair['end']);
                     });
                 }
             })
@@ -220,5 +220,31 @@ class AdminController extends Controller {
     
         return response()->json(['message' => 'Guardias restablecidas correctamente.']);
     
+    }
+
+    public function sendEmails(): JsonResponse {
+        $assignments = request()->input('assignments', []);
+
+        if (empty($assignments)) {
+            return response()->json(['success' => false, 'message' => 'No hay asignaciones para enviar.']);
+        }
+
+        foreach ($assignments as $assignment) {
+            $teacher = User::find($assignment['teacher_id']);
+            $guard = Guard::findByAbsenceAndSession($assignment['absence_id'], $assignment['session_id']);
+
+            dd($guard);
+
+            if (!$guard || !$teacher) continue;
+
+            $data = [
+                'name' => $teacher->name,
+                'message' => $guard->getNotificationMessageFor($teacher),
+            ];
+
+            Mail::to($teacher->email)->queue(new NotificationCustom($data));
+        }
+
+        return response()->json(['success' => true, 'message' => 'Correos enviados a los profesores asignados.']);
     }
 }
