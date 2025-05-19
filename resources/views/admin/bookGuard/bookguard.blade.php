@@ -66,7 +66,7 @@
                             <th></th>
                             @foreach ($days as $day)
                                 <th>PROFESORES</th>
-                                <th>CURSOS</th>
+                                <th>CLASES</th>
                             @endforeach
                         </tr>
                     </thead>
