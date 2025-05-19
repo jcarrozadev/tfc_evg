@@ -1,5 +1,5 @@
 <header class="header-evg d-flex align-items-center">
-    <img src="{{ asset('img/logo.png') }}" alt="Logo" class="img-fluid me-3" style="max-width: 120px;">
+    <img src="{{ asset('img/logo.png') }}" alt="Logo" class="img-fluid me-3" style="max-width: 100px;">
 </header>
 
 <nav class="navbar navbar-expand-lg navbar-evg mb-4">

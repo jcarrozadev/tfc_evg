@@ -1,9 +1,13 @@
 table.table {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
 
 table.table select {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+}
+
+.container, .container-fluid {
+    padding: 0px !important;
 }
 
 td select[name*="[clase]"] {

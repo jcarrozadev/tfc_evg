@@ -47,7 +47,7 @@
                 <td>
                     @if (in_array('edit', $actions) && $editModal)
                         <button 
-                            class="btn btn-sm button-edit button"
+                            class="btn btn-sm button-edit button" style="height: 30px"
                             data-bs-toggle="modal"
                             data-bs-target="#{{ $editModal }}Modal"
                             onclick="fillEditModal({{ $row }})"
@@ -62,7 +62,7 @@
 
                     @if (in_array('delete', $actions))
                     <button 
-                        class="btn btn-sm btn-danger button" 
+                        class="btn btn-sm btn-danger button" style="height: 30px"
                         onclick="deleteItem('{{ route($route . '.destroy', $row->id) }}', '{{ $labelButton }}')">
                         <i class="fas fa-trash"></i>
                     </button>
