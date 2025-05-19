@@ -7,10 +7,10 @@
     <div class="container-custom shadow-sm bg-container-medium p-2 rounded">
         @include('components.titles.title', ['title' => 'Clases'])
 
-        <div class="row mt-3 mb-3 ms-3 justify-content-end button-add">
+        <div class="row mt-3 mb-3 ms-3 d-flex justify-content-end">
             <div class="col-auto">
-                <button class="btn btn-success button text-center" data-bs-toggle="modal" data-bs-target="#createClassModal">
-                    <i class="fas fa-user-plus"></i>
+                <button class="btn btn-success button text-center align-middle d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#createTeacherModal">
+                    <i class="fas fa-plus fs-6"></i>
                 </button>
             </div>
         </div>

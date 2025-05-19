@@ -14,6 +14,7 @@ body {
     font-family: var(--font-family);
     margin: 0;
     background-color: #f0f0f0;
+    font-size: 0.9rem;
 }
 
 label > span {
@@ -85,16 +86,17 @@ label > span {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.281);
 }
 
+.btn {
+    font-size: 0.8rem !important;
+}
+
 .button {
     width:70px;
+    height: 30px;
 }
 
 .button i {
     font-size: 0.9rem;
-}
-
-.button-add {
-    margin-right: 1%;
 }
 
 .button-edit {
@@ -137,7 +139,7 @@ table.datatable {
     background-color: var(--container-color);
     width: 100%;
     font-family: var(--font-family);
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     border-spacing: 0;

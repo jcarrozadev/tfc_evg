@@ -7,7 +7,7 @@
 
     <div class="container-md p-4 rounded shadow-sm bg-light" style="max-width: 90%;">
         <div class="text-center mb-4">
-            <h1 class="fw-bold">
+            <h1 class="fw-bold fs-3">
                 ¡Te damos la bienvenida, {{ Auth::check() ? Auth::user()->name : '' }}!
             </h1>
         </div>
