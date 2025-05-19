@@ -203,6 +203,8 @@ class TeacherController extends Controller
     
 
     public function consultAbsence(): View {
-        return view('user.consultAbsence');
+        $user = User::getDataSettingTeacherById(auth()->user()->id);
+        $absences = Absence::getAbsencesTodayWithDetailsById(auth()->user()->id);
+        return view('user.consultAbsence')->with('user', $user)->with('absences', $absences);
     }
 }
