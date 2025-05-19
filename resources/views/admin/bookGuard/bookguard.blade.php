@@ -26,8 +26,8 @@
         @include('components.titles.titleWeek', ['title' => 'Libro Guardias'])
 
         <div class="d-flex justify-content-end">
-            <a href="{{ route('bookGuard.downloadPdf') }}" class="btn btn-danger d-flex align-items-center gap-2">
-                <i class="bi bi-file-earmark-pdf-fill"></i> Descargar
+            <a href="{{ route('bookGuard.downloadPdf') }}" class="btn btn-danger button text-center align-middle d-flex align-items-center justify-content-center" style="height: 30px;">
+                <i class="bi bi-file-earmark-pdf-fill fs-6"></i>
             </a>
         </div>
 
@@ -54,7 +54,7 @@
             @endphp
             <form method="POST" action="{{ route('bookGuard.store') }}" id="form-guardias">
                 @csrf
-                <table class="table table-bordered text-center align-middle">
+                <table class="table table-bordered text-center align-middle w-100">
                     <thead>
                         <tr>
                             <th></th>
