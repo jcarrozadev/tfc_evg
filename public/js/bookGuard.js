@@ -76,53 +76,81 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('reset').addEventListener('click', function (e) {
         e.preventDefault();
+
         swal({
-            title: "¿Restablecer guardias?",
-            text: "¿Estás seguro de que deseas restablecer todas las guardias?",
+            title: "¿Restablecer libro de guardias?",
+            text: "¿Estás seguro de que deseas restablecer las guardias?",
             icon: "warning",
             buttons: {
                 cancel: "Cancelar",
-                confirm: {
-                    text: "Sí, resetear",
-                    value: true,
+                completo: {
+                    text: "Sí, completo",
+                    value: "completo",
+                    closeModal: true
+                },
+                clases: {
+                    text: "Sí, clases",
+                    value: "clases",
                     closeModal: true
                 }
             }
-        }).then((confirmado) => {
-            console.log(routeReset);
-            if (confirmado) {
-                fetch(routeReset, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                    },
-                    body: JSON.stringify({ _method: 'DELETE' })
-                })                
-                .then(response => {
-                    if (!response.ok) throw new Error('Error al restablecer guardias');
-                    return response.json();
-                })
-                .then(data => {
-                    const selects = document.querySelectorAll('select');
+        }).then((option) => {
+            if (!option) return;
+
+            let route = '';
+            let bodyData = { _method: 'DELETE' };
+
+            if (option === 'completo') {
+                route = routeReset; 
+            } else if (option === 'clases') {
+                route = routeResetClases;
+            }
+
+            console.log('Restableciendo guardias:', route);
+
+            fetch(route, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify(bodyData)
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Error al restablecer guardias');
+                return response.json();
+            })
+            .then(data => {
+                const selects = document.querySelectorAll('select');
+
+                if (route === routeReset) {
                     selects.forEach(select => {
                         select.value = '-';
                         select.classList.remove('is-invalid', 'is-warning');
                     });
-            
-                    swal({
-                        title: "Guardias restablecidas",
-                        text: data.message,
-                        icon: "success",
-                        timer: 2000,
-                        buttons: false
+                }
+                if (route === routeResetClases) {
+                    selects.forEach(select => {
+                        if (select.name.includes('[class_id]')) {
+                            select.value = '-';
+                            select.classList.remove('is-invalid', 'is-warning');
+                        }
                     });
-                })
-                .catch(error => {
-                    swal("Error", error.message, "error");
+                }
+
+                swal({
+                    title: "Guardias restablecidas",
+                    text: data.message,
+                    icon: "success",
+                    timer: 2000,
+                    buttons: false
                 });
-            }
+            })
+            .catch(error => {
+                swal("Error", error.message, "error");
+            });
         });
     });
+
 });
