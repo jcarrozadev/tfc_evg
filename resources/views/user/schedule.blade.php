@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="container py-5">
-        <h1 class="text-center mb-4 fw-bold fs-2 pt-5 text-white">Horario de {{ $user->name }} - {{ \Carbon\Carbon::now()->format('d/m/Y') }}</h1>
+        <h1 class="text-center mb-4 fw-bold fs-2">Horario | {{ $user->name }} - {{ \Carbon\Carbon::now()->format('d/m/Y') }}</h1>
 
         @if(count($bookguard) === 0)
             <div class="alert alert-info text-center">
