@@ -13,7 +13,7 @@ return new class extends Migration
             $table->date('date');
             $table->string('text_guard', 150)->nullable();
             $table->time('hour');
-            $table->unsignedInteger('class_id')->nullable();
+            // $table->unsignedInteger('class_id')->nullable();
             $table->unsignedInteger('user_sender_id');
             $table->unsignedInteger('absence_id');
             $table->timestamp('created_at')->useCurrent();
@@ -31,11 +31,11 @@ return new class extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
 
-            $table->foreign('class_id')
-            ->references('id')
-            ->on('classes')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
+            // $table->foreign('class_id')
+            // ->references('id')
+            // ->on('classes')
+            // ->onDelete('cascade')
+            // ->onUpdate('cascade');
         });
     }
 
