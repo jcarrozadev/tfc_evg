@@ -9,7 +9,7 @@
 
         <div class="row mt-3 mb-3 ms-3 d-flex justify-content-end">
             <div class="col-auto">
-                <button class="btn btn-success button text-center align-middle d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#createTeacherModal">
+                <button class="btn btn-success button text-center align-middle d-flex align-items-center justify-content-center" data-bs-toggle="modal" data-bs-target="#createClassModal">
                     <i class="fas fa-plus fs-6"></i>
                 </button>
             </div>
