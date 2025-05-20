@@ -53,7 +53,7 @@
                                             <textarea 
                                                 name="taskInfo" 
                                                 id="taskInfo" 
-                                                class="form-control" 
+                                                class="form-control m-2" 
                                                 rows="2" 
                                                 readonly 
                                                 style="resize: none; background-color: #f8f9fa; color: #495057;"

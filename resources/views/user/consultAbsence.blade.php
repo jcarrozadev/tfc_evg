@@ -7,8 +7,11 @@
 @endpush
 
 @section('content')
-    <div class="container py-4">
-        <h1 class="text-center mb-4 fw-bold fs-2">Ausencias generadas | {{ $user->name }} - {{ \Carbon\Carbon::now()->format('d/m/Y') }}</h1>
+    <div class="container py-5">
+        <h1 class="text-center mb-5 fw-bold fs-2">
+            <i class="fa-solid fa-calendar-xmark me-2"></i>
+            Ausencias generadas | {{ $user->name }} - {{ \Carbon\Carbon::now()->format('d/m/Y') }}
+        </h1>
 
         <div id="absence-list">
             @forelse ($absences as $absence)
@@ -23,48 +26,66 @@
                     </div>
                     <div class="absence-card__body p-4">
                         <div class="row gy-3">
-                            <div class="col-md-6">
-                                <h6 class="fw-bold mb-1">
-                                    <i class="fa-regular fa-clock me-1"></i>Sesión
-                                </h6>
-                                <p class="mb-0 text-muted">
-                                    @if($absence->hour_start && $absence->hour_end)
-                                        {{ $absence->hour_start }} - {{ $absence->hour_end }}
-                                    @else
-                                        Todo el día
-                                    @endif
-                                </p>
-                            </div>
-                            <div class="col-md-6">
-                                <h6 class="fw-bold mb-1">
-                                    <i class="fa-solid fa-tag me-1"></i>Tipo de ausencia
-                                </h6>
+                            <div class="col-md-6 d-flex flex-column gap-3">
+                                <div>
+                                    <h6 class="fw-bold mb-1">
+                                        <i class="fa-regular fa-clock me-1"></i>Sesión
+                                    </h6>
+                                    <p class="mb-0 text-muted">
+                                        @if($absence->hour_start && $absence->hour_end)
+                                            {{ $absence->hour_start }} - {{ $absence->hour_end }}
+                                        @else
+                                            Todo el día
+                                        @endif
+                                    </p>
+                                </div>
 
-                                <p class="mb-0">
-                                    <span class="text-muted">{{ $absence->reason_name }}</span>
-
-                                    @if($absence->justify)
-                                        <a  href="{{ Storage::url($absence->justify) }}"
-                                            class="badge bg-success ms-2 text-decoration-none"
-                                            target="_blank">
-                                            <i class="fa-solid fa-paperclip me-1"></i>Justificante
-                                        </a>
+                                <div>
+                                    <h6 class="fw-bold mb-1">
+                                        <i class="fa-solid fa-circle-info me-1"></i>Razón
+                                    </h6>
+                                    @if ($absence->reason_description)
+                                        <p class="mb-0 text-muted">{{ $absence->reason_description }}</p>
                                     @else
-                                        <span class="badge bg-secondary ms-2">
-                                            <i class="fa-regular fa-circle-xmark me-1"></i>Sin justificante
-                                        </span>
+                                        <p class="mb-0 text-muted">No se ha proporcionado una descripción.</p>
                                     @endif
-                                </p>
+                                </div>
                             </div>
-                            <div class="col-12">
-                                <h6 class="fw-bold mb-1">
-                                    <i class="fa-solid fa-circle-info me-1"></i>Razón
-                                </h6>
-                                @if ($absence->reason_description)
-                                    <p class="mb-0 text-muted">{{ $absence->reason_description }}</p>
-                                @else
-                                    <p class="mb-0 text-muted">No se ha proporcionado una descripción.</p>
-                                @endif
+
+                            <div class="col-md-6 d-flex flex-column gap-3">
+                                <div>
+                                    <h6 class="fw-bold mb-1">
+                                        <i class="fa-solid fa-tag me-1"></i>Tipo de ausencia
+                                    </h6>
+                                    <p class="mb-0">
+                                        <span class="text-muted">{{ $absence->reason_name }}</span>
+
+                                        @if($absence->justify)
+                                            <a  href="{{ Storage::url($absence->justify) }}"
+                                                class="badge bg-success ms-2 text-decoration-none"
+                                                target="_blank">
+                                                <i class="fa-solid fa-paperclip me-1"></i>Justificante
+                                            </a>
+                                        @else
+                                            <span class="badge bg-secondary ms-2">
+                                                <i class="fa-regular fa-circle-xmark me-1"></i>Sin justificante
+                                            </span>
+                                        @endif
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h6 class="fw-bold mb-1">
+                                        <i class="fa-solid fa-shield-check me-1"></i>Estado de la guardia
+                                    </h6>
+                                    <p class="mb-0">
+                                        @if($absence->guards_count > 0)
+                                            <span class="badge bg-success"><i class="fa-solid fa-check me-1"></i>Cubierta</span>
+                                        @else
+                                            <span class="badge bg-danger"><i class="fa-solid fa-xmark me-1"></i>Sin cubrir</span>
+                                        @endif
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
@@ -77,7 +98,7 @@
                                 <span class="ms-1 small text-card-absence">(clic para editar)</span>
                             </h6>
                             <p class="form-control-plaintext absence-info description-field text-muted"
-                            data-update-url="{{ route('teacher.absences.updateInfo', $absence->id) }}">
+                               data-update-url="{{ route('teacher.absences.updateInfo', $absence->id) }}">
                                 {{ $absence->info }}
                             </p>
                         </div>
@@ -89,6 +110,7 @@
                 </div>
             @endforelse
         </div>
+
         <div class="d-flex justify-content-between pt-3 border-top">
             <a href="{{ url()->previous() }}" class="btn btn-outline-secondary px-4">
                 <i class="fas fa-arrow-left me-2"></i> Volver
@@ -98,12 +120,12 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js\teacher\consultAbsence.js') }}"></script>
+    <script src="{{ asset('js/teacher/consultAbsence.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/modular/sortable.core.esm.min.js" type="module"></script>
     <script type="module">
         import Sortable from 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/+esm';
 
-        const sortable = new Sortable(document.getElementById('absence-list'), {
+        new Sortable(document.getElementById('absence-list'), {
             animation: 150,
             handle: '.absence-card',
             ghostClass: 'opacity-80'
