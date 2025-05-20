@@ -173,7 +173,7 @@ class TeacherController extends Controller
             'date' => Carbon::createFromFormat('d/m/Y', $request->input('date'))->format('Y-m-d'),
             'reason_id' => $request->input('typeAbsence'),
             'reason_description' => $request->input('description'),
-            'info_task' => $request->input('description'),
+            'info_task' => 'No hay información de tarea asignada',
             'user_id' => auth()->user()->id,
             'status' => 0,
         ];
@@ -206,5 +206,20 @@ class TeacherController extends Controller
         $user = User::getDataSettingTeacherById(auth()->user()->id);
         $absences = Absence::getAbsencesTodayWithDetailsById(auth()->user()->id);
         return view('user.consultAbsence')->with('user', $user)->with('absences', $absences);
+    }
+
+    public function updateInfo(Absence $absence): JsonResponse {
+        $request = request();
+
+        $request->validate([
+            'info' => 'required|string|max:255',
+        ]);
+
+        $absence->update(['info_task' => $request->info]);
+
+        return response()->json([
+            'message' => 'Descripción actualizada',
+            'info'    => $absence->info_task, 
+        ]);
     }
 }
