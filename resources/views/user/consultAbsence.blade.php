@@ -60,7 +60,11 @@
                                 <h6 class="fw-bold mb-1">
                                     <i class="fa-solid fa-circle-info me-1"></i>Razón
                                 </h6>
-                                <p class="mb-0 text-muted">{{ $absence->reason_description }}</p>
+                                @if ($absence->reason_description)
+                                    <p class="mb-0 text-muted">{{ $absence->reason_description }}</p>
+                                @else
+                                    <p class="mb-0 text-muted">No se ha proporcionado una descripción.</p>
+                                @endif
                             </div>
                         </div>
 
@@ -72,7 +76,7 @@
                                 Información - Profesor sustituto
                                 <span class="ms-1 small text-card-absence">(clic para editar)</span>
                             </h6>
-                            <p class="form-control-plaintext absence-info description-field"
+                            <p class="form-control-plaintext absence-info description-field text-muted"
                             data-update-url="{{ route('teacher.absences.updateInfo', $absence->id) }}">
                                 {{ $absence->info }}
                             </p>
