@@ -28,6 +28,7 @@
                     <ul>
                         <li>Si un profesor está repetido dos veces con distintos colores, puede cubrir dos sesiones el mismo día.</li>
                         <li>Si un profesor que está en el libro de guardias para este día, está ausente, no aparece.</li>
+                        <li>Cuando estes seguro de tener bien asignadas las guardias puedes enviar los correos.</li>
                     </ul>
                 </div>
             </div>
@@ -118,8 +119,12 @@
                 @endforeach
             </div>
             <div class="col-12">
-                <button id="saveAssignmentsBtn" class="btn btn-primary mt-3 w-100">Guardar cambios</button>
-                <button id="sendEmailsBtn" class="btn btn-success mt-3 w-100">Enviar correos</button>
+                <button id="saveAssignmentsBtn" class="btn btn-primary mt-3 w-100">
+                    <i class="fa fa-save me-2"></i> Guardar cambios
+                </button>
+                <button id="sendEmailsBtn" class="btn btn-success mt-3 w-100">
+                    <i class="fa fa-envelope me-2"></i> Enviar correos
+                </button>
             </div>
         </div>
     </div>

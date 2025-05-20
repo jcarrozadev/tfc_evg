@@ -10,18 +10,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class NotificationCustom extends Mailable implements ShouldQueue {
     use Queueable, SerializesModels;
 
-    public $datos;
+    public $data;
 
-    public function __construct($datos) {
-        $this->datos = $datos;
+    public function __construct($data) {
+        $this->data = $data;
     }
 
-    public function build() {
-        return $this->view('emails.notificacion')
-                    ->subject('Tu asunto personalizado')
+    public function build(): NotificationCustom {
+        return $this->view('emails.notificationGuard')
+                    ->subject('Gestion de guardia')
                     ->with([
-                        'nombre' => $this->datos['nombre'],
-                        'mensaje' => $this->datos['mensaje'],
+                        'name' => $this->data['name'],
+                        'body' => $this->data['body'],
                     ]);
     }
 }

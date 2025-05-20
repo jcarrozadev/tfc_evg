@@ -8,6 +8,7 @@ use App\Models\Bookguard;
 use App\Models\BookguardUser;
 use App\Models\Classes;
 use App\Models\Guard;
+use App\Models\Session;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -230,19 +231,18 @@ class AdminController extends Controller {
         }
 
         foreach ($assignments as $assignment) {
-            $teacher = User::find($assignment['teacher_id']);
-            $guard = Guard::findByAbsenceAndSession($assignment['absence_id'], $assignment['session_id']);
+            $guardTeacher = User::getTeacherByIdForGuard($assignment['teacher_id']);
 
-            dd($guard);
-
-            if (!$guard || !$teacher) continue;
-
+            $absenceTeacher = User::getTeacherByIdForGuard($assignment['absence_id']);
+            
+            $session = Session::getSessionById($assignment['session_id']);
+            
             $data = [
-                'name' => $teacher->name,
-                'message' => $guard->getNotificationMessageFor($teacher),
+                'name' => $guardTeacher->name,
+                'body' => 'Hola ' . $guardTeacher->name . ', estás cubriendo la guardia de ' . $absenceTeacher->name . ' el día ' . now()->translatedFormat('j \d\e F \d\e Y') . ' de ' . $session->hour_start . ' a ' . $session->hour_end,
             ];
 
-            Mail::to($teacher->email)->queue(new NotificationCustom($data));
+            Mail::to($guardTeacher->email)->queue(new NotificationCustom($data));
         }
 
         return response()->json(['success' => true, 'message' => 'Correos enviados a los profesores asignados.']);
