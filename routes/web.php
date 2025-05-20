@@ -79,5 +79,7 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('bookGuar
 
     Route::post('/store', [BookGuardController::class, 'store'])->name('store');
 
-    Route::delete('/reset', [AdminController::class, 'resetBookGuard'])->name('reset');
+    Route::delete('/bookguards/reset/complete', [AdminController::class, 'resetBookGuard'])->name('reset.complete');
+    Route::delete('/bookguards/reset/classes', [AdminController::class, 'resetBookGuardClasses'])->name('reset.classes');
+
 });

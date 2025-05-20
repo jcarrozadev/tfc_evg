@@ -16,7 +16,7 @@
     $friday->modify('+4 days');
     $friday_formatted = $friday->format('d/m/Y');
 
-    $weekly_date_range = "$monday_formatted - $friday_formatted";
+    $weekly_date_range = "$monday_formatted | $friday_formatted";
 ?>
 
 <div class="text-white p-3 mb-3 bg-custom rounded d-flex align-items-center">

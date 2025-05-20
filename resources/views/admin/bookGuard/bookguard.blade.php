@@ -66,7 +66,7 @@
                             <th></th>
                             @foreach ($days as $day)
                                 <th>PROFESORES</th>
-                                <th>CURSOS</th>
+                                <th>CLASES</th>
                             @endforeach
                         </tr>
                     </thead>
@@ -129,7 +129,8 @@
 @push('scripts')
     @include('sweetAlerts.swal1')
     <script>
-        const routeReset = "{{ route('bookGuard.reset') }}";
+        const routeReset = "{{ route('bookGuard.reset.complete') }}";
+        const routeResetClases = "{{ route('bookGuard.reset.classes') }}";
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{{ asset('js/bookGuard.js') }}"></script>

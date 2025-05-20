@@ -215,7 +215,7 @@ class AdminController extends Controller {
     }
     
 
-    public function resetBookGuard() {
+    public function resetBookGuard():JsonResponse {
         BookguardUser::query()->delete();
         Bookguard::query()->delete();  
     
@@ -246,5 +246,12 @@ class AdminController extends Controller {
         }
 
         return response()->json(['success' => true, 'message' => 'Correos enviados a los profesores asignados.']);
+    }
+
+    public function resetBookGuardClasses():JsonResponse {
+        BookguardUser::query()->update(['class_id' => null]);
+    
+        return response()->json(['message' => 'Guardias restablecidas correctamente.']);
+    
     }
 }
