@@ -79,7 +79,7 @@ class Absence extends Model
 
         foreach ($absences as $absence) {
             if (!$absence->hour_start || !$absence->hour_end) {
-                $absence->sessions = $sessions->map(function ($session) { // Ausencia todo el día → todas las sesiones
+                $absence->sessions = $sessions->map(function ($session) { // Ausencia todo el día / todas las sesiones
                     return [
                         'id' => $session->id,
                         'hour_start' => $session->hour_start,
@@ -116,7 +116,6 @@ class Absence extends Model
             })->values();
         }
     }
-    
 
     public static function getAbsenceById($id): ?Absence {
         return self::where('id', $id)->first();
@@ -124,12 +123,18 @@ class Absence extends Model
 
     public static function getAbsencesTodayWithDetailsById($id): Collection {
         $absence = new self();
-    
+
         $absences = $absence::join('users', 'absences.user_id', '=', 'users.id')
             ->join('reasons', 'absences.reason_id', '=', 'reasons.id')
+            ->leftJoin('guards', 'guards.absence_id', '=', 'absences.id') 
             ->whereDate('absences.date', now()->toDateString())
             ->where('absences.status', 0)
             ->where('absences.user_id', $id)
+            ->groupBy(
+                'absences.id', 'users.name', 'absences.hour_start', 'absences.hour_end',
+                'absences.created_at', 'reasons.name', 'absences.reason_description',
+                'absences.info_task', 'absences.justify'
+            )
             ->select(
                 'absences.id',
                 'users.name as user_name',
@@ -139,22 +144,24 @@ class Absence extends Model
                 'reasons.name as reason_name',
                 'absences.reason_description as reason_description',
                 'absences.info_task as info',
-                'absences.justify as justify'
+                'absences.justify as justify',
+                DB::raw('COUNT(guards.id) as guards_count') 
             )
             ->orderBy('absences.hour_start')
             ->orderBy('absences.updated_at')
             ->get();
-    
+
         $sessions = DB::table('sessions_evg')->get();
-    
+
         foreach ($absences as $absence) {
             $absence->session_ids = $sessions->filter(function ($session) use ($absence) {
                 return $session->hour_start < $absence->hour_end &&
-                       $session->hour_end > $absence->hour_start;
+                    $session->hour_end > $absence->hour_start;
             })->pluck('id')->toArray();
         }
-    
+
         return $absences;
     }
+
 
 }

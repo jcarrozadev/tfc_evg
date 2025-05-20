@@ -2,3 +2,14 @@ body{
     background: #003366;
     background: linear-gradient(90deg,rgba(255, 255, 255, 1) 0%, rgba(0, 51, 102, 0.72) 50%);
 }
+
+.card:hover {
+    transform: scale(1.02);
+    transition: transform 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    cursor:default;
+}	
+
+.text-card {
+    color: var(--primary-color);
+}

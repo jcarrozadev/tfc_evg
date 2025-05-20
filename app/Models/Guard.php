@@ -53,12 +53,15 @@ class Guard extends Model
             ->leftJoin('users as covering_teachers', 'guards.user_sender_id', '=', 'covering_teachers.id')
             ->select(
                 'guards.*',
-                'absent_teachers.name as absent_teacher_name',
-                'covering_teachers.name as covering_teacher_name'
+                'absent_teachers.name          as absent_teacher_name',
+                'absent_teachers.image_profile as absent_teacher_image',
+                'covering_teachers.name          as covering_teacher_name',
+                'covering_teachers.image_profile as covering_teacher_image'
             )
             ->get()
             ->toArray();
-    }    
+    }
+ 
 
     public static function assignToAbsence($absence, $session, $teacherId): self {
         $guard = new self();
@@ -79,12 +82,16 @@ class Guard extends Model
             ->leftJoin('users as covering_teachers', 'guards.user_sender_id', '=', 'covering_teachers.id')
             ->select(
                 'guards.*',
-                'absent_teachers.name as absent_teacher_name',
-                'covering_teachers.name as covering_teacher_name'
+                'absent_teachers.name          as absent_teacher_name',
+                'absent_teachers.image_profile as absent_teacher_image',
+                'covering_teachers.name          as covering_teacher_name',
+                'covering_teachers.image_profile as covering_teacher_image',
+                'absences.info_task as info'
             )
             ->get()
             ->toArray();
     }
+
 
     public static function getGuardByAbsenceId($absenceId): ?Guard {
         dd(self::where('absence_id', $absenceId)->first());
