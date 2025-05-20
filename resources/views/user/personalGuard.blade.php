@@ -49,8 +49,15 @@
                                     <p class="mb-1">
                                         <i class="fas fa-info-circle me-2 text-card"></i>
                                         <strong>Observaciones:</strong>
-                                        @if(trim($textGuard) !== '')
-                                            {{ $textGuard }}
+                                        @if(trim($guard['info']) !== '')
+                                            <textarea 
+                                                name="taskInfo" 
+                                                id="taskInfo" 
+                                                class="form-control" 
+                                                rows="2" 
+                                                readonly 
+                                                style="resize: none; background-color: #f8f9fa; color: #495057;"
+                                            >{{ $guard['info'] }}</textarea>
                                         @else
                                             <span class="text-muted">No hay observaciones para esta guardia.</span>
                                         @endif

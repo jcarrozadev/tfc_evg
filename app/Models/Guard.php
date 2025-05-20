@@ -85,7 +85,8 @@ class Guard extends Model
                 'absent_teachers.name          as absent_teacher_name',
                 'absent_teachers.image_profile as absent_teacher_image',
                 'covering_teachers.name          as covering_teacher_name',
-                'covering_teachers.image_profile as covering_teacher_image'
+                'covering_teachers.image_profile as covering_teacher_image',
+                'absences.info_task as info'
             )
             ->get()
             ->toArray();
