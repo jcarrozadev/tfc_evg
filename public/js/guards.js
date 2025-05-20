@@ -231,6 +231,35 @@ document.addEventListener('DOMContentLoaded', function () {
             }).then(willSave => { if (willSave) confirmSave(); });
         }
     });
+
+    document.getElementById('sendEmailsBtn').addEventListener('click', function () {
+        if (pendingAssignments.length === 0) {
+            return swal("Nada que enviar", "No hay asignaciones de guardias para enviar correos.", "info");
+        }
+
+        fetch('/admin/guards/send-emails', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                assignments: pendingAssignments
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                swal("Éxito", data.message || "Correos enviados correctamente.", "success");
+            } else {
+                swal("Error", data.message || "No se pudieron enviar los correos.", "error");
+            }
+        })
+        .catch(() => {
+            swal("Error", "Hubo un problema con la petición.", "error");
+        });
+    });
+
     
 
     function resetDropzoneText(dropzone) {

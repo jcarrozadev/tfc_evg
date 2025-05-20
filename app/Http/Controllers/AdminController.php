@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NotificationCustom;
 use App\Models\Absence;
 use App\Models\Bookguard;
 use App\Models\BookguardUser;
 use App\Models\Classes;
 use App\Models\Guard;
+use App\Models\Session;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller {
     public static function index(): View{
@@ -124,7 +125,7 @@ class AdminController extends Controller {
                 foreach ($hours as $pair) {
                     $q->orWhere(function ($subQ) use ($pair) {
                         $subQ->where('hour_start', '>=', $pair['start'])
-                             ->where('hour_end', '<=', $pair['end']);
+                            ->where('hour_end', '<=', $pair['end']);
                     });
                 }
             })
@@ -220,6 +221,31 @@ class AdminController extends Controller {
     
         return response()->json(['message' => 'Guardias restablecidas correctamente.']);
     
+    }
+
+    public function sendEmails(): JsonResponse {
+        $assignments = request()->input('assignments', []);
+
+        if (empty($assignments)) {
+            return response()->json(['success' => false, 'message' => 'No hay asignaciones para enviar.']);
+        }
+
+        foreach ($assignments as $assignment) {
+            $guardTeacher = User::getTeacherByIdForGuard($assignment['teacher_id']);
+
+            $absenceTeacher = User::getTeacherByIdForGuard($assignment['absence_id']);
+            
+            $session = Session::getSessionById($assignment['session_id']);
+            
+            $data = [
+                'name' => $guardTeacher->name,
+                'body' => 'Hola ' . $guardTeacher->name . ', estás cubriendo la guardia de ' . $absenceTeacher->name . ' el día ' . now()->translatedFormat('j \d\e F \d\e Y') . ' de ' . $session->hour_start . ' a ' . $session->hour_end,
+            ];
+
+            Mail::to($guardTeacher->email)->queue(new NotificationCustom($data));
+        }
+
+        return response()->json(['success' => true, 'message' => 'Correos enviados a los profesores asignados.']);
     }
 
     public function resetBookGuardClasses():JsonResponse {

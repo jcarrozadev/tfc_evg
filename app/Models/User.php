@@ -111,6 +111,12 @@ class User extends Authenticatable
             ->first();
     }
 
+    public static function getTeacherByIdForGuard($id): ?User {
+        return self::select('name','email')
+            ->where('id', $id)
+            ->first();
+    }
+
     public static function getDataSettingTeacherById($id): ?User {
         return self::where('id', $id)
             ->select('name', 'email', 'phone', 'dni', 'image_profile', 'google_id')
@@ -166,5 +172,10 @@ class User extends Authenticatable
 
         return $updated > 0;
     }
+
+    // public static function getEmailsForTeachers($teacherIds): array {
+    //     return self::whereIn('id', $teacherIds)->pluck('email')->toArray();
+    // }
+
 
 }
