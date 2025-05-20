@@ -60,6 +60,7 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('admin')-
     Route::get('/guards', [AdminController::class, 'guards'])->name('guards');
 
     Route::post('/guards/assign', [AdminController::class, 'assignGuard'])->name('guardsAssign');
+    Route::post('/guards/send-emails', [AdminController::class, 'sendEmails'])->name('guards.sendEmails');
 
 });
 
