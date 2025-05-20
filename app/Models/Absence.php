@@ -136,8 +136,13 @@ class Absence extends Model
                 DB::raw("DATE_FORMAT(absences.hour_start, '%H:%i') as hour_start"),
                 DB::raw("DATE_FORMAT(absences.hour_end, '%H:%i') as hour_end"),
                 'absences.created_at as created_at',
-                'reasons.name as reason_name'
+                'reasons.name as reason_name',
+                'absences.reason_description as reason_description',
+                'absences.info_task as info',
+                'absences.justify as justify'
             )
+            ->orderBy('absences.hour_start')
+            ->orderBy('absences.updated_at')
             ->get();
     
         $sessions = DB::table('sessions_evg')->get();

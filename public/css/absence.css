@@ -67,6 +67,14 @@ body{
     cursor: pointer;
 }
 
+.info-task:hover {
+    background-color: #d4d4d4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
 /* BUTTONS DATEPICKER */
 
 #btn-today {
@@ -81,4 +89,49 @@ body{
 
 #btn-today:hover {
     background-color: var(--primary-color-dark);
+}
+
+/* CARD ABSENCE */
+
+.absence-card {
+    background: var(--primary-color);
+    transition: transform .15s ease, box-shadow .15s ease;
+    cursor: grab;
+}
+
+.absence-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.10);
+}
+
+.text-card-absence {
+    color: var(--primary-color);
+}
+
+.absence-card__header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+}
+
+.absence-info {
+    cursor: pointer;
+    border-bottom: 1px dashed transparent;
+    transition: border-color .2s;
+}
+
+.absence-info:hover {
+    border-color: var(--primary-color-dark);
+}
+.absence-card:active {
+    cursor: grabbing;
+}
+.opacity-50 {
+    opacity: .5 !important;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .absence-card       { background-color: #f1f1f1; }
+    .absence-card__header {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+    }
 }

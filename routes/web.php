@@ -42,7 +42,14 @@ Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->na
 
     Route::get('/notifyAbsence' , [TeacherController::class, 'notifyAbsence'])->name('notifyAbsence');
     Route::post('/notifyAbsence' , [TeacherController::class, 'storeNotifyAbsence'])->name('storeNotifyAbsence');
+    
     Route::get('/consultAbsence' , [TeacherController::class, 'consultAbsence'])->name('consultAbsence');
+    Route::match(['post', 'patch'], '/absences/{absence}/info',
+    [TeacherController::class, 'updateInfo'])
+    ->name('absences.updateInfo');
+    Route::post('absences/sort',
+    [TeacherController::class, 'sort'])
+    ->name('absences.sort');
 
     Route::get('/guardsToday', [TeacherController::class, 'guardsToday'])->name('guardsToday');
 });
