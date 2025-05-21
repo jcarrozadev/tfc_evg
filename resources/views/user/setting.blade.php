@@ -61,6 +61,16 @@
                         <input type="text" id="dni" name="dni" value="{{ $user->dni ?? '' }}" class="form-control" placeholder="DNI">
                     </div>
 
+                    <div class="input-group mb-4">
+                        <button class="btn btn-outline-primary" type="button" id="copyMessageBtn" title="Copiar mensaje de activación">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <input type="text" id="callmebot_apikey" name="callmebot_apikey"
+                            value="{{ $user->callmebot_apikey ?? '' }}"
+                            class="form-control"
+                            placeholder="Cod Whatsapp">
+                    </div>
+
                     <div class="d-grid mb-4">
                         <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#changePasswordModal" 
                             @if($user->google_id) disabled @endif>
