@@ -18,6 +18,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'callmebot_apikey',
         'dni',
         'available',
         'role_id',
@@ -118,7 +119,7 @@ class User extends Authenticatable
 
     public static function getDataSettingTeacherById($id): ?User {
         return self::where('id', $id)
-            ->select('name', 'email', 'phone', 'dni', 'image_profile', 'google_id')
+            ->select('name', 'email', 'phone','callmebot_apikey', 'dni', 'image_profile', 'google_id')
             ->first();
     }
 
@@ -154,6 +155,11 @@ class User extends Authenticatable
         }
         if (isset($data['dni']) && $teacher->dni !== $data['dni']) {
             $teacher->dni = $data['dni'];
+            $changed = true;
+        }
+
+        if(isset($data['callmebot_apikey']) && $teacher->callmebot_apikey !== $data['callmebot_apikey']) {
+            $teacher->callmebot_apikey = $data['callmebot_apikey'];
             $changed = true;
         }
 
