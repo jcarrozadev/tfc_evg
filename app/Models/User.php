@@ -87,8 +87,7 @@ class User extends Authenticatable
             ->unique()
             ->values()
             ->toArray();
-    }
-          
+    }      
 
     public static function getNameEnabledTeachers(): Collection {
         return self::where('role_id', 2)
@@ -112,7 +111,7 @@ class User extends Authenticatable
     }
 
     public static function getTeacherByIdForGuard($id): ?User {
-        return self::select('name','email')
+        return self::select('name','email','phone')
             ->where('id', $id)
             ->first();
     }
@@ -172,10 +171,5 @@ class User extends Authenticatable
 
         return $updated > 0;
     }
-
-    // public static function getEmailsForTeachers($teacherIds): array {
-    //     return self::whereIn('id', $teacherIds)->pluck('email')->toArray();
-    // }
-
 
 }

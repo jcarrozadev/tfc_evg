@@ -260,7 +260,40 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    
+    document.getElementById('sendWhatsappsBtn').addEventListener('click', function () {
+        console.log('Botón Enviar WhatsApps pulsado');
+        swal({
+            title: "¿Estás seguro?",
+            text: "Se enviarán mensajes de WhatsApp a los profesores asignados.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: false,
+        }).then(willSend => {
+            if (!willSend) return;
+
+            fetch('/admin/send-whatsapps', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    assignments: pendingAssignments
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    swal("WhatsApps enviados", data.message || "Mensajes enviados correctamente.", "success");
+                } else {
+                    swal("Error", data.message || "Hubo un problema al enviar los mensajes.", "error");
+                }
+            })
+            .catch(() => {
+                swal("Error", "No se pudo contactar con el servidor.", "error");
+            });
+        });
+    });
 
     function resetDropzoneText(dropzone) {
         dropzone.innerHTML = '';

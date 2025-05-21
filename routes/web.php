@@ -68,6 +68,7 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('admin')-
 
     Route::post('/guards/assign', [AdminController::class, 'assignGuard'])->name('guardsAssign');
     Route::post('/guards/send-emails', [AdminController::class, 'sendEmails'])->name('guards.sendEmails');
+    Route::post('/send-whatsapps', [AdminController::class, 'sendWhatsapps'])->name('admin.sendWhatsapps');
 
 });
 
