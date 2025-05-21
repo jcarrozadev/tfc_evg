@@ -14,6 +14,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller {
@@ -236,10 +237,13 @@ class AdminController extends Controller {
             $absenceTeacher = User::getTeacherByIdForGuard($assignment['absence_id']);
             
             $session = Session::getSessionById($assignment['session_id']);
+
+            $hourStart = substr($session->hour_start, 0, 5);
+            $hourEnd = substr($session->hour_end, 0, 5);
             
             $data = [
                 'name' => $guardTeacher->name,
-                'body' => 'Hola ' . $guardTeacher->name . ', estás cubriendo la guardia de ' . $absenceTeacher->name . ' el día ' . now()->translatedFormat('j \d\e F \d\e Y') . ' de ' . $session->hour_start . ' a ' . $session->hour_end,
+                'body' => 'Hola ' . $guardTeacher->name . ', estás cubriendo la guardia de ' . $absenceTeacher->name . ' el día ' . now()->translatedFormat('j \d\e F \d\e Y') . ' de ' . $hourStart . ' a ' . $hourEnd,
             ];
 
             Mail::to($guardTeacher->email)->queue(new NotificationCustom($data));
@@ -247,6 +251,61 @@ class AdminController extends Controller {
 
         return response()->json(['success' => true, 'message' => 'Correos enviados a los profesores asignados.']);
     }
+
+    public function sendWhatsapps(): JsonResponse {
+        $assignments = request()->input('assignments', []);
+
+        if (empty($assignments)) {
+            return response()->json(['success' => false, 'message' => 'No hay asignaciones para enviar.']);
+        }
+
+        $sentCount = 0;
+        $failedCount = 0;
+
+        foreach ($assignments as $assignment) {
+            $guardTeacher = User::getTeacherByIdForGuard($assignment['teacher_id']);
+            $absenceTeacher = User::getTeacherByIdForGuard($assignment['absence_id']);
+            $session = Session::getSessionById($assignment['session_id']);
+
+            if (!$guardTeacher || !$absenceTeacher || !$session || !$guardTeacher->phone || !$guardTeacher->callmebot_apikey) {
+                $failedCount++;
+                continue;
+            }
+
+            $fecha = now()->translatedFormat('j \d\e F \d\e Y');
+
+            $hourStart = substr($session->hour_start, 0, 5);
+            $hourEnd = substr($session->hour_end, 0, 5);
+
+            $mensaje = "👨‍🏫 Hola {$guardTeacher->name}, tienes una guardia que cubrir de {$absenceTeacher->name} el día {$fecha} de {$hourStart} a {$hourEnd}.";
+
+            $success = $this->sendWhatsAppMessage($guardTeacher->phone, $mensaje, $guardTeacher->callmebot_apikey);
+
+            $success ? $sentCount++ : $failedCount++;
+        }
+
+        return response()->json([
+            'success' => $sentCount > 0,
+            'message' => "WhatsApps enviados: $sentCount. Fallidos: $failedCount."
+        ]);
+    }
+
+
+    private function sendWhatsAppMessage(string $phone, string $message, string $apikey): bool {
+        $url = "https://api.callmebot.com/whatsapp.php";
+
+        $params = [
+            'phone' => '34' . ltrim($phone, '+'),
+            'text' => $message,
+            'apikey' => $apikey,
+        ];
+
+        $response = Http::get($url, $params);
+        
+        return !$response->failed();
+    }
+
+
 
     public function resetBookGuardClasses():JsonResponse {
         BookguardUser::query()->update(['class_id' => null]);
