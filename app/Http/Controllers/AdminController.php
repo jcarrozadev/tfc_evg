@@ -237,10 +237,13 @@ class AdminController extends Controller {
             $absenceTeacher = User::getTeacherByIdForGuard($assignment['absence_id']);
             
             $session = Session::getSessionById($assignment['session_id']);
+
+            $hourStart = substr($session->hour_start, 0, 5);
+            $hourEnd = substr($session->hour_end, 0, 5);
             
             $data = [
                 'name' => $guardTeacher->name,
-                'body' => 'Hola ' . $guardTeacher->name . ', estás cubriendo la guardia de ' . $absenceTeacher->name . ' el día ' . now()->translatedFormat('j \d\e F \d\e Y') . ' de ' . $session->hour_start . ' a ' . $session->hour_end,
+                'body' => 'Hola ' . $guardTeacher->name . ', estás cubriendo la guardia de ' . $absenceTeacher->name . ' el día ' . now()->translatedFormat('j \d\e F \d\e Y') . ' de ' . $hourStart . ' a ' . $hourEnd,
             ];
 
             Mail::to($guardTeacher->email)->queue(new NotificationCustom($data));
@@ -264,17 +267,19 @@ class AdminController extends Controller {
             $absenceTeacher = User::getTeacherByIdForGuard($assignment['absence_id']);
             $session = Session::getSessionById($assignment['session_id']);
 
-            if (!$guardTeacher || !$absenceTeacher || !$session || !$guardTeacher->phone) {
+            if (!$guardTeacher || !$absenceTeacher || !$session || !$guardTeacher->phone || !$guardTeacher->callmebot_apikey) {
                 $failedCount++;
                 continue;
             }
 
             $fecha = now()->translatedFormat('j \d\e F \d\e Y');
-            $mensaje = "👨‍🏫 Hola {$guardTeacher->name}, estás cubriendo la guardia de {$absenceTeacher->name} el día {$fecha} de {$session->hour_start} a {$session->hour_end}.";
 
-            dd($guardTeacher->phone, $mensaje);
+            $hourStart = substr($session->hour_start, 0, 5);
+            $hourEnd = substr($session->hour_end, 0, 5);
 
-            $success = $this->sendWhatsAppMessage($guardTeacher->phone, $mensaje);
+            $mensaje = "👨‍🏫 Hola {$guardTeacher->name}, tienes una guardia que cubrir de {$absenceTeacher->name} el día {$fecha} de {$hourStart} a {$hourEnd}.";
+
+            $success = $this->sendWhatsAppMessage($guardTeacher->phone, $mensaje, $guardTeacher->callmebot_apikey);
 
             $success ? $sentCount++ : $failedCount++;
         }
@@ -286,13 +291,13 @@ class AdminController extends Controller {
     }
 
 
-    private function sendWhatsAppMessage(string $phone, string $message): bool {
+    private function sendWhatsAppMessage(string $phone, string $message, string $apikey): bool {
         $url = "https://api.callmebot.com/whatsapp.php";
 
         $params = [
-            'phone' => ltrim($phone, '+'),
+            'phone' => '34' . ltrim($phone, '+'),
             'text' => $message,
-            'apikey' => config('services.callmebot.apikey'),
+            'apikey' => $apikey,
         ];
 
         $response = Http::get($url, $params);

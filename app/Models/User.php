@@ -111,7 +111,7 @@ class User extends Authenticatable
     }
 
     public static function getTeacherByIdForGuard($id): ?User {
-        return self::select('name','email','phone')
+        return self::select('name','email','phone','callmebot_apikey')
             ->where('id', $id)
             ->first();
     }
