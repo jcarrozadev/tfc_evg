@@ -41,5 +41,8 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
+    'callmebot' => [
+        'apikey' => env('CALLMEBOT_API_KEY'),
+    ],
 
 ];

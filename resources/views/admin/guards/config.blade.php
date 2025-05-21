@@ -125,6 +125,9 @@
                 <button id="sendEmailsBtn" class="btn btn-success mt-3 w-100">
                     <i class="fa fa-envelope me-2"></i> Enviar correos
                 </button>
+                <button id="sendWhatsappsBtn" class="btn btn-success mt-3 w-100">
+                    <i class="fab fa-whatsapp me-2"></i> Enviar Whatsapps
+                </button>
             </div>
         </div>
     </div>
