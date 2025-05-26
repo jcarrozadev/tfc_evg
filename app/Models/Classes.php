@@ -84,4 +84,12 @@ class Classes extends Model {
             return false;
         }
     }
+
+    public function getDisplayNameAttribute(): string {
+
+        $prefix = $this->num_class . $this->course;
+
+        return $this->code !== '-' ? "$prefix $this->code" : $prefix;
+    }
+
 }

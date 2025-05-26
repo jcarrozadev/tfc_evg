@@ -15,12 +15,19 @@ return new class extends Migration
             $table->time('hour_end')->nullable();
             $table->string('justify', 255)->nullable();
             $table->string('info_task', 255)->nullable();
+            $table->unsignedInteger('class_id')->nullable();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('reason_id');
             $table->string('reason_description', 255)->nullable();
             $table->boolean('status')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
+
+            $table->foreign('class_id')
+                ->references('id')
+                ->on('classes')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->foreign('user_id')
                 ->references('id')
