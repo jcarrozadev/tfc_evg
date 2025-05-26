@@ -2,6 +2,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const guardarBtn = document.getElementById('btn-confirmar');
     const form = document.getElementById('form-guardias');
 
+    const initSelect2 = () => {
+        $('.profesor-select, select[name*="[class_id]"]').select2({
+            width: '100%',
+            placeholder: "--",
+            allowClear: true,
+            language: {
+                noResults: () => "No se encontraron resultados",
+                searching: () => "Buscando...",
+                inputTooShort: () => "Escribe al menos un carácter"
+            }
+        });
+    };
+
+    initSelect2();
+
     guardarBtn.addEventListener('click', function (e) {
         e.preventDefault();
 
@@ -16,12 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         selectsProfesores.forEach(select => {
             const valor = select.value?.trim();
+            const container = $(select).next('.select2-container');
+
             if (!valor || valor === '-' || valor === '') {
                 vacios++;
-                select.classList.add('is-invalid', 'is-warning');
+                select.classList.add('is-invalid');
+                container.addClass('select2-warning');
             } else {
                 rellenos++;
-                select.classList.remove('is-invalid', 'is-warning');
+                select.classList.remove('is-invalid');
+                container.removeClass('select2-warning');
             }
         });
 
@@ -48,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         closeModal: false
                     }
                 }
-            }).then((confirmado) => {
+            }).then(confirmado => {
                 if (confirmado) {
                     form.requestSubmit();
                 }
@@ -66,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         closeModal: false
                     }
                 }
-            }).then((confirmado) => {
+            }).then(confirmado => {
                 if (confirmado) {
                     form.requestSubmit();
                 }
@@ -98,15 +117,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!option) return;
 
             let route = '';
-            let bodyData = { _method: 'DELETE' };
+            const bodyData = { _method: 'DELETE' };
 
             if (option === 'completo') {
-                route = routeReset; 
+                route = routeReset;
             } else if (option === 'clases') {
                 route = routeResetClases;
             }
-
-            console.log('Restableciendo guardias:', route);
 
             fetch(route, {
                 method: 'POST',
@@ -127,17 +144,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (route === routeReset) {
                     selects.forEach(select => {
                         select.value = '-';
-                        select.classList.remove('is-invalid', 'is-warning');
+                        select.classList.remove('is-invalid');
+                        $(select).next('.select2-container').removeClass('select2-warning');
                     });
                 }
+
                 if (route === routeResetClases) {
                     selects.forEach(select => {
                         if (select.name.includes('[class_id]')) {
                             select.value = '-';
-                            select.classList.remove('is-invalid', 'is-warning');
+                            select.classList.remove('is-invalid');
+                            $(select).next('.select2-container').removeClass('select2-warning');
                         }
                     });
                 }
+
+                $('.profesor-select, select[name*="[class_id]"]').val(null).trigger('change');
+                initSelect2();
 
                 swal({
                     title: "Guardias restablecidas",
@@ -152,5 +175,4 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
-
 });
