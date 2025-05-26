@@ -18,6 +18,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/bookGuard.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -86,7 +87,7 @@
                                     <td>
                                         @for ($i = 0; $i < 2; $i++)
                                             @php $userId = $users[$i]['user_id'] ?? null; @endphp
-                                            <select name="guards[{{ $dayLetter }}][{{ $slot }}][{{ $i }}][user_id]" class="form-select mb-1 profesor-select">
+                                            <select name="guards[{{ $dayLetter }}][{{ $slot }}][{{ $i }}][user_id]" class="form-select profesor-select">
                                                 <option value="-" disabled {{ is_null($userId) ? 'selected' : '' }}>--</option>
                                                 @foreach ($teachers as $teacher)
                                                     <option value="{{ $teacher->id }}" {{ $teacher->id == $userId ? 'selected' : '' }}>
@@ -101,7 +102,7 @@
                                     <td>
                                         @for ($i = 0; $i < 2; $i++)
                                             @php $classId = $users[$i]['class_id'] ?? null; @endphp
-                                            <select name="guards[{{ $dayLetter }}][{{ $slot }}][{{ $i }}][class_id]" class="form-select mb-1">
+                                            <select name="guards[{{ $dayLetter }}][{{ $slot }}][{{ $i }}][class_id]" class="form-select">
                                                 <option value="-" disabled {{ is_null($classId) ? 'selected' : '' }}>--</option>
                                                 @foreach ($classes as $class)
                                                     <option value="{{ $class->id }}" {{ $class->id == $classId ? 'selected' : '' }}>
@@ -133,5 +134,6 @@
         const routeResetClases = "{{ route('bookGuard.reset.classes') }}";
     </script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/bookGuard.js') }}"></script>
 @endpush
