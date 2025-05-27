@@ -32,3 +32,6 @@ table.table .select2-container--default .select2-selection--single {
     box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
 }
 
+.select2-selection__clear {
+    color: #888 !important;
+}

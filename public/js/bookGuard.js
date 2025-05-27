@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const initSelect2 = () => {
         $('.profesor-select, select[name*="[class_id]"]').select2({
-            width: '100%',
+            width: '150px',
             placeholder: "--",
             allowClear: true,
             language: {
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     };
-
+    
     initSelect2();
 
     guardarBtn.addEventListener('click', function (e) {
@@ -147,6 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         select.classList.remove('is-invalid');
                         $(select).next('.select2-container').removeClass('select2-warning');
                     });
+
+                    $('.profesor-select, select[name*="[class_id]"]').val(null).trigger('change');
                 }
 
                 if (route === routeResetClases) {
@@ -157,10 +159,9 @@ document.addEventListener('DOMContentLoaded', () => {
                             $(select).next('.select2-container').removeClass('select2-warning');
                         }
                     });
-                }
 
-                $('.profesor-select, select[name*="[class_id]"]').val(null).trigger('change');
-                initSelect2();
+                    $('select[name*="[class_id]"]').val(null).trigger('change');
+                }
 
                 swal({
                     title: "Guardias restablecidas",

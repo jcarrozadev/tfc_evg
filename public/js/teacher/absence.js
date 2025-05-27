@@ -25,7 +25,16 @@ $(document).ready(function() {
             filenameLabel.textContent = '';
         }
     });
+
+    $('.select2').select2({
+        theme: 'default',
+        placeholder: 'Selecciona una sesión',
+        language: 'es',
+        allowClear: true,
+        width: '100%'
+    });
 });
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const validTextPattern = /^[A-Za-z0-9ÁÉÍÓÚáéíóúÜüÑñ&()\s¿?¡!.,:;'"-]+$/;
