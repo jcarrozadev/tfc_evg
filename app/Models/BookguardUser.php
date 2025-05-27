@@ -22,20 +22,28 @@ class BookguardUser extends Model
         return $this->belongsTo(Bookguard::class, 'bookguard_id');
     }
 
-    public static function getBookguardUserById($userId):array {
-        return self::query()
-            ->where('bookguard_user.user_id', $userId)
+    public static function getByUser(int $userId): array {
+        return self::where('user_id', $userId)
             ->join('bookguards', 'bookguard_user.bookguard_id', '=', 'bookguards.id')
             ->join('sessions_evg', 'bookguards.session_id', '=', 'sessions_evg.id')
-            ->select([
+            ->get([
                 'bookguards.day',
                 'bookguards.session_id',
                 'sessions_evg.hour_start',
                 'sessions_evg.hour_end',
             ])
-            ->get()
+            ->map(function ($item) {
+                return [
+                    'day'         => $item->day,
+                    'session_id'  => $item->session_id,
+                    'hour_start'  => $item->hour_start,
+                    'hour_end'    => $item->hour_end,
+                    'type'        => 'guard',
+                    'label'       => 'GUARDIA',
+                ];
+            })
             ->toArray();
     }
-    
+
 
 }
