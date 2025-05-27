@@ -26,7 +26,20 @@ class Absence extends Model
     public static function createAbsence(array $data): Absence{
         $absence = new self();
 
-        return $absence::create($data);
+        $absence->date = $data['date'];
+        $absence->hour_start = $data['hour_start'];
+        $absence->hour_end = $data['hour_end'];
+        $absence->justify = $data['justify'] ?? null; 
+        $absence->info_task = $data['info_task'];
+        $absence->user_id = $data['user_id'];
+        $absence->reason_id = $data['reason_id'];
+        $absence->class_id = $data['class_id'];
+        $absence->reason_description = $data['reason_description'];
+        $absence->status = $data['status'];
+
+        $absence->save();
+
+        return $absence;
     }
 
     public static function getAbsencesTodayWithDetails(): Collection {

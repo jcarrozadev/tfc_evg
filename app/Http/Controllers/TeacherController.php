@@ -15,6 +15,7 @@ use App\Models\Guard;
 use App\Models\Session;
 use App\Models\TeacherSchedule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -183,39 +184,60 @@ class TeacherController extends Controller
 
     public function storeNotifyAbsence(): RedirectResponse {
         $request = request();
-    
+
+        $carbonDate = Carbon::createFromFormat('d/m/Y', $request->input('date'));
         $absenceData = [
-            'date' => Carbon::createFromFormat('d/m/Y', $request->input('date'))->format('Y-m-d'),
+            'date' => $carbonDate->format('Y-m-d'),
             'reason_id' => $request->input('typeAbsence'),
             'reason_description' => $request->input('description'),
             'info_task' => 'No hay información de tarea asignada',
             'user_id' => auth()->user()->id,
             'status' => 0,
         ];
-    
+
         if ($request->filled('session_id')) {
             $session = Session::findOrFail($request->input('session_id'));
             $absenceData['hour_start'] = $session->hour_start;
             $absenceData['hour_end'] = $session->hour_end;
+
+            $weekMap = [1 => 'L', 2 => 'M', 3 => 'X', 4 => 'J', 5 => 'V', 6 => 'S', 7 => 'D'];
+            $day = $weekMap[$carbonDate->dayOfWeekIso];
+
+            $teacherSchedule = TeacherSchedule::getScheduleForUserOnDayAndSession(
+                auth()->user()->id,
+                $day,
+                $request->input('session_id')
+            );
+
+            if ($teacherSchedule) {
+                $absenceData['class_id'] = $teacherSchedule->class_id;
+            } else {
+                $absenceData['class_id'] = null;
+                Log::info('El profesor no tiene clase en esa sesión', [
+                    'user_id' => auth()->user()->id,
+                    'day' => $day,
+                    'session_id' => $request->input('session_id'),
+                ]);
+            }
         } else {
-            $absenceData['hour_start'] = null; 
-            $absenceData['hour_end'] = null;   
+            $absenceData['hour_start'] = null;
+            $absenceData['hour_end'] = null;
+            $absenceData['class_id'] = null;
         }
-    
+
         if ($request->hasFile('justify')) {
             $justify = $request->file('justify');
             $justifyPath = $justify->storeAs('justificantes', $justify->getClientOriginalName(), 'public');
             $absenceData['justify'] = $justifyPath;
         }
-    
+
         User::disabledTeacher(auth()->user()->id);
-    
+
         return Absence::createAbsence($absenceData)
             ? redirect()->route('teacher.home')->with('success', 'Ausencia notificada correctamente.')
             : redirect()->route('teacher.home')->with('error', 'Error al notificar ausencia.');
     }
-    
-    
+
 
     public function consultAbsence(): View {
         $user = User::getDataSettingTeacherById(auth()->user()->id);
