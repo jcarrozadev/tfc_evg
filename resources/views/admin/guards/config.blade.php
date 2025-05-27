@@ -39,8 +39,15 @@
                         $color = $isFullDay ? '#ccc' : ($sessionColors[collect($absence->sessions)->pluck('id')->sort()->first()] ?? '#ccc');
                     @endphp
                     
-                    <div class="card shadow-sm p-3 rounded bg-white"
+                    <div class="card shadow-sm p-3 rounded bg-white position-relative"
                         style="border-left: 8px solid {{ $color }};">
+
+                        @if ($absence->class_id === null)
+                            <span class="badge bg-danger text-white position-absolute top-0 end-0 m-2">
+                                No rellenable
+                            </span>
+                        @endif
+
                         <div class="fw-semibold mb-2">{{ $absence->user_name }}</div>
                         <div class="small text-muted mb-2">{{ $absence->reason_name }}</div>
                         <div class="small text-muted mb-4">
@@ -65,29 +72,35 @@
                                             \Carbon\Carbon::parse($session['hour_start'])->format('H:i') 
                                             . " - " . 
                                             \Carbon\Carbon::parse($session['hour_end'])->format('H:i') 
+                                            . " | " . ($absence->class_id !== null ? "{$absence->class_number}{$absence->class_course} {$absence->class_code}" : 'LIBRE') 
                                         }}
                                     </div>
                                 </div>
                                 <div class="col-8">
-                                    <div class="dropzone border rounded p-2 bg-light"
-                                        style="min-height: 50px;"
-                                        data-absence-id="{{ $absence->id }}"
-                                        data-session-id="{{ $session['id'] }}">
+                                    @if ($absence->class_id !== null)
+                                        <div class="dropzone border rounded p-2 bg-light"
+                                            style="min-height: 50px;"
+                                            data-absence-id="{{ $absence->id }}"
+                                            data-session-id="{{ $session['id'] }}">
 
-                                        @if ($assignedTeacher)
-                                            <div class="draggable card p-2 bg-custom text-white shadow-sm rounded d-flex align-items-center gap-2"
-                                                draggable="true"
-                                                data-teacher-id="{{ $assignedTeacher->id }}"
-                                                style="border-left: 8px solid {{ $sessionColor }};">
-                                                <img src="{{ $assignedTeacher->image_profile ? asset('storage/' . $assignedTeacher->image_profile) : asset('img/default.png') }}"
-                                                    class="rounded-circle bg-light"
-                                                    style="width: 32px; height: 32px; object-fit: cover;">
-                                                <span class="fw-semibold">{{ $assignedTeacher->name }}</span>
-                                            </div>
-                                        @else
-                                            <span class="text-muted">Arrastra profesor</span>
-                                        @endif
-                                    </div>
+                                            @if ($assignedTeacher)
+                                                <div class="draggable card p-2 bg-custom text-white shadow-sm rounded d-flex align-items-center gap-2"
+                                                    draggable="true"
+                                                    data-teacher-id="{{ $assignedTeacher->id }}"
+                                                    style="border-left: 8px solid {{ $sessionColor }};">
+                                                    <img src="{{ $assignedTeacher->image_profile ? asset('storage/' . $assignedTeacher->image_profile) : asset('img/default.png') }}"
+                                                        class="rounded-circle bg-light"
+                                                        style="width: 32px; height: 32px; object-fit: cover;">
+                                                    <span class="fw-semibold">{{ $assignedTeacher->name }}</span>
+                                                </div>
+                                            @else
+                                                <span class="text-muted">Arrastra profesor</span>
+                                            @endif
+
+                                        </div>
+                                    @else
+                                        <span class="text-muted fst-italic">No requiere sustitución</span>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach

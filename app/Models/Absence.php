@@ -44,9 +44,10 @@ class Absence extends Model
 
     public static function getAbsencesTodayWithDetails(): Collection {
         $absence = new self();
-    
+
         $absences = $absence::join('users', 'absences.user_id', '=', 'users.id')
             ->join('reasons', 'absences.reason_id', '=', 'reasons.id')
+            ->leftJoin('classes', 'absences.class_id', '=', 'classes.id') 
             ->whereDate('absences.date', now()->toDateString())
             ->where('absences.status', 0)
             ->select(
@@ -55,21 +56,25 @@ class Absence extends Model
                 DB::raw("DATE_FORMAT(absences.hour_start, '%H:%i') as hour_start"),
                 DB::raw("DATE_FORMAT(absences.hour_end, '%H:%i') as hour_end"),
                 'absences.created_at as created_at',
-                'reasons.name as reason_name'
+                'reasons.name as reason_name',
+                'absences.class_id as class_id',
+                'classes.num_class as class_number',
+                'classes.course as class_course',
+                'classes.code as class_code'
             )
             ->get();
-    
+
         $sessions = DB::table('sessions_evg')->get();
-    
+
         foreach ($absences as $absence) {
             $absence->session_ids = $sessions->filter(function ($session) use ($absence) {
                 return $session->hour_start < $absence->hour_end &&
-                       $session->hour_end > $absence->hour_start;
+                    $session->hour_end > $absence->hour_start;
             })->pluck('id')->toArray();
         }
-    
+
         return $absences;
-    }    
+    }
 
     public function checkAndMarkAsCompleted(): void {
         $sessionIds = $this->sessions->pluck('hour_start'); 

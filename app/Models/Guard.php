@@ -70,6 +70,7 @@ class Guard extends Model
         $guard->hour = $session->hour_start;
         $guard->user_sender_id = $teacherId;
         $guard->absence_id = $absence->id;
+        $guard->class_id = $absence->class_id ?? null;
         $guard->save();
     
         return $guard;
