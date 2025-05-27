@@ -307,7 +307,7 @@ class AdminController extends Controller {
 
 
 
-    public function resetBookGuardClasses():JsonResponse {
+    public function resetBookGuardClasses(): JsonResponse {
         BookguardUser::query()->update(['class_id' => null]);
     
         return response()->json(['message' => 'Guardias restablecidas correctamente.']);
