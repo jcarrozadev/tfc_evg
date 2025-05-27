@@ -5,12 +5,14 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/absence.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/css/bootstrap-datepicker.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 
 @push('scripts')
     <script src="{{ asset('js/teacher/absence.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.0/dist/locales/bootstrap-datepicker.es.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @endpush
 
 @section('content')
@@ -40,29 +42,29 @@
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-12">
-                            <label class="form-label fw-bold">Sesión específica <span class="form-label fw-bold fst-italic">(No rellenar si falta completa)</span></label>
-                            <div class="row g-2">
-                                <div class="col-md-12">
-                                    <select name="session_id" class="form-select py-2" id="sessions">
-                                        <option value="" disabled selected hidden>Selecciona una sesión</option>
-                                        @foreach($sessions as $session)
-                                            <option value="{{ $session->id }}">{{ $session->hour_start . " - " . $session->hour_end }}</option>
-                                        @endforeach
-                                    </select>                                    
-                                </div>
-                            </div>
+                            <label for="sessions" class="form-label fw-bold">
+                                Sesión específica 
+                                <span class="form-label fw-bold fst-italic">(No rellenar si falta completa)</span>
+                            </label>
+                            <select name="session_id" class="form-select py-2 select2 w-100" id="sessions">
+                                <option value="" disabled selected hidden>Selecciona una sesión</option>
+                                @foreach($sessions as $session)
+                                    <option value="{{ $session->id }}">{{ $session->hour_start . " - " . $session->hour_end }}</option>
+                                @endforeach
+                            </select>                                    
                         </div>
                     </div>
 
                     <div class="mb-4">
                         <label for="typeAbsence" class="form-label fw-bold">Tipo de ausencia</label>
-                        <select name="typeAbsence" id="typeAbsence" class="form-select py-2" required>
+                        <select name="typeAbsence" id="typeAbsence" class="form-select py-2 select2 w-100" required>
                             <option value="" disabled selected hidden>Selecciona el motivo</option>
                             @foreach($reasons as $reason)
                                 <option value="{{ $reason->id }}">{{ $reason->name }}</option>
                             @endforeach
                         </select>
                     </div>
+
 
                     <div class="mb-4">
                         <label for="justify" class="form-label fw-bold">Justificante</label><span class="text-muted ms-2 fst-italic">(Opcional)</span> 
