@@ -112,6 +112,14 @@ body{
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
 }
 
+.absence-card__body {
+    background: #fff;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.20);
+}
+
 .absence-info {
     cursor: pointer;
     border-bottom: 1px dashed transparent;
