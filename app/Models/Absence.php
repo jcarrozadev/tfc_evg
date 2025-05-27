@@ -60,7 +60,9 @@ class Absence extends Model
                 'absences.class_id as class_id',
                 'classes.num_class as class_number',
                 'classes.course as class_course',
-                'classes.code as class_code'
+                'classes.code as class_code',
+                'absences.user_id',
+                'absences.date',
             )
             ->get();
 
@@ -71,6 +73,11 @@ class Absence extends Model
                 return $session->hour_start < $absence->hour_end &&
                     $session->hour_end > $absence->hour_start;
             })->pluck('id')->toArray();
+
+            $absence->sessions = $sessions->filter(function ($session) use ($absence) {
+                return $session->hour_start < $absence->hour_end &&
+                    $session->hour_end > $absence->hour_start;
+            })->values()->all();
         }
 
         return $absences;

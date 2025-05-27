@@ -23,7 +23,7 @@
                         <li>Haz clic en "Guardar cambios" para aplicar los cambios.</li>
                     </ul>
                 </div>
-                <div class="alert alert-warning">
+                <div class="alert alert-warning m-0">
                     <strong>Nota:</strong>
                     <ul>
                         <li>Si un profesor está repetido dos veces con distintos colores, puede cubrir dos sesiones el mismo día.</li>
@@ -31,6 +31,17 @@
                         <li>Cuando estes seguro de tener bien asignadas las guardias puedes enviar los correos.</li>
                     </ul>
                 </div>
+            </div>
+            <div class="col-12 d-flex justify-content-start align-items-center gap-2">
+                <button id="saveAssignmentsBtn" class="btn btn-primary btn-sm">
+                    <i class="fa fa-save me-1"></i> Guardar cambios de guardias
+                </button>
+                <button id="sendEmailsBtn" class="btn btn-success btn-sm">
+                    <i class="fa fa-envelope me-1"></i> Correos
+                </button>
+                <button id="sendWhatsappsBtn" class="btn btn-success btn-sm">
+                    <i class="fab fa-whatsapp me-1"></i> Whatsapps
+                </button>
             </div>
             <div class="col-md-8 d-flex flex-column gap-4">
                 @foreach ($absences as $absence)
@@ -130,17 +141,6 @@
                     </div>
 
                 @endforeach
-            </div>
-            <div class="col-12">
-                <button id="saveAssignmentsBtn" class="btn btn-primary mt-3 w-100">
-                    <i class="fa fa-save me-2"></i> Guardar cambios
-                </button>
-                <button id="sendEmailsBtn" class="btn btn-success mt-3 w-100">
-                    <i class="fa fa-envelope me-2"></i> Enviar correos
-                </button>
-                <button id="sendWhatsappsBtn" class="btn btn-success mt-3 w-100">
-                    <i class="fab fa-whatsapp me-2"></i> Enviar Whatsapps
-                </button>
             </div>
         </div>
     </div>
