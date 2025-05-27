@@ -10,20 +10,19 @@
     <div class="container py-5">
         <h1 class="text-center mb-4 fw-bold fs-2">Horario | {{ $user->name }} - {{ \Carbon\Carbon::now()->format('d/m/Y') }}</h1>
 
-        @if(count($bookguard) === 0)
+        @if(count($full) === 0)
             <div class="alert alert-info text-center">
                 No tienes horario asignado.
             </div>
         @else
             @php
-
                 $days = ['L' => 'Lunes', 'M' => 'Martes', 'X' => 'Miércoles', 'J' => 'Jueves', 'V' => 'Viernes'];
 
-                $guardMap = [];
-                foreach ($bookguard as $entry) {
+                $map = [];
+                foreach ($full as $entry) {
                     $day = $entry['day'];
-                    $start = \Illuminate\Support\Carbon::parse($entry['hour_start'])->format('H:i');
-                    $guardMap[$day][$start] = true;
+                    $session = $entry['session_id'];
+                    $map[$day][$session] = $entry;
                 }
             @endphp
 
@@ -41,23 +40,28 @@
                         @php
                             $start = \Illuminate\Support\Carbon::parse($session->hour_start)->format('H:i');
                             $end = \Illuminate\Support\Carbon::parse($session->hour_end)->format('H:i');
-                            $time = $start . ' - ' . $end;
+                            $time = "$start - $end";
                         @endphp
                         <tr>
                             <th>{{ $time }}</th>
                             @foreach ($days as $dayKey => $dayName)
-                                @if (!empty($guardMap[$dayKey][$start]))
-                                    <td class="guard-cell">GUARDIA</td>
+                                @php
+                                    $entry = $map[$dayKey][$session->id] ?? null;
+                                @endphp
+                                @if ($entry)
+                                    <td class="{{ $entry['type'] === 'guard' ? 'guard-cell' : 'class-cell' }}">
+                                        {{ $entry['label'] }}
+                                    </td>
                                 @else
-                                    <td></td>
+                                    <td style="color:green;">LIBRE</td>
                                 @endif
                             @endforeach
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-
         @endif
+
         <div class="alert alert-warning">
             <strong>Nota:</strong>
             <ul>

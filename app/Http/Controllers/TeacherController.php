@@ -13,6 +13,7 @@ use App\Http\Controllers\TeacherValidatorController;
 use App\Models\BookguardUser;
 use App\Models\Guard;
 use App\Models\Session;
+use App\Models\TeacherSchedule;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -123,12 +124,26 @@ class TeacherController extends Controller
     }
 
     public function personalSchedule(): View {
-        $user = User::getDataSettingTeacherById(auth()->user()->id);
-        $sessions = Session::getAllSessions();
-        $bookguard = BookguardUser::getBookguardUserById(auth()->user()->id);
+    $userId = auth()->id();
 
-        return view('user.schedule')->with('user', $user)->with('bookguard', $bookguard)->with('sessions', $sessions);
-    }
+    $user = User::getDataSettingTeacherById($userId);
+    $sessions = Session::getAllSessions();
+    $schedule = TeacherSchedule::getByUser($userId);
+    $guardias = BookguardUser::getByUser($userId);
+
+    $merged = collect($schedule)
+        ->merge($guardias)
+        ->keyBy(fn ($item) => $item['day'].'|'.$item['session_id'])
+        ->values()
+        ->all();
+
+    return view('user.schedule', [
+        'user'     => $user,
+        'sessions' => $sessions,
+        'full'     => $merged, 
+    ]);
+}
+
 
     public function uploadAvatar(): RedirectResponse {
         $request = request();
