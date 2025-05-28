@@ -9,12 +9,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('bookguard_user', function (Blueprint $table) {
+            $table->unsignedInteger('id')->autoIncrement()->primary();
             $table->unsignedInteger('bookguard_id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('class_id')->nullable();
             $table->timestamps();
 
-            $table->primary(['bookguard_id', 'user_id']);
+            $table->unique(['bookguard_id', 'user_id'], 'bookguard_user_unique');
 
             $table->foreign('bookguard_id')
                 ->references('id')

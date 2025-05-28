@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller {
@@ -152,60 +153,121 @@ class AdminController extends Controller {
     public function assignGuard(): JsonResponse {
         $assignments = request()->input('assignments', []);
         $removals = request()->input('removals', []);
-    
+
         $saved = [];
         $skipped = [];
         $deleted = [];
-    
+
         foreach ($assignments as $assignment) {
             $absenceId = $assignment['absence_id'] ?? null;
             $sessionId = $assignment['session_id'] ?? null;
             $teacherId = $assignment['teacher_id'] ?? null;
-    
+
             if (!$absenceId || !$sessionId || !$teacherId) {
                 $skipped[] = $assignment;
                 continue;
             }
-    
+
             $absence = Absence::find($absenceId);
             $session = DB::table('sessions_evg')->where('id', $sessionId)->first();
-    
+
             if (!$absence || !$session) {
                 $skipped[] = $assignment;
                 continue;
             }
-    
+
             $alreadyExists = Guard::where('absence_id', $absenceId)
                 ->where('hour', $session->hour_start)
                 ->exists();
-    
+
             if ($alreadyExists) {
                 $skipped[] = $assignment;
                 continue;
             }
-    
+
             Guard::assignToAbsence($absence, $session, $teacherId);
-    
+            $carbonDate = \Carbon\Carbon::parse((string)$absence->date);
+            $dayOfWeek = $carbonDate->dayOfWeek;
+            $dayLetter = match ($dayOfWeek) {
+                1 => 'L',
+                2 => 'M', 
+                3 => 'X', 
+                4 => 'J', 
+                5 => 'V', 
+                default => null,
+            };
+            $bookguard = Bookguard::findByDayAndSession($dayLetter, $session->id);
+
+            if ($bookguard) {
+                Log::info('Bookguard encontrado', [
+                    'day' => $dayLetter,
+                    'session_id' => $session->id,
+                    'bookguard_id' => $bookguard->id,
+                ]);
+                BookguardUser::assignUserToClass(
+                    $bookguard->id,
+                    $teacherId,
+                    $absence->class_id
+                );
+            } else {
+                Log::warning('NO se encontró bookguard', [
+                    'day' => $dayLetter,
+                    'session_id' => $session->id,
+                ]);
+            }
+
             $saved[] = $assignment;
         }
-    
+
         foreach ($removals as $removal) {
             $absenceId = $removal['absence_id'] ?? null;
             $sessionId = $removal['session_id'] ?? null;
-    
+
             $session = DB::table('sessions_evg')->where('id', $sessionId)->first();
-    
+
             if (!$absenceId || !$session) continue;
-    
-            $deletedRows = Guard::where('absence_id', $absenceId)
-                ->where('hour', $session->hour_start)
-                ->delete();
-    
+
+            $teacherId = $removal['teacher_id'] ?? Guard::getRemovalUserIdByAbsenceId(
+                $absenceId,
+                $session->hour_start
+            );
+
+            $deletedRows = Guard::deleteGuardByAbsenceId($absenceId, $session->hour_start);
+
             if ($deletedRows > 0) {
                 $deleted[] = $removal;
             }
+
+            if ($teacherId) {
+                $absence = Absence::find($absenceId);
+                if ($absence) {
+                    $carbonDate = \Carbon\Carbon::parse((string) $absence->date);
+                    $dayLetter = match ($carbonDate->dayOfWeek) {
+                        1 => 'L', 2 => 'M', 3 => 'X', 4 => 'J', 5 => 'V', default => null,
+                    };
+
+                    $bookguard = Bookguard::findByDayAndSession($dayLetter, $session->id);
+                    if ($bookguard) {
+                        Log::info('Se encontró bookguard para eliminar class_id', [
+                            'bookguard_id' => $bookguard->id,
+                            'teacher_id' => $teacherId,
+                        ]);
+
+                        BookguardUser::deleteClassFromBookguard(
+                            $bookguard->id,
+                            $teacherId
+                        );
+                    } else {
+                        Log::warning('NO se encontró bookguard en el removal', [
+                            'day' => $dayLetter,
+                            'session_id' => $session->id,
+                        ]);
+                    }
+                }
+            }
         }
-    
+
+
         return response()->json([
             'success' => true,
             'saved' => $saved,
@@ -214,7 +276,6 @@ class AdminController extends Controller {
             'message' => count($saved) . ' asignadas, ' . count($deleted) . ' eliminadas, ' . count($skipped) . ' omitidas.'
         ]);
     }
-    
 
     public function resetBookGuard():JsonResponse {
         BookguardUser::query()->delete();

@@ -95,11 +95,24 @@ class Guard extends Model
 
 
     public static function getGuardByAbsenceId($absenceId): ?Guard {
-        dd(self::where('absence_id', $absenceId)->first());
+        return self::where('absence_id', $absenceId)->first();
     }
 
     public static function hasGuardByUserId($userId): bool {
         return self::where('user_sender_id', $userId)->exists();
     }
+
+    public static function deleteGuardByAbsenceId($absenceId, $hour_start):?bool {
+        return self::where('absence_id', $absenceId)
+                ->where('hour', $hour_start)
+                ->delete();
+    }
+
+    public static function getRemovalUserIdByAbsenceId(int $absenceId, string $hour): ?int {
+        return self::where('absence_id', $absenceId)
+            ->where('hour', $hour)
+            ->value('user_sender_id');
+    }
+
 }
 
