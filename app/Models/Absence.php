@@ -26,14 +26,28 @@ class Absence extends Model
     public static function createAbsence(array $data): Absence{
         $absence = new self();
 
-        return $absence::create($data);
+        $absence->date = $data['date'];
+        $absence->hour_start = $data['hour_start'];
+        $absence->hour_end = $data['hour_end'];
+        $absence->justify = $data['justify'] ?? null; 
+        $absence->info_task = $data['info_task'];
+        $absence->user_id = $data['user_id'];
+        $absence->reason_id = $data['reason_id'];
+        $absence->class_id = $data['class_id'];
+        $absence->reason_description = $data['reason_description'];
+        $absence->status = $data['status'];
+
+        $absence->save();
+
+        return $absence;
     }
 
     public static function getAbsencesTodayWithDetails(): Collection {
         $absence = new self();
-    
+
         $absences = $absence::join('users', 'absences.user_id', '=', 'users.id')
             ->join('reasons', 'absences.reason_id', '=', 'reasons.id')
+            ->leftJoin('classes', 'absences.class_id', '=', 'classes.id') 
             ->whereDate('absences.date', now()->toDateString())
             ->where('absences.status', 0)
             ->select(
@@ -42,21 +56,32 @@ class Absence extends Model
                 DB::raw("DATE_FORMAT(absences.hour_start, '%H:%i') as hour_start"),
                 DB::raw("DATE_FORMAT(absences.hour_end, '%H:%i') as hour_end"),
                 'absences.created_at as created_at',
-                'reasons.name as reason_name'
+                'reasons.name as reason_name',
+                'absences.class_id as class_id',
+                'classes.num_class as class_number',
+                'classes.course as class_course',
+                'classes.code as class_code',
+                'absences.user_id',
+                'absences.date',
             )
             ->get();
-    
+
         $sessions = DB::table('sessions_evg')->get();
-    
+
         foreach ($absences as $absence) {
             $absence->session_ids = $sessions->filter(function ($session) use ($absence) {
                 return $session->hour_start < $absence->hour_end &&
-                       $session->hour_end > $absence->hour_start;
+                    $session->hour_end > $absence->hour_start;
             })->pluck('id')->toArray();
+
+            $absence->sessions = $sessions->filter(function ($session) use ($absence) {
+                return $session->hour_start < $absence->hour_end &&
+                    $session->hour_end > $absence->hour_start;
+            })->values()->all();
         }
-    
+
         return $absences;
-    }    
+    }
 
     public function checkAndMarkAsCompleted(): void {
         $sessionIds = $this->sessions->pluck('hour_start'); 

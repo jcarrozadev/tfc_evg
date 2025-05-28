@@ -74,5 +74,12 @@ class Bookguard extends Model
         return sprintf('%02d:%02d:00', $h, $m);
     }
 
+    public static function findByDayAndSession(string $dayLetter, int $sessionId): ?self {
+        return self::where('day', $dayLetter)
+            ->where('session_id', $sessionId)
+            ->first();
+    }
+
+
 }
 
