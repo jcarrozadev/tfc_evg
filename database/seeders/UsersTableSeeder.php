@@ -48,7 +48,6 @@ class UsersTableSeeder extends Seeder
             $insertedUserIds[] = $userId;
         }
 
-        $classIds = DB::table('classes')->pluck('id')->toArray();
         $bookguardIds = DB::table('bookguards')->pluck('id')->toArray();
 
         $relations = [];
@@ -57,7 +56,7 @@ class UsersTableSeeder extends Seeder
             $relations[] = [
                 'user_id' => $insertedUserIds[$i],
                 'bookguard_id' => $bookguardIds[$i % count($bookguardIds)],
-                'class_id' => $classIds[$i % count($classIds)],
+                'class_id' => null,
                 'created_at' => $now,
                 'updated_at' => $now,
             ];

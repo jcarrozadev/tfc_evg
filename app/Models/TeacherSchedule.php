@@ -35,5 +35,13 @@ class TeacherSchedule extends Model
             })
             ->toArray();
     }
+
+    public static function getScheduleForUserOnDayAndSession(int $userId, string $day, int $sessionId): ?self {
+        return self::where('user_id', $userId)
+            ->where('day', $day)
+            ->where('session_id', $sessionId)
+            ->first();
+    }
+
 }
 

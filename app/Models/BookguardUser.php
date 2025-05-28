@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Log;
 
 class BookguardUser extends Model
 {
@@ -43,6 +44,37 @@ class BookguardUser extends Model
                 ];
             })
             ->toArray();
+    }
+
+    public static function assignUserToClass(int $bookguardId, int $userId, ?int $classId): void {
+        $exists = self::where('bookguard_id', $bookguardId)
+            ->where('user_id', $userId)
+            ->first();
+
+        if ($exists) {
+            $exists->update(['class_id' => $classId]);
+        } else {
+            self::create([
+                'bookguard_id' => $bookguardId,
+                'user_id' => $userId,
+                'class_id' => $classId,
+            ]);
+        }
+        Log::info('Guardia asignada en libro', [
+            'bookguard_id' => $bookguardId,
+            'user_id' => $userId,
+            'class_id' => $classId,
+        ]);
+    }
+
+    public static function deleteClassFromBookguard(int $bookguardId, int $userId): void {
+        Log::info('Intentando poner class_id a null', [
+            'bookguard_id' => $bookguardId,
+            'user_id' => $userId,
+        ]);
+        self::where('bookguard_id', $bookguardId)
+            ->where('user_id', $userId)
+            ->update(['class_id' => null]);
     }
 
 
