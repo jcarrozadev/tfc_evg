@@ -51,17 +51,18 @@ class Guard extends Model
             ->join('absences', 'guards.absence_id', '=', 'absences.id')
             ->join('users as absent_teachers', 'absences.user_id', '=', 'absent_teachers.id')
             ->leftJoin('users as covering_teachers', 'guards.user_sender_id', '=', 'covering_teachers.id')
+            ->leftJoin('classes', 'guards.class_id', '=', 'classes.id')
             ->select(
                 'guards.*',
                 'absent_teachers.name          as absent_teacher_name',
                 'absent_teachers.image_profile as absent_teacher_image',
                 'covering_teachers.name          as covering_teacher_name',
-                'covering_teachers.image_profile as covering_teacher_image'
+                'covering_teachers.image_profile as covering_teacher_image',
+                DB::raw("CONCAT(classes.num_class, ' ', classes.course, ' ', classes.code) as class_name")
             )
             ->get()
             ->toArray();
     }
- 
 
     public static function assignToAbsence($absence, $session, $teacherId): self {
         $guard = new self();
@@ -77,21 +78,24 @@ class Guard extends Model
     }
 
     public static function getGuardsTodayById($userId): array {
-        return self::where('user_sender_id', $userId)
+        return self::where('guards.user_sender_id', $userId)
             ->join('absences', 'guards.absence_id', '=', 'absences.id')
             ->join('users as absent_teachers', 'absences.user_id', '=', 'absent_teachers.id')
             ->leftJoin('users as covering_teachers', 'guards.user_sender_id', '=', 'covering_teachers.id')
+            ->leftJoin('classes', 'guards.class_id', '=', 'classes.id')
             ->select(
                 'guards.*',
-                'absent_teachers.name          as absent_teacher_name',
+                'absent_teachers.name as absent_teacher_name',
                 'absent_teachers.image_profile as absent_teacher_image',
-                'covering_teachers.name          as covering_teacher_name',
+                'covering_teachers.name as covering_teacher_name',
                 'covering_teachers.image_profile as covering_teacher_image',
-                'absences.info_task as info'
+                'absences.info_task as info',
+                DB::raw("CONCAT(classes.num_class, ' ', classes.course, ' ', classes.code) as class_name")
             )
             ->get()
             ->toArray();
     }
+
 
 
     public static function getGuardByAbsenceId($absenceId): ?Guard {
