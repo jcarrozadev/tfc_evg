@@ -47,6 +47,11 @@
                                     </p>
 
                                     <p class="mb-1">
+                                        <i class="fas fa-school me-2 text-card"></i>
+                                        <strong>Clase:</strong> {{ $guard['class_name']  ?? 'Pregunta a Elia' }}
+                                    </p>
+
+                                    <p class="mb-1">
                                         <i class="fas fa-info-circle me-2 text-card"></i>
                                         <strong>Observaciones:</strong>
                                         @if(trim($guard['info']) !== '')
