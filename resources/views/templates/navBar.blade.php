@@ -21,6 +21,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('class.index') }}">Clases</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="scheduleNav" href="">Horarios</a>
+                </li>
             </ul>
 
             @if (Auth::user()->role_id === 1)
