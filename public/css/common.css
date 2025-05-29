@@ -133,6 +133,11 @@ label > span {
     color: var(--secondary-color) !important;
 }
 
+#scheduleNav {
+    cursor: not-allowed;
+    color: gray !important;
+}
+
 /* DATATABLE STYLE */
 table.datatable {
     border-collapse: collapse;
