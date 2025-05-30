@@ -37,9 +37,9 @@
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-3">
                                     <img src="{{ $guard['absent_teacher_image'] ? asset('storage/' . $guard['absent_teacher_image']) : asset('img/default.png') }}"
-                                         class="rounded-circle me-3 bg-light"
-                                         style="width: 48px; height: 48px; object-fit: cover;"
-                                         alt="Foto profesor ausente">
+                                        class="rounded-circle me-3 bg-light"
+                                        style="width: 48px; height: 48px; object-fit: cover;"
+                                        alt="Foto profesor ausente">
                                     <div>
                                         <p class="mb-0 fw-semibold">
                                             <i class="fas fa-user-times text-danger me-2"></i>Profesor Ausente:
@@ -50,9 +50,9 @@
 
                                 <div class="d-flex align-items-center mb-3">
                                     <img src="{{ ($guard['covering_teacher_image'] ?? null) ? asset('storage/' . $guard['covering_teacher_image']) : asset('img/default.png') }}"
-                                         class="rounded-circle me-3 bg-light"
-                                         style="width: 48px; height: 48px; object-fit: cover;"
-                                         alt="Foto profesor sustituto">
+                                        class="rounded-circle me-3 bg-light"
+                                        style="width: 48px; height: 48px; object-fit: cover;"
+                                        alt="Foto profesor sustituto">
                                     <div>
                                         <p class="mb-0 fw-semibold">
                                             <i class="fas fa-user-check text-success me-2"></i>Profesor Sustituto:
@@ -63,7 +63,7 @@
 
                                 <p class="mb-0">
                                     <i class="fas fa-door-closed me-2"></i>
-                                    <strong>Aula:</strong> {{ $guard['class_id'] ?? 'No asignada' }}
+                                    <strong>Aula:</strong> {{ $guard['class_name'] ?? 'No asignada' }}
                                 </p>
                             </div>
                         </div>

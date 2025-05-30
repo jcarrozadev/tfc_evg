@@ -25,3 +25,23 @@ const activityChart = new Chart(ctx, {
         }
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+        const scheduleLink = document.getElementById('scheduleNav');
+
+        if (scheduleLink) {
+            const originalText = scheduleLink.textContent;
+
+            scheduleLink.addEventListener('mouseenter', () => {
+                scheduleLink.textContent = 'Próximamente';
+            });
+
+            scheduleLink.addEventListener('mouseleave', () => {
+                scheduleLink.textContent = originalText;
+            });
+
+            scheduleLink.addEventListener('click', (e) => {
+                e.preventDefault();
+            });
+        }
+    });
