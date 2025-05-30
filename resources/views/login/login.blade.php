@@ -39,7 +39,7 @@
                 <button type="submit" class="mb-3">Registrarse</button>
             </form>            
         </div>
-        <div class="form-container sign-in">
+        <div class="form-container sign-in active">
             <form method="POST" action="{{ route('login') }}" autocomplete="off">
                 @csrf
                 <h1>Iniciar Sesión</h1>
