@@ -122,13 +122,4 @@
 @push('scripts')
     <script src="{{ asset('js/teacher/consultAbsence.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/modular/sortable.core.esm.min.js" type="module"></script>
-    <script type="module">
-        import Sortable from 'https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/+esm';
-
-        new Sortable(document.getElementById('absence-list'), {
-            animation: 150,
-            handle: '.absence-card',
-            ghostClass: 'opacity-80'
-        });
-    </script>
 @endpush
