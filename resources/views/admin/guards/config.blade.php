@@ -28,7 +28,7 @@
                     <ul>
                         <li>Si un profesor está repetido dos veces con distintos colores, puede cubrir dos sesiones el mismo día.</li>
                         <li>Si un profesor que está en el libro de guardias para este día, está ausente, no aparece.</li>
-                        <li>Cuando estes seguro de tener bien asignadas las guardias puedes enviar los correos.</li>
+                        <li>Cuando estes seguro de tener bien asignadas las guardias puedes enviar los correos y whatsapps.</li>
                     </ul>
                 </div>
             </div>
