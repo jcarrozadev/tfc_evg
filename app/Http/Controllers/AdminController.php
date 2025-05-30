@@ -295,7 +295,9 @@ class AdminController extends Controller {
         foreach ($assignments as $assignment) {
             $guardTeacher = User::getTeacherByIdForGuard($assignment['teacher_id']);
 
-            $absenceTeacher = User::getTeacherByIdForGuard($assignment['absence_id']);
+            $absenceTeacherId = Absence::getIdTeacherByAbsenceId($assignment['absence_id']);
+
+            $absenceTeacher = User::getTeacherByIdForGuard($absenceTeacherId['user_id']);
             
             $session = Session::getSessionById($assignment['session_id']);
 
