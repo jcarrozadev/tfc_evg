@@ -188,5 +188,9 @@ class Absence extends Model
         return $absences;
     }
 
-
+    public static function getUserAndClassByAbsenceId(int $absenceId): ?Absence {
+        return self::select('user_id', 'class_id')
+            ->where('id', $absenceId)
+            ->first();
+    }
 }
