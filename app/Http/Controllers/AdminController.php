@@ -295,7 +295,11 @@ class AdminController extends Controller {
         foreach ($assignments as $assignment) {
             $guardTeacher = User::getTeacherByIdForGuard($assignment['teacher_id']);
 
-            $absenceTeacher = User::getTeacherByIdForGuard($assignment['absence_id']);
+            $dataAbsence = Absence::getUserAndClassByAbsenceId($assignment['absence_id']);
+
+            $absenceTeacher = User::getTeacherByIdForGuard($dataAbsence['user_id']);
+
+            $class = Classes::getClassById($dataAbsence['class_id']);
             
             $session = Session::getSessionById($assignment['session_id']);
 
@@ -304,7 +308,13 @@ class AdminController extends Controller {
             
             $data = [
                 'name' => $guardTeacher->name,
-                'body' => 'Hola ' . $guardTeacher->name . ', estás cubriendo la guardia de ' . $absenceTeacher->name . ' el día ' . now()->translatedFormat('j \d\e F \d\e Y') . ' de ' . $hourStart . ' a ' . $hourEnd,
+                'body' => 'Hola ' . $guardTeacher->name . ', estás cubriendo la guardia de ' . $absenceTeacher->name . ' en ' 
+                    . $class['num_class']  
+                    . $class['course'] 
+                    . (isset($class['code']) && $class['code'] !== '-' ? ' ' . $class['code'] : '') 
+                    . 'el día ' 
+                    . now()->translatedFormat('j \d\e F \d\e Y') 
+                    . ' de ' . $hourStart . ' a ' . $hourEnd,
             ];
 
             Mail::to($guardTeacher->email)->queue(new NotificationCustom($data));
@@ -325,7 +335,13 @@ class AdminController extends Controller {
 
         foreach ($assignments as $assignment) {
             $guardTeacher = User::getTeacherByIdForGuard($assignment['teacher_id']);
-            $absenceTeacher = User::getTeacherByIdForGuard($assignment['absence_id']);
+
+            $dataAbsence = Absence::getUserAndClassByAbsenceId($assignment['absence_id']);
+
+            $absenceTeacher = User::getTeacherByIdForGuard($dataAbsence['user_id']);
+
+            $class = Classes::getClassById($dataAbsence['class_id']);
+
             $session = Session::getSessionById($assignment['session_id']);
 
             if (!$guardTeacher || !$absenceTeacher || !$session || !$guardTeacher->phone || !$guardTeacher->callmebot_apikey) {
@@ -338,7 +354,13 @@ class AdminController extends Controller {
             $hourStart = substr($session->hour_start, 0, 5);
             $hourEnd = substr($session->hour_end, 0, 5);
 
-            $mensaje = "👨‍🏫 Hola {$guardTeacher->name}, tienes una guardia que cubrir de {$absenceTeacher->name} el día {$fecha} de {$hourStart} a {$hourEnd}.";
+            $mensaje = '👨‍🏫 Hola ' . $guardTeacher->name . ', estás cubriendo la guardia de ' . $absenceTeacher->name . ' en ' 
+                . $class['num_class'] 
+                . $class['course'] 
+                . (isset($class['code']) && $class['code'] !== '-' ? ' ' . $class['code'] : '') 
+                . ' el día ' 
+                . $fecha 
+                . ' de ' . $hourStart . ' a ' . $hourEnd . '.';
 
             $success = $this->sendWhatsAppMessage($guardTeacher->phone, $mensaje, $guardTeacher->callmebot_apikey);
 
