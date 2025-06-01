@@ -82,7 +82,9 @@
                         <a href="{{ route('teacher.home') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left me-2"></i> Volver
                         </a>
-                        <button type="submit" class="btn btn-primary">Modificar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save me-2"></i> Guardar
+                        </button>
                     </div>
                 </form>
             </div>
