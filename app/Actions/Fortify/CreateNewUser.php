@@ -13,7 +13,18 @@ class CreateNewUser implements CreatesNewUsers {
     public function create(array $input): User {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:100', 'unique:users'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:100',
+                'unique:users',
+                function ($attribute, $value, $fail) {
+                    if (!str_ends_with($value, '@fundacionloyola.es')) {
+                        $fail('El correo debe pertenecer al dominio @fundacionloyola.es.');
+                    }
+                }
+            ],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone' => ['required', 'regex:/^(6|7|9)\d{8}$/'],
             'dni' => [

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 class CustomLoginController extends Controller
@@ -22,19 +23,27 @@ class CustomLoginController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        $user = User::where('email', $credentials['email'])->first();
-    
+        $email = $credentials['email'];
+
+        if (!Str::endsWith($email, '@fundacionloyola.es')) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'Solo se permiten cuentas de la fundacionloyola.es.',
+            ]);
+        }
+
+        $user = User::where('email', $email)->first();
+
         if ($user && Hash::check($credentials['password'], $user->password)) {
             Auth::login($user, $request->filled('remember'));
             $request->session()->regenerate();
-    
+
             if ($user->role_id === self::ROLE_ADMIN) {
                 return redirect()->route('admin.admin');
             } elseif ($user->role_id === self::ROLE_TEACHER) {
                 return redirect()->route('teacher.home');
             }
         }
-    
+
         throw ValidationException::withMessages([
             'email' => __('auth.failed'),
         ]);

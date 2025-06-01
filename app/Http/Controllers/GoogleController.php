@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
@@ -20,13 +21,20 @@ class GoogleController extends Controller {
     public function handleGoogleCallback()
     {
         $googleUser = Socialite::driver('google')->user();
+        $email = $googleUser->getEmail();
 
-        $user = User::where('email', $googleUser->getEmail())->first();
+        if (!Str::endsWith($email, '@fundacionloyola.es')) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'Solo se permiten cuentas de la fundacionloyola.es.',
+            ]);
+        }
+
+        $user = User::where('email', $email)->first();
 
         if (!$user) {
             $user = User::create([
                 'name' => $googleUser->getName(),
-                'email' => $googleUser->getEmail(),
+                'email' => $email,
                 'google_id' => $googleUser->getId(),
                 'avatar' => $googleUser->getAvatar() ?? '',
                 'password' => bcrypt(uniqid()),
@@ -38,9 +46,13 @@ class GoogleController extends Controller {
 
         Auth::login($user);
 
-        if ($user->role_id === self::ROLE_ADMIN)
+        if ($user->role_id === self::ROLE_ADMIN) {
             return redirect()->route('admin.admin');
-        elseif ($user->role_id === self::ROLE_TEACHER)
+        } elseif ($user->role_id === self::ROLE_TEACHER) {
             return redirect()->route('teacher.home');
+        }
+
+        return redirect()->route('home');
     }
+
 }
