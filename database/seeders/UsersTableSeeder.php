@@ -11,21 +11,21 @@ class UsersTableSeeder extends Seeder
     public function run(): void
     {
         $users = [
-            ['name' => 'Juan Pérez', 'email' => 'juan@example.com', 'phone' => '612345678', 'dni' => '12345678A'],
-            ['name' => 'Ana López', 'email' => 'ana@example.com', 'phone' => '622345678', 'dni' => '87654321B'],
-            ['name' => 'Carlos García', 'email' => 'carlos@example.com', 'phone' => '632345678', 'dni' => '11223344C'],
-            ['name' => 'Laura Martínez', 'email' => 'laura@example.com', 'phone' => '642345678', 'dni' => '22334455D'],
-            ['name' => 'Pedro Sánchez', 'email' => 'pedro@example.com', 'phone' => '652345678', 'dni' => '33445566E'],
-            ['name' => 'Marta Pérez', 'email' => 'marta@example.com', 'phone' => '662345678', 'dni' => '44556677F'],
-            ['name' => 'José Gómez', 'email' => 'jose@example.com', 'phone' => '672345678', 'dni' => '55667788G'],
-            ['name' => 'Elena Ruiz', 'email' => 'elena@example.com', 'phone' => '682345678', 'dni' => '66778899H'],
-            ['name' => 'David Fernández', 'email' => 'david@example.com', 'phone' => '692345678', 'dni' => '77889900I'],
-            ['name' => 'Sofia López', 'email' => 'sofia@example.com', 'phone' => '702345678', 'dni' => '88990011J'],
-            ['name' => 'Javier Martín', 'email' => 'javier@example.com', 'phone' => '712345678', 'dni' => '99001122K'],
-            ['name' => 'Raquel García', 'email' => 'raquel@example.com', 'phone' => '722345678', 'dni' => '10112233L'],
-            ['name' => 'Luis Torres', 'email' => 'luis@example.com', 'phone' => '732345678', 'dni' => '11223344M'],
-            ['name' => 'Julia Sánchez', 'email' => 'julia@example.com', 'phone' => '742345678', 'dni' => '22334455N'],
-            ['name' => 'Antonio Ruiz', 'email' => 'antonio@example.com', 'phone' => '752345678', 'dni' => '33445566O'],
+            ['name' => 'Isabel Muñoz',     'email' => 'imunoz@fundacionloyola.es',      'phone' => '612345678', 'dni' => '12345678Z'],
+            ['name' => 'Ernesto Gonzalez', 'email' => 'egonzalez@fundacionloyola.es',   'phone' => '622345678', 'dni' => '87654321X'],
+            ['name' => 'Alberto Dominguez','email' => 'adominguez@fundacionloyola.es',  'phone' => '632345678', 'dni' => '11223344M'],
+            ['name' => 'Francisco Garcia', 'email' => 'fgarcia@fundacionloyola.es',     'phone' => '642345678', 'dni' => '22334455S'],
+            ['name' => 'Magdalena Sanchez','email' => 'msanchez@fundacionloyola.es',    'phone' => '652345678', 'dni' => '33445566L'],
+            ['name' => 'Manuel Merino',    'email' => 'mmerino@fundacionloyola.es',     'phone' => '662345678', 'dni' => '44556677H'],
+            ['name' => 'Miguel Jaque',     'email' => 'mjaque@fundacionloyola.es',      'phone' => '672345678', 'dni' => '55667788Y'],
+            ['name' => 'Zeus Martin',      'email' => 'zmartinllera1@gmail.com',        'phone' => '682345678', 'dni' => '66778899P'],
+            ['name' => 'Magdalena Pozo',   'email' => 'mpozo@fundacionloyola.es',       'phone' => '692345678', 'dni' => '77889900G'],
+            ['name' => 'Gema Lopez',       'email' => 'glopez@fundacionloyola.es',      'phone' => '702345678', 'dni' => '88990011T'],
+            ['name' => 'Tomas Garcia',     'email' => 'tgarcia@fundacionloyola.es',     'phone' => '712345678', 'dni' => '99001122A'],
+            ['name' => 'Ana Moreno',       'email' => 'amoreno@fundacionloyola.es',     'phone' => '722345678', 'dni' => '10112233C'],
+            ['name' => 'Lucia Romero',     'email' => 'lromero@fundacionloyola.es',     'phone' => '732345678', 'dni' => '19283746K'],
+            ['name' => 'Jorge Navarro',    'email' => 'jnavarro@fundacionloyola.es',    'phone' => '742345678', 'dni' => '38475629N'],
+            ['name' => 'Elena Serrano',    'email' => 'eserrano@fundacionloyola.es',    'phone' => '752345678', 'dni' => '47586932R'],
         ];
 
         $now = now();
