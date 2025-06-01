@@ -37,3 +37,23 @@ h2, .text-primary {
 .mt-custom {
     margin-top: 10%;
 }
+
+@media (max-width: 767px) {
+    label.form-label {
+        color: #ffffff !important;
+    }
+
+    #copyMessageBtn {
+        background-color: white;
+        color: var(--primary-color-dark);
+    }
+
+    #copyMessageBtn:hover {
+        background-color: var(--primary-color-dark);
+        color: white;
+    }
+
+    #callmebot_apikey {
+        font-size: 0.85rem;
+    }
+}
