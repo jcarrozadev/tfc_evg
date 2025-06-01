@@ -36,8 +36,6 @@ class UsersTableSeeder extends Seeder
                 'name' => $user['name'],
                 'email' => $user['email'],
                 'password' => Hash::make('password'),
-                'phone' => $user['phone'],
-                'dni' => $user['dni'],
                 'avatar' => 'default.jpg',
                 'available' => true,
                 'role_id' => 2,
