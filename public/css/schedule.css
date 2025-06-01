@@ -40,3 +40,72 @@ table.schedule-table .guard-cell {
     border-left: 3px solid var(--primary-color-light);
     border-right: 3px solid var(--primary-color-light);
 }
+
+
+table.schedule-table {
+    width: 100%;
+    max-width: 100%;
+    margin: 1rem auto;
+    border-collapse: collapse;
+    font-size: 0.7rem;
+}
+
+table.schedule-table th,
+table.schedule-table td {
+    padding: 0.3em 0.4em;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+}
+
+table.schedule-table thead th {
+    background-color: var(--primary-color-dark);
+    color: var(--secondary-color);
+    font-weight: 600;
+    font-size: 0.7rem;
+}
+
+table.schedule-table tbody th {
+    background-color: #f0f0f0;
+    font-weight: 500;
+    font-size: 0.7rem;
+    width: auto;
+    white-space: nowrap;
+}
+
+table.schedule-table .guard-cell,
+table.schedule-table .class-cell {
+    font-size: 0.7rem;
+    padding: 0.3em 0.4em;
+    word-break: break-word;
+}
+
+@media (max-width: 430px) {
+    .schedule-table {
+        font-size: 0.65rem;
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+        padding: 0.25em 0.3em;
+    }
+
+    .schedule-table thead th,
+    .schedule-table tbody th {
+        font-size: 0.65rem;
+    }
+
+    h1.fs-2 {
+        font-size: 1rem !important;
+    }
+
+    .alert ul {
+        font-size: 0.65rem;
+    }
+
+    .btn {
+        font-size: 0.7rem;
+        padding: 0.4em 0.8em;
+    }
+}
+
