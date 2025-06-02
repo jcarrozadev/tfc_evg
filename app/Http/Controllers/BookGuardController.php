@@ -7,11 +7,23 @@ use App\Models\BookguardUser;
 use App\Models\Classes;
 use App\Models\Session;
 use App\Models\User;
+
 use Illuminate\Contracts\View\View;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class BookGuardController
+ * Handles the book guard functionalities such as displaying guards, storing them, and downloading the PDF.
+ */
 class BookGuardController extends Controller
 {
+    /**
+     * Display the book guard page with teachers, classes, bookguards, and bookguard users.
+     *
+     * @return View
+     */
     public function index(): View {
         return view('admin.bookGuard.bookGuard')
             ->with('teachers', User::getAllEnabledTeachers())
@@ -21,14 +33,24 @@ class BookGuardController extends Controller
             ->with('sessions', Session::select('id', 'hour_start', 'hour_end')->get());
     }
 
-    public function store() {
+    /**
+     * Store the guards from the weekly input.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(): RedirectResponse {
         $guards = request()->input('guards');
         return Bookguard::storeFromWeeklyInput($guards) 
             ? redirect()->back()->with('success', 'Guardias guardadas correctamente.')
             : redirect()->back()->with('error', 'Error al guardar las guardias.');
     }
 
-    public function downloadPdf(){
+    /**
+     * Download the PDF of the book guard.
+     *
+     * @return \Symfony\Component\HttpFoundation\Response;
+     */
+    public function downloadPdf(): Response {
         $bookguards = Bookguard::with('users', 'session')->get();
         $bookguardUsers = BookguardUser::all();
         $teachers = User::where('role_id', 2)->get();

@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Class Absence
+ * Represents an absence record in the system.
+ */
 class Absence extends Model
 {
     protected $table = 'absences';
@@ -23,6 +27,12 @@ class Absence extends Model
         'status',
     ];
 
+    /**
+     * Create a new absence record.
+     *
+     * @param array $data
+     * @return Absence
+     */
     public static function createAbsence(array $data): Absence{
         $absence = new self();
 
@@ -42,6 +52,11 @@ class Absence extends Model
         return $absence;
     }
 
+    /**
+     * Get absences for today with detailed information.
+     *
+     * @return Collection
+     */
     public static function getAbsencesTodayWithDetails(): Collection {
         $absence = new self();
 
@@ -83,6 +98,9 @@ class Absence extends Model
         return $absences;
     }
 
+    /**
+     * Check if all sessions for the absence are covered and mark as completed if so.
+     */
     public function checkAndMarkAsCompleted(): void {
         $sessionIds = $this->sessions->pluck('hour_start'); 
     
@@ -98,13 +116,19 @@ class Absence extends Model
         }
     }    
 
+    /**
+     * Get absences for today with session details.
+     *
+     * @return Collection
+     */
     public static function withSessionsForToday(): Collection {
         $absences = self::getAbsencesTodayWithDetails();
         $sessions = DB::table('sessions_evg')->get();
 
         foreach ($absences as $absence) {
             if (!$absence->hour_start || !$absence->hour_end) {
-                $absence->sessions = $sessions->map(function ($session) { // Ausencia todo el día / todas las sesiones
+                // Absence for the whole day / all sessions
+                $absence->sessions = $sessions->map(function ($session) {
                     return [
                         'id' => $session->id,
                         'hour_start' => $session->hour_start,
@@ -133,7 +157,12 @@ class Absence extends Model
         return $absences;
     }
 
-
+    /**
+     * Assign possible teachers to absences based on session IDs.
+     *
+     * @param Collection $absences
+     * @param Collection $teachers
+     */
     public static function assignPossibleTeachers(Collection $absences, Collection $teachers): void {
         foreach ($absences as $absence) {
             $absence->possible_teachers = $teachers->filter(function ($teacher) use ($absence) {
@@ -142,10 +171,22 @@ class Absence extends Model
         }
     }
 
+    /**
+     * Get all absences for a specific user.
+     *
+     * @param int $userId
+     * @return Collection
+     */
     public static function getAbsenceById($id): ?Absence {
         return self::where('id', $id)->first();
     }
 
+    /**
+     * Get absences for today with details for a specific user.
+     *
+     * @param int $id
+     * @return Collection
+     */
     public static function getAbsencesTodayWithDetailsById($id): Collection {
         $absence = new self();
 
@@ -188,6 +229,12 @@ class Absence extends Model
         return $absences;
     }
 
+    /**
+     * Get the user and class associated with a specific absence ID.
+     *
+     * @param int $absenceId
+     * @return Absence|null
+     */
     public static function getUserAndClassByAbsenceId(int $absenceId): ?Absence {
         return self::select('user_id', 'class_id')
             ->where('id', $absenceId)

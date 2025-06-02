@@ -2,67 +2,90 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Reason;
 use App\Models\User;
 use App\Models\Absence;
+use App\Models\Guard;
+
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Carbon\Carbon;
 use App\Http\Controllers\TeacherValidatorController;
-use App\Models\BookguardUser;
-use App\Models\Guard;
-use App\Models\Session;
-use App\Models\TeacherSchedule;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
+/**
+ * TeacherController
+ * Handles the management of teachers in the application.
+ */
 class TeacherController extends Controller
 {
+    /**
+     * TeacherController constructor.
+     * Initializes the controller.
+     */
     public function __construct() {}
 
+    /**
+     * Display the teachers management page.
+     *
+     * @return View
+     */
     public function index(): View
     {
-        $teachers = User::getAllEnabledTeachers();
-
-        foreach ($teachers as $teacher) {
-            $teacher->available = $teacher->available === 1 ? 'Sí' : 'No';
-        }
-
+        $teachers = (new \App\Services\TeacherService())->getAllTeachers();
         return view('admin.teacher', compact('teachers'));
     }
 
+    /**
+     * Display the form to create a new teacher.
+     *
+     * @return View
+     */
     public function create(): RedirectResponse
     {
         $validatedData = TeacherValidatorController::validateTeacherData(request()->all());
 
-        return User::addTeacher($validatedData)
-            ? redirect()->back()->with('success', 'Profesor creado correctamente.')
-            : redirect()->back()->with('error', 'Error al crear el profesor.');
+        $success = (new \App\Services\TeacherService())->createTeacher($validatedData);
+
+        return redirect()->back()->with($success ? 'success' : 'error', $success
+            ? 'Profesor creado correctamente.'
+            : 'Error al crear el profesor.');
     }
 
-    public function edit($id): JsonResponse {
+    /**
+     * Display the form to edit a teacher.
+     *
+     * @param int $id
+     * @return View
+     */
+    public function edit($id): JsonResponse
+    {
         $request = request();
+        $success = (new \App\Services\TeacherService())->updateTeacher($id, $request->all());
 
-        $teacher = User::getTeacherById($id);
-
-        return !$teacher
-            ? response()->json(['error' => 'Profesor no encontrado.'])
-            : (User::editTeacher($teacher, $request->all())
-                ? response()->json(['success' => 'Profesor editado correctamente.'])
-                : response()->json(['error' => 'Error al editar profesor.']));
+        return response()->json($success
+            ? ['success' => 'Profesor editado correctamente.']
+            : ['error' => 'Error al editar profesor.']);
     }
 
-    public function destroy($id): JsonResponse {
-        if (User::deleteTeacher($id)) {
-            return response()->json(['success' => 'Profesor eliminado correctamente.']);
-        } else {
-            return response()->json(['error' => 'Error al eliminar profesor.']);
-        }
+    /**
+     * Delete a teacher by ID.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function destroy($id): JsonResponse
+    {
+        $success = (new \App\Services\TeacherService())->deleteTeacher($id);
+
+        return response()->json($success
+            ? ['success' => 'Profesor eliminado correctamente.']
+            : ['error' => 'Error al eliminar profesor.']);
     }
 
+    /**
+     * Display the home page for the authenticated teacher.
+     *
+     * @return View
+     */
     public function home(): View {
         $user = User::getHomeTeacherById(auth()->user()->id);
         $guard = Guard::hasGuardByUserId(auth()->user()->id);
@@ -76,19 +99,60 @@ class TeacherController extends Controller
         return $view;
     }
 
+    /**
+     * Display the guards assigned for today.
+     *
+     * @return View
+     */
+    public function guardsToday(): View {
+        $service = new \App\Services\ScheduleService();
+
+        $user = $service->getUserData(auth()->id());
+        $guards = $service->getGuardsToday();
+
+        return view('user.guardsToday')->with('user', $user)->with('guards', $guards);
+    }
+
+    /**
+     * Display the personal guards for the authenticated user.
+     *
+     * @return View
+     */
+    public function personalGuard(): View {
+        $guards = (new \App\Services\ScheduleService())->getPersonalGuards(auth()->id());
+
+        return view('user.personalGuard')->with('guards', $guards);
+    }
+
+    /**
+     * Display the personal schedule for the authenticated user.
+     *
+     * @return View
+     */
+    public function personalSchedule(): View {
+        $userId = auth()->id();
+
+        $data = (new \App\Services\ScheduleService())->getScheduleDataForUser($userId);
+
+        return view('user.schedule', $data);
+    }
+
+    /**
+     * Display the teacher settings.
+     *
+     * @return View
+     */
     public function settings(): View {
         $user = User::getDataSettingTeacherById(auth()->user()->id);
 
         return view('user.setting')->with('user', $user);
     }
 
-    public function guardsToday(): View {
-        $user = User::getDataSettingTeacherById(auth()->user()->id);
-        $guards = Guard::getGuardsToday();
-
-        return view('user.guardsToday')->with('user', $user)->with('guards', $guards);
-    }
-
+    /**
+     * Update teacher settings.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateSettings(): RedirectResponse {
         $request = request();
 
@@ -99,187 +163,92 @@ class TeacherController extends Controller
             : redirect()->route('teacher.home')->with('error', 'Error al actualizar los datos.');
     }
 
+    /**
+     * Display the form to update the password.
+     *
+     * @return View
+     */
     public function updatePassword(): RedirectResponse {
         $request = request();
-
-        $request->validate([
-            'new_password' => 'required|string|min:8|confirmed',
-        ]);
-
         $user = auth()->user();
 
-        if (!is_null($user->google_id)) {
-            return redirect()->route('teacher.home')->with('error', 'No puedes cambiar la contraseña de una cuenta de Google.');
-        }
+        $success = (new \App\Services\PasswordService())->updatePassword($request, $user);
 
-        $user->password = Hash::make($request->new_password);
-        $user->save();
-
-        return redirect()->route('teacher.home')->with('success', 'Contraseña actualizada correctamente.');
+        return $success
+            ? redirect()->route('teacher.home')->with('success', 'Contraseña actualizada correctamente.')
+            : redirect()->route('teacher.home')->with('error', 'No puedes cambiar la contraseña de una cuenta de Google.');
     }
 
-    public function personalGuard(): View {
-        $guards = Guard::getGuardsTodayById(auth()->user()->id);
-
-        return view('user.personalGuard')->with('guards', $guards);
-    }
-
-    public function personalSchedule(): View {
-    $userId = auth()->id();
-
-    $user = User::getDataSettingTeacherById($userId);
-    $sessions = Session::getAllSessions();
-    $schedule = TeacherSchedule::getByUser($userId);
-    $guardias = BookguardUser::getByUser($userId);
-
-    $merged = collect($schedule)
-        ->merge($guardias)
-        ->keyBy(fn ($item) => $item['day'].'|'.$item['session_id'])
-        ->values()
-        ->all();
-
-    return view('user.schedule', [
-        'user'     => $user,
-        'sessions' => $sessions,
-        'full'     => $merged, 
-    ]);
-}
-
-
+    /**
+     * Display the form to upload an avatar.
+     *
+     * @return View
+     */
     public function uploadAvatar(): RedirectResponse {
         $request = request();
-
         $user = auth()->user();
 
-        $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        if ($user->image_profile && $user->image_profile !== 'default.png') {
-            Storage::disk('public')->delete($user->image_profile);
-        }
-
-        $file = $request->file('avatar');
-
-        $filename = 'avatar_' . $user->id . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-
-        $safeFolder = Str::slug($user->name);
-        $directory = 'avatars/' . $safeFolder;
-        Storage::disk('public')->makeDirectory($directory);
-
-        $file->storeAs($directory, $filename, 'public');
-
-        $user->image_profile = $directory . '/' . $filename;
-        $user->save();
+        (new \App\Services\ProfileService())->updateAvatar($request, $user);
 
         return redirect()->back()->with('success', 'Imagen de perfil actualizada.');
     }
 
-
+    /**
+     * Display the absence notification form.
+     *
+     * @return View
+     */
     public function notifyAbsence(): View {
-        $reasons = Reason::getAllReasons();
-        $sessions = Session::getAllSessions();
-        return view('user.notifyAbsence', compact('reasons', 'sessions'));
+        $data = (new \App\Services\AbsenceService())->getReasonsAndSessions();
+        return view('user.notifyAbsence', $data);
     }
 
+    /**
+     * Store the absence notification.
+     *
+     * @return RedirectResponse
+     */
     public function storeNotifyAbsence(): RedirectResponse {
         $request = request();
+        $service = new \App\Services\AbsenceService();
 
-        $carbonDate = Carbon::createFromFormat('d/m/Y', $request->input('date'));
-        $baseAbsenceData = [
-            'date' => $carbonDate->format('Y-m-d'),
-            'reason_id' => $request->input('typeAbsence'),
-            'reason_description' => $request->input('description'),
-            'info_task' => 'No hay información de tarea asignada',
-            'user_id' => auth()->user()->id,
-            'status' => 0,
-        ];
+        $success = $service->notifyAbsence($request);
 
-        $weekMap = [1 => 'L', 2 => 'M', 3 => 'X', 4 => 'J', 5 => 'V', 6 => 'S', 7 => 'D'];
-        $day = $weekMap[$carbonDate->dayOfWeekIso];
-
-        if ($request->filled('session_id')) {
-            $session = Session::findOrFail($request->input('session_id'));
-
-            $absenceData = $baseAbsenceData;
-            $absenceData['hour_start'] = $session->hour_start;
-            $absenceData['hour_end'] = $session->hour_end;
-
-            $teacherSchedule = TeacherSchedule::getScheduleForUserOnDayAndSession(
-                auth()->user()->id,
-                $day,
-                $request->input('session_id')
-            );
-
-            $absenceData['class_id'] = $teacherSchedule?->class_id;
-
-            if ($request->hasFile('justify')) {
-                $justify = $request->file('justify');
-                $justifyPath = $justify->storeAs('justificantes', $justify->getClientOriginalName(), 'public');
-                $absenceData['justify'] = $justifyPath;
-            }
-
-            User::disabledTeacher(auth()->user()->id);
-            return Absence::createAbsence($absenceData)
-                ? redirect()->route('teacher.home')->with('success', 'Ausencia notificada correctamente.')
-                : redirect()->route('teacher.home')->with('error', 'Error al notificar ausencia.');
-        } else {
-            $sessions = Session::orderBy('hour_start')->get();
-            $success = true;
-
-            foreach ($sessions as $session) {
-                $absenceData = $baseAbsenceData;
-                $absenceData['hour_start'] = $session->hour_start;
-                $absenceData['hour_end'] = $session->hour_end;
-
-                $teacherSchedule = TeacherSchedule::getScheduleForUserOnDayAndSession(
-                    auth()->user()->id,
-                    $day,
-                    $session->id
-                );
-
-                $absenceData['class_id'] = $teacherSchedule?->class_id;
-
-                if ($request->hasFile('justify')) {
-                    $justify = $request->file('justify');
-                    $justifyPath = $justify->storeAs('justificantes', $justify->getClientOriginalName(), 'public');
-                    $absenceData['justify'] = $justifyPath;
-                }
-
-                User::disabledTeacher(auth()->user()->id);
-
-                $created = Absence::createAbsence($absenceData);
-                if (!$created) {
-                    $success = false;
-                }
-            }
-
-            return $success
-                ? redirect()->route('teacher.home')->with('success', 'Ausencias del día completo notificadas correctamente.')
-                : redirect()->route('teacher.home')->with('error', 'Error al notificar todas las ausencias del día.');
-        }
+        return redirect()->route('teacher.home')->with($success
+            ? 'success'
+            : 'error',
+            $success
+                ? 'Ausencia(s) notificadas correctamente.'
+                : 'Error al notificar alguna ausencia.');
     }
 
-
-
+    /**
+     * Consult absences for today.
+     *
+     * @return View
+     */
     public function consultAbsence(): View {
-        $user = User::getDataSettingTeacherById(auth()->user()->id);
-        $absences = Absence::getAbsencesTodayWithDetailsById(auth()->user()->id);
-        return view('user.consultAbsence')->with('user', $user)->with('absences', $absences);
+        $user = \App\Services\ScheduleService::getUserData(auth()->id());
+        $absences = (new \App\Services\AbsenceService())->getAbsencesTodayWithDetails();
+
+        return view('user.consultAbsence')->with(compact('user', 'absences'));
     }
 
+    /**
+     * Sort absences by date.
+     *
+     * @return JsonResponse
+     */
     public function updateInfo(Absence $absence): JsonResponse {
         $request = request();
+        $request->validate(['info' => 'required|string|max:255']);
 
-        $request->validate([
-            'info' => 'required|string|max:255',
-        ]);
-
-        $absence->update(['info_task' => $request->info]);
+        (new \App\Services\AbsenceService())->updateTaskInfo($absence, $request->input('info'));
 
         return response()->json([
             'message' => 'Descripción actualizada',
-            'info'    => $absence->info_task, 
+            'info' => $absence->info_task,
         ]);
     }
+
 }
