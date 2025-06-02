@@ -2,22 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
-use Illuminate\Support\Facades\Log;
 
+/**
+ * Class GoogleController
+ * Handles Google authentication and user management.
+ */
 class GoogleController extends Controller {
 
     private const ROLE_ADMIN = 1;
     private const ROLE_TEACHER = 2;
 
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
+    /**
+     * Handle the Google callback and authenticate the user.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function handleGoogleCallback()
     {
         $googleUser = Socialite::driver('google')->user();

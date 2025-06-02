@@ -2,14 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
 
+/**
+ * PasswordController
+ * Handles password reset functionality.
+ */
 class PasswordController extends Controller
 {
-    public function update(Request $request)
+    /**
+     * Show the password reset form.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function update(Request $request): RedirectResponse
     {
         $request->validate([
             'email' => 'required|email',

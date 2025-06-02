@@ -6,13 +6,13 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
 
+/**
+ * Class FortifyServiceProvider
+ * This service provider is used to configure Laravel Fortify features.
+ */
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +25,8 @@ class FortifyServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
+     * This method is used to set up Fortify's features such as user creation, password reset, and views.
+     * @return void
      */
     public function boot(): void
     {
