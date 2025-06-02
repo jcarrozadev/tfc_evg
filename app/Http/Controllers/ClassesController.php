@@ -46,13 +46,13 @@ class ClassesController extends Controller {
 
         $request->validate([
             'num_class' => 'required|integer',
-            'course' => 'required|string|max:255',
-            'code' => 'required|string|max:10',
+            'course' => 'required|string|max:4',
+            'code' => 'required|string|max:1',
         ]);
 
 
         if(Classes::existClass($request->num_class, $request->course, $request->code)){
-            return redirect()->back()->with('success', 'Clase creada correctamente.');
+            return redirect()->back()->with('success', 'La clase ya existia.');
         }
     
         $created = Classes::addClass($request->only(['num_class', 'course', 'code']));

@@ -249,9 +249,15 @@ class User extends Authenticatable
             $changed = true;
         }
 
-        if (isset($data['email']) && $teacher->email !== $data['email']) {
-            $teacher->email = $data['email'];
-            $changed = true;
+        if (isset($data['email'])) {
+            if (preg_match('/^[^@]+@fundacionloyola\.es$/', $data['email'])) {
+                if ($teacher->email !== $data['email']) {
+                    $teacher->email = $data['email'];
+                    $changed = true;
+                }
+            } else {
+                return false;
+            }
         }
 
         if (isset($data['phone']) && $teacher->phone !== $data['phone']) {
