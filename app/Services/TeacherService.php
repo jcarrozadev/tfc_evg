@@ -54,4 +54,52 @@ class TeacherService
 
         return $cards->sortBy('session_id')->values();
     }
+
+    /**
+     * Get all teachers.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAllTeachers(): Collection
+    {
+        return User::getAllEnabledTeachers()->map(function ($teacher) {
+            $teacher->available = $teacher->available === 1 ? 'Sí' : 'No';
+            return $teacher;
+        });
+    }
+
+    /**
+     * Create a new teacher.
+     *
+     * @param array $data
+     * @return User
+     */
+    public function createTeacher(array $data): User
+    {
+        return User::addTeacher($data);
+    }
+
+    /**
+     * Edit an existing teacher.
+     *
+     * @param int $id 
+     * @param array $data
+     * @return bool
+     */
+    public function updateTeacher(int $id, array $data): bool
+    {
+        $teacher = User::getTeacherById($id);
+        return $teacher && User::editTeacher($teacher, $data);
+    }
+
+    /**
+     * Delete a teacher by setting their enabled status to false.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function deleteTeacher(int $id): bool
+    {
+        return User::deleteTeacher($id);
+    }
 }

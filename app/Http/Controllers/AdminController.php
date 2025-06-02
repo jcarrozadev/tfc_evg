@@ -3,18 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\SessionHelper;
-use App\Mail\NotificationCustom;
 use App\Models\Absence;
 use App\Models\Bookguard;
 use App\Models\BookguardUser;
 use App\Models\Classes;
 use App\Models\Guard;
-use App\Models\Session;
 use App\Models\User;
+
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
 
 /**
  * AdminController
