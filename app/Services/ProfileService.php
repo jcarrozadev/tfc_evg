@@ -6,8 +6,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/**
+ * ProfileService
+ * Service for handling user profile updates, specifically avatar uploads.
+ */
 class ProfileService
 {
+    /**
+     * Update the user's avatar.
+     *
+     * @param Request $request
+     * @param mixed $user
+     * @return void
+     */
     public function updateAvatar(Request $request, $user): void
     {
         $request->validate([
