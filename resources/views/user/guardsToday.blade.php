@@ -25,7 +25,7 @@
                             <div class="card-header bg-custom text-white d-flex justify-content-between align-items-center">
                                 <span>
                                     <i class="fas fa-clock me-2"></i>
-                                    <strong>{{ $guard['hour'] ?? '—' }}</strong>
+                                    <strong>{{ \Carbon\Carbon::parse($guard['hour'])->format('H:i') ?? '—' }}</strong>
                                 </span>
 
                                 <span class="badge bg-light text-dark">
