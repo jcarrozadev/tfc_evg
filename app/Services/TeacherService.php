@@ -62,7 +62,7 @@ class TeacherService
      */
     public function getAllTeachers(): Collection
     {
-        return User::getAllEnabledTeachers()->map(function ($teacher) {
+        return User::getAllEnabledTeachers()->map(function ($teacher): User {
             $teacher->available = $teacher->available === 1 ? 'Sí' : 'No';
             return $teacher;
         });
@@ -98,7 +98,7 @@ class TeacherService
      * @param int $id
      * @return bool
      */
-    public function deleteTeacher(int $id): bool
+    public function deleteTeacher(int $id): Collection
     {
         return User::deleteTeacher($id);
     }

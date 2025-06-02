@@ -2,32 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Reason;
 use App\Models\User;
 use App\Models\Absence;
+use App\Models\Guard;
+
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Carbon\Carbon;
 use App\Http\Controllers\TeacherValidatorController;
-use App\Models\BookguardUser;
-use App\Models\Guard;
-use App\Models\Session;
-use App\Models\TeacherSchedule;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
+/**
+ * TeacherController
+ * Handles the management of teachers in the application.
+ */
 class TeacherController extends Controller
 {
+    /**
+     * TeacherController constructor.
+     * Initializes the controller.
+     */
     public function __construct() {}
 
+    /**
+     * Display the teachers management page.
+     *
+     * @return View
+     */
     public function index(): View
     {
         $teachers = (new \App\Services\TeacherService())->getAllTeachers();
         return view('admin.teacher', compact('teachers'));
     }
 
+    /**
+     * Display the form to create a new teacher.
+     *
+     * @return View
+     */
     public function create(): RedirectResponse
     {
         $validatedData = TeacherValidatorController::validateTeacherData(request()->all());
@@ -39,6 +50,12 @@ class TeacherController extends Controller
             : 'Error al crear el profesor.');
     }
 
+    /**
+     * Display the form to edit a teacher.
+     *
+     * @param int $id
+     * @return View
+     */
     public function edit($id): JsonResponse
     {
         $request = request();
@@ -49,6 +66,12 @@ class TeacherController extends Controller
             : ['error' => 'Error al editar profesor.']);
     }
 
+    /**
+     * Delete a teacher by ID.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
     public function destroy($id): JsonResponse
     {
         $success = (new \App\Services\TeacherService())->deleteTeacher($id);
@@ -58,6 +81,11 @@ class TeacherController extends Controller
             : ['error' => 'Error al eliminar profesor.']);
     }
 
+    /**
+     * Display the home page for the authenticated teacher.
+     *
+     * @return View
+     */
     public function home(): View {
         $user = User::getHomeTeacherById(auth()->user()->id);
         $guard = Guard::hasGuardByUserId(auth()->user()->id);

@@ -5,8 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * TeacherValidatorController
+ * Handles validation for teacher-related data.
+ */
 class TeacherValidatorController extends Controller
 {
+    /**
+     * Validate teacher data.
+     *
+     * @param array $data
+     * @return array
+     * @throws ValidationException
+     */
     public static function validateTeacherData(array $data): array
     {
         $validator = Validator::make($data, [
@@ -34,6 +45,13 @@ class TeacherValidatorController extends Controller
         return $validator->validated();
     }
 
+    /**
+     * Validate notify absence data.
+     *
+     * @param array $data
+     * @return array
+     * @throws ValidationException
+     */
     public static function validateNotifyAbsenceData(array $data): array
     {
         $validator = Validator::make($data, [
