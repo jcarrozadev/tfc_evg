@@ -46,9 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     emailInput.addEventListener("input", () => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[^\s@]+@fundacionloyola\.es$/i;
         if (!emailRegex.test(emailInput.value)) {
-            showError(emailInput, "Correo no válido");
+            showError(emailInput, "El correo debe ser @fundacionloyola.es");
         } else {
             showSuccess(emailInput, "Correo válido");
         }

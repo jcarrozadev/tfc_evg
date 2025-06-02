@@ -32,8 +32,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function validateEmail() {
         const value = emailInput.value.trim();
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        showValidation(emailInput, regex.test(value), 'Introduce un correo válido.');
+        const regex = /^[^\s@]+@fundacionloyola\.es$/i;
+        showValidation(emailInput, regex.test(value), 'El correo debe ser @fundacionloyola.es');
     }
 
     function validatePhone() {
