@@ -28,8 +28,6 @@ Route::post('/logout', [CustomLoginController::class, 'logout'])->middleware('au
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest')->name('custom.register');
 Route::post('/password/update', [PasswordController::class, 'update'])->name('password.update.fortify');
 
-
-
 /* ROUTES TEACHERS */
 Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->name('teacher.')->group(function () {
     Route::get('/home', [TeacherController::class, 'home'])->name('home');
@@ -91,3 +89,8 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('bookGuar
     Route::delete('/bookguards/reset/classes', [AdminController::class, 'resetBookGuardClasses'])->name('reset.classes');
 
 });
+
+/* ROUTE DOCS */
+Route::get('/docs', function () {
+    return view('docs.index');
+})->name('docs.index');
