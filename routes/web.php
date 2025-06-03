@@ -48,6 +48,9 @@ Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->na
     Route::post('absences/sort',
     [TeacherController::class, 'sort'])
     ->name('absences.sort');
+    Route::delete('/absences/files/{file}', [TeacherController::class, 'deleteFile'])->name('absences.deleteFile');
+    Route::get('/absences/files/{file}', [TeacherController::class, 'showFile'])
+    ->name('absences.files.show');
 
     Route::get('/guardsToday', [TeacherController::class, 'guardsToday'])->name('guardsToday');
 });

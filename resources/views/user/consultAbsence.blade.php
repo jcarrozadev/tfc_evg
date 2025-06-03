@@ -101,6 +101,15 @@
                                data-update-url="{{ route('teacher.absences.updateInfo', $absence->id) }}">
                                 {{ $absence->info }}
                             </p>
+                            <div class="substitute-file-link mt-2">
+                                @foreach($absence->files as $file)
+                                    <div class="d-flex align-items-center justify-content-between mb-1" data-file-id="{{ $file->id }}">
+                                        <span>
+                                            <i class="fa-solid fa-paperclip me-1"></i>{{ $file->original_name }}
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,5 +130,6 @@
 
 @push('scripts')
     <script src="{{ asset('js/teacher/consultAbsence.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/modular/sortable.core.esm.min.js" type="module"></script>
 @endpush
