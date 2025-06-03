@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+
+use App\Models\AbsenceFile;
 
 /**
  * Class Absence
@@ -21,6 +24,7 @@ class Absence extends Model
         'hour_end',
         'justify',
         'info_task',
+        'substitute_file',
         'user_id',
         'reason_id',
         'reason_description',
@@ -240,4 +244,14 @@ class Absence extends Model
             ->where('id', $absenceId)
             ->first();
     }
+
+    /**
+     * Get the user associated with the absence.
+     *
+     * @return HasMany
+     */
+    public function files(): HasMany {
+        return $this->hasMany(AbsenceFile::class);
+    }
+
 }

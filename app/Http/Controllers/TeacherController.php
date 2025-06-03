@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AbsenceFile;
 use App\Models\User;
 use App\Models\Absence;
 use App\Models\Guard;
@@ -10,6 +11,8 @@ use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\TeacherValidatorController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * TeacherController
@@ -239,16 +242,59 @@ class TeacherController extends Controller
      *
      * @return JsonResponse
      */
-    public function updateInfo(Absence $absence): JsonResponse {
-        $request = request();
-        $request->validate(['info' => 'required|string|max:255']);
+    public function updateInfo(Request $request, Absence $absence): JsonResponse
+    {
+        $request->validate([
+            'info' => 'nullable|string',
+            'substitute_files.*' => 'nullable|file|max:2048', 
+        ]);
 
-        (new \App\Services\AbsenceService())->updateTaskInfo($absence, $request->input('info'));
+        $absence->info_task = $request->input('info');
+        $absence->save();
+
+        if ($request->hasFile('substitute_files')) {
+            foreach ($request->file('substitute_files') as $file) {
+                $path = $file->store('substitute_files');
+
+                AbsenceFile::storeFile([
+                    'id' => $absence->id,
+                    'file_path' => $path,
+                    'file' => $file,
+                ]);
+            }
+        }
 
         return response()->json([
-            'message' => 'Descripción actualizada',
             'info' => $absence->info_task,
+            'files' => $absence->files->map(fn($file) => [
+                'id' => $file->id,
+                'name' => $file->original_name,
+                'url' => Storage::url($file->file_path),
+            ]),
         ]);
+    }
+
+
+    /**
+     * Sort absences by date.
+     *
+     * @return JsonResponse
+     */
+    public function deleteFile(AbsenceFile $file): JsonResponse
+    {
+        $user = auth()->user();
+
+        if ($file->absence->user_id !== $user->id) {
+            abort(403);
+        }
+
+        if (Storage::disk('local')->exists($file->file_path)) {
+            Storage::disk('local')->delete($file->file_path);
+        }
+
+        $file->delete();
+
+        return response()->json(['message' => 'Archivo eliminado']);
     }
 
 }
