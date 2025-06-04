@@ -11,4 +11,5 @@ return [
     'min' => [
         'string' => 'El campo :attribute debe tener al menos :min caracteres.',
     ],
+    'uploaded' => 'El campo :attribute no se pudo cargar correctamente.',
 ];
