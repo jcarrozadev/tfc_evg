@@ -94,7 +94,7 @@
                         <div>
                             <h6 class="fw-bold mb-1 d-flex align-items-center">
                                 <i class="fa-solid fa-user-tie me-1"></i>
-                                Información - Profesor sustituto
+                                Info - Profesor sustituto
                                 <span class="ms-1 small text-card-absence">(clic para editar)</span>
                             </h6>
                             <p class="form-control-plaintext absence-info description-field text-muted"
