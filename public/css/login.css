@@ -99,6 +99,10 @@ body{
     z-index: 2;
 }
 
+.logo-sign-up {
+    margin-top: 180px;
+}
+
 .container.active .sign-in{
     transform: translateX(100%);
 }
@@ -242,6 +246,10 @@ body{
 }
 
 @media (max-width: 768px) {
+
+    .logo-sign-up {
+        margin-top: 0;
+    }
 
     .container{
         width: 90%;

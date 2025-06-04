@@ -93,3 +93,9 @@ body{
 .container-center{
     margin-top: 15vh;
 }
+
+@media (max-width: 600px) {
+    .icon-card {
+        height: auto !important;
+    }
+}
