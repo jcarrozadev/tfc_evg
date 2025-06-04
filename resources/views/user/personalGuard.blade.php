@@ -35,7 +35,7 @@
 
                             <div class="card-body d-flex align-items-start">
                                 <img 
-                                    src="{{ $guard['absent_teacher_image'] ? asset('storage/' . $guard['absent_teacher_image']) : asset('img/default.png') }}" 
+                                    src="{{ $guard['absent_teacher_image'] ? asset( $guard['absent_teacher_image']) : asset('img/default.png') }}" 
                                     alt="Foto del profesor ausente" 
                                     class="me-3 rounded-circle" 
                                     style="width:48px; height:48px; object-fit:cover;"
