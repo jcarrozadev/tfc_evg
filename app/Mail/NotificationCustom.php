@@ -11,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
  * NotificationCustom
  * Mailable class for sending custom notifications.
  */
-class NotificationCustom extends Mailable implements ShouldQueue {
+class NotificationCustom extends Mailable {
     use Queueable, SerializesModels;
 
     public $data;
