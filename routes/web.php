@@ -43,13 +43,17 @@ Route::middleware(['auth', CheckRole::class.':Profesor'])->prefix('teacher')->na
     Route::post('/notifyAbsence' , [TeacherController::class, 'storeNotifyAbsence'])->name('storeNotifyAbsence');
     
     Route::get('/consultAbsence' , [TeacherController::class, 'consultAbsence'])->name('consultAbsence');
+
     Route::match(['post', 'patch'], '/absences/{absence}/info',
     [TeacherController::class, 'updateInfo'])
     ->name('absences.updateInfo');
+
     Route::post('absences/sort',
     [TeacherController::class, 'sort'])
     ->name('absences.sort');
+
     Route::delete('/absences/files/{file}', [TeacherController::class, 'deleteFile'])->name('absences.deleteFile');
+
     Route::get('/absences/files/{file}', [TeacherController::class, 'showFile'])
     ->name('absences.files.show');
 
@@ -103,7 +107,6 @@ Route::get('/docs', function () {
 
 Route::get('/avatars/{filename}', function ($filename) {
     $path = storage_path('app/public/avatars/' . $filename);
-    // dd($path);
     if (!file_exists($path)) {
         abort(404);
     }
@@ -116,7 +119,18 @@ Route::get('/avatars/{filename}', function ($filename) {
 
 Route::get('/proofs/{filename}', function ($filename) {
     $path = storage_path('app/public/proofs/' . $filename);
-    // dd($path);
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    $file = file_get_contents($path);
+    $type = mime_content_type($path);
+
+    return Response::make($file, 200)->header('Content-Type', $type);
+});
+
+Route::get('/substitute_files/{filename}', function ($filename) {
+    $path = storage_path('app/public/substitute_files/' . $filename);
     if (!file_exists($path)) {
         abort(404);
     }

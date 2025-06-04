@@ -255,7 +255,7 @@ class TeacherController extends Controller
 
         if ($request->hasFile('substitute_files')) {
             foreach ($request->file('substitute_files') as $file) {
-                $path = $file->store('substitute_files');
+                $path = $file->store('substitute_files', 'public');
 
                 AbsenceFile::storeFile([
                     'id' => $absence->id,
