@@ -70,7 +70,7 @@
             </ul>
         </div>
         <div class="d-flex justify-content-between pt-3 border-top">
-            <a href="{{ url()->previous() }}" class="btn btn-outline-secondary px-4">
+            <a href="{{ route('teacher.home') }}" class="btn btn-outline-secondary px-4">
                 <i class="fas fa-arrow-left me-2"></i> Volver
             </a>
         </div>
