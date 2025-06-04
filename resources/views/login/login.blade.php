@@ -34,6 +34,7 @@
         <div class="form-container sign-up">
             <form method="POST" action="{{ route('custom.register') }}" autocomplete="off">
                 @csrf
+                <img src="{{ asset('img/logo.png') }}" alt="EVG Logo" class="mb-2 logo-sign-up" style="width: 200px;">
                 <div class="social-icons w-80">
                     <a href="{{ route('google.login') }}" class="icon"><i class="fa-brands fa-google-plus-g"></i>Continuar con Google</a>
                 </div>
@@ -52,7 +53,7 @@
         <div class="form-container sign-in active">
             <form method="POST" action="{{ route('login') }}" autocomplete="off">
                 @csrf
-                <h1>Iniciar Sesión</h1>
+                <img src="{{ asset('img/logo.png') }}" alt="EVG Logo" class="mb-2" style="width: 200px;">
                 <div class="social-icons w-80">
                     <a href="{{ route('google.login') }}" class="icon"><i class="fa-brands fa-google-plus-g"></i>Continuar con Google</a>
                 </div>
