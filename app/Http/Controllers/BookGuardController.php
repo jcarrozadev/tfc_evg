@@ -25,7 +25,7 @@ class BookGuardController extends Controller
      * @return View
      */
     public function index(): View {
-        return view('admin.bookGuard.bookGuard')
+        return view('admin.bookGuard.bookguard')
             ->with('teachers', User::getAllEnabledTeachers())
             ->with('classes', Classes::getAllClasses())
             ->with('bookguards', Bookguard::getAllBookguards())
