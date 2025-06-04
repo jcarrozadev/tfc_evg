@@ -95,10 +95,10 @@
                             <h6 class="fw-bold mb-1 d-flex align-items-center">
                                 <i class="fa-solid fa-user-tie me-1"></i>
                                 Info - Profesor sustituto
-                                <span class="ms-1 small text-card-absence">(clic para editar)</span>
+                                <span class="ms-1 small text-card-absence">(clic abajo para editar)</span>
                             </h6>
                             <p class="form-control-plaintext absence-info description-field text-muted"
-                               data-update-url="{{ route('teacher.absences.updateInfo', $absence->id) }}">
+                                data-update-url="{{ route('teacher.absences.updateInfo', $absence->id) }}">
                                 {{ $absence->info }}
                             </p>
                             <div class="substitute-file-link mt-2">

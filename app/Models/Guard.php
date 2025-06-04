@@ -126,6 +126,7 @@ class Guard extends Model
             ->join('users as absent_teachers', 'absences.user_id', '=', 'absent_teachers.id')
             ->leftJoin('users as covering_teachers', 'guards.user_sender_id', '=', 'covering_teachers.id')
             ->leftJoin('classes', 'guards.class_id', '=', 'classes.id')
+            ->leftJoin('absence_files' , 'absences.id', '=', 'absence_files.absence_id')
             ->select(
                 'guards.*',
                 'absent_teachers.name as absent_teacher_name',
@@ -133,6 +134,8 @@ class Guard extends Model
                 'covering_teachers.name as covering_teacher_name',
                 'covering_teachers.image_profile as covering_teacher_image',
                 'absences.info_task as info',
+                'absence_files.file_path as file_path',
+                'absence_files.original_name as file_name',
                 DB::raw("CONCAT(classes.num_class, ' ', classes.course, ' ', classes.code) as class_name")
             )
             ->get()
