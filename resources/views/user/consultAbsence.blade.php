@@ -61,7 +61,7 @@
                                         <span class="text-muted">{{ $absence->reason_name }}</span>
 
                                         @if($absence->justify)
-                                            <a  href="{{ Storage::url($absence->justify) }}"
+                                            <a  href="{{ asset($absence->justify) }}"
                                                 class="badge bg-success ms-2 text-decoration-none"
                                                 target="_blank">
                                                 <i class="fa-solid fa-paperclip me-1"></i>Justificante

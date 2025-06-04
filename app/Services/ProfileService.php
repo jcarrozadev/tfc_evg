@@ -22,7 +22,7 @@ class ProfileService
     public function updateAvatar(Request $request, $user): void
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:5000',
         ]);
 
         if ($user->image_profile && $user->image_profile !== 'default.png') {
@@ -31,10 +31,10 @@ class ProfileService
 
         $file = $request->file('avatar');
 
-        $filename = 'avatar_' . $user->id . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
+        $timestamp = now()->timestamp;
+        $filename = 'avatar_' . $user->id . '_' . $timestamp . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
 
-        $safeFolder = Str::slug($user->name);
-        $directory = 'avatars/' . $safeFolder;
+        $directory = 'avatars';
         Storage::disk('public')->makeDirectory($directory);
 
         $file->storeAs($directory, $filename, 'public');

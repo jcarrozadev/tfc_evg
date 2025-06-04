@@ -12,6 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\TeacherValidatorController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -90,8 +91,8 @@ class TeacherController extends Controller
      * @return View
      */
     public function home(): View {
-        $user = User::getHomeTeacherById(auth()->user()->id);
-        $guard = Guard::hasGuardByUserId(auth()->user()->id);
+        $user = User::getHomeTeacherById(Auth::user()->id);
+        $guard = Guard::hasGuardByUserId(Auth::user()->id);
 
         $view = view('user.home')->with('user', $user);
 
@@ -110,7 +111,7 @@ class TeacherController extends Controller
     public function guardsToday(): View {
         $service = new \App\Services\ScheduleService();
 
-        $user = $service->getUserData(auth()->id());
+        $user = $service->getUserData(Auth::user()->id);
         $guards = $service->getGuardsToday();
 
         return view('user.guardsToday')->with('user', $user)->with('guards', $guards);
@@ -122,7 +123,7 @@ class TeacherController extends Controller
      * @return View
      */
     public function personalGuard(): View {
-        $guards = (new \App\Services\ScheduleService())->getPersonalGuards(auth()->id());
+        $guards = (new \App\Services\ScheduleService())->getPersonalGuards(Auth::user()->id);
 
         return view('user.personalGuard')->with('guards', $guards);
     }
@@ -133,7 +134,7 @@ class TeacherController extends Controller
      * @return View
      */
     public function personalSchedule(): View {
-        $userId = auth()->id();
+        $userId = Auth::user()->id;
 
         $data = (new \App\Services\ScheduleService())->getScheduleDataForUser($userId);
 
@@ -146,7 +147,7 @@ class TeacherController extends Controller
      * @return View
      */
     public function settings(): View {
-        $user = User::getDataSettingTeacherById(auth()->user()->id);
+        $user = User::getDataSettingTeacherById(Auth::user()->id);
 
         return view('user.setting')->with('user', $user);
     }
@@ -159,7 +160,7 @@ class TeacherController extends Controller
     public function updateSettings(): RedirectResponse {
         $request = request();
 
-        $user = User::getTeacherById(auth()->user()->id);
+        $user = User::getTeacherById(Auth::user()->id);
 
         return User::editTeacher($user, $request->all())
             ? redirect()->route('teacher.home')->with('success', 'Datos actualizados correctamente.')
@@ -173,7 +174,7 @@ class TeacherController extends Controller
      */
     public function updatePassword(): RedirectResponse {
         $request = request();
-        $user = auth()->user();
+        $user = Auth::user();
 
         $success = (new \App\Services\PasswordService())->updatePassword($request, $user);
 
@@ -189,7 +190,7 @@ class TeacherController extends Controller
      */
     public function uploadAvatar(): RedirectResponse {
         $request = request();
-        $user = auth()->user();
+        $user = Auth::user();
 
         (new \App\Services\ProfileService())->updateAvatar($request, $user);
 
@@ -231,7 +232,7 @@ class TeacherController extends Controller
      * @return View
      */
     public function consultAbsence(): View {
-        $user = \App\Services\ScheduleService::getUserData(auth()->id());
+        $user = \App\Services\ScheduleService::getUserData(Auth::user()->id);
         $absences = (new \App\Services\AbsenceService())->getAbsencesTodayWithDetails();
 
         return view('user.consultAbsence')->with(compact('user', 'absences'));
@@ -246,7 +247,7 @@ class TeacherController extends Controller
     {
         $request->validate([
             'info' => 'nullable|string',
-            'substitute_files.*' => 'nullable|file|max:2048', 
+            'substitute_files.*' => 'nullable|file|max:5000', 
         ]);
 
         $absence->info_task = $request->input('info');
@@ -282,7 +283,7 @@ class TeacherController extends Controller
      */
     public function deleteFile(AbsenceFile $file): JsonResponse
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         if ($file->absence->user_id !== $user->id) {
             abort(403);
