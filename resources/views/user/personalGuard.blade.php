@@ -66,6 +66,16 @@
                                         @else
                                             <span class="text-muted">No hay observaciones para esta guardia.</span>
                                         @endif
+                                        @if (!empty($guard['file_path']) && !empty($guard['file_name']))
+                                            <i class="fas fa-file-alt text-primary"></i>
+                                            <a 
+                                                href="{{ asset($guard['file_path']) }}" 
+                                                class="badge bg-custom ms-2 text-decoration-none" 
+                                                target="_blank"
+                                            >
+                                                <i class="fas fa-file-download me-1"></i>{{ $guard['file_name'] }}
+                                            </a>
+                                        @endif
                                     </p>
                                 </div>
                             </div>
