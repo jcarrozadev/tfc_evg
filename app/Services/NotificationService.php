@@ -52,7 +52,7 @@ class NotificationService
                     . ' de ' . $hourStart . ' a ' . $hourEnd,
             ];
 
-            Mail::to($guardTeacher->email)->queue(new NotificationCustom($data));
+            Mail::to($guardTeacher->email)->send(new NotificationCustom($data));
         }
 
         return [
