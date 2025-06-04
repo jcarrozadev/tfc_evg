@@ -13,12 +13,11 @@ class UsersTableSeeder extends Seeder
         $users = [
             ['name' => 'Isabel Muñoz',     'email' => 'imunoz@fundacionloyola.es'],
             ['name' => 'Ernesto Gonzalez', 'email' => 'egonzalez@fundacionloyola.es'],
-            ['name' => 'Alberto Dominguez','email' => 'adominguez@fundacionloyola.es'],
+            ['name' => 'Alberto Dominguez','email' => 'albertodominguez@fundacionloyola.es'],
             ['name' => 'Francisco Garcia', 'email' => 'fgarcia@fundacionloyola.es'],
             ['name' => 'Magdalena Sanchez','email' => 'msanchez@fundacionloyola.es'],
             ['name' => 'Manuel Merino',    'email' => 'mmerino@fundacionloyola.es'],
             ['name' => 'Miguel Jaque',     'email' => 'mjaque@fundacionloyola.es'],
-            ['name' => 'Zeus Martin',      'email' => 'zmartinllera1@gmail.com'],
             ['name' => 'Magdalena Pozo',   'email' => 'mpozo@fundacionloyola.es'],
             ['name' => 'Gema Lopez',       'email' => 'glopez@fundacionloyola.es'],
             ['name' => 'Tomas Garcia',     'email' => 'tgarcia@fundacionloyola.es'],
@@ -26,6 +25,7 @@ class UsersTableSeeder extends Seeder
             ['name' => 'Lucia Romero',     'email' => 'lromero@fundacionloyola.es'],
             ['name' => 'Jorge Navarro',    'email' => 'jnavarro@fundacionloyola.es'],
             ['name' => 'Elena Serrano',    'email' => 'eserrano@fundacionloyola.es'],
+            ['name' => 'Elia Ruiz',      'email' => 'eortiz@fundacionloyola.es'],
         ];
 
         $now = now();
@@ -35,7 +35,7 @@ class UsersTableSeeder extends Seeder
             $userId = DB::table('users')->insertGetId([
                 'name' => $user['name'],
                 'email' => $user['email'],
-                'password' => Hash::make('password'),
+                'password' => Hash::make('Guardsevg2425'),
                 'avatar' => 'default.jpg',
                 'available' => true,
                 'role_id' => 2,
