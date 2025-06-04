@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PasswordController;
+use Illuminate\Support\Facades\Response;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -97,3 +98,31 @@ Route::middleware(['auth', CheckRole::class.':Administrador'])->prefix('bookGuar
 Route::get('/docs', function () {
     return view('docs.index');
 })->name('docs.index');
+
+/* ROUTE STORAGE */
+
+Route::get('/avatars/{filename}', function ($filename) {
+    $path = storage_path('app/public/avatars/' . $filename);
+    // dd($path);
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    $file = file_get_contents($path);
+    $type = mime_content_type($path);
+
+    return Response::make($file, 200)->header('Content-Type', $type);
+});
+
+Route::get('/proofs/{filename}', function ($filename) {
+    $path = storage_path('app/public/proofs/' . $filename);
+    // dd($path);
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    $file = file_get_contents($path);
+    $type = mime_content_type($path);
+
+    return Response::make($file, 200)->header('Content-Type', $type);
+});

@@ -36,7 +36,7 @@
 
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-3">
-                                    <img src="{{ $guard['absent_teacher_image'] ? asset('storage/' . $guard['absent_teacher_image']) : asset('img/default.png') }}"
+                                    <img src="{{ $guard['absent_teacher_image'] ? asset( $guard['absent_teacher_image']) : asset('img/default.png') }}"
                                         class="rounded-circle me-3 bg-light"
                                         style="width: 48px; height: 48px; object-fit: cover;"
                                         alt="Foto profesor ausente">
@@ -49,7 +49,7 @@
                                 </div>
 
                                 <div class="d-flex align-items-center mb-3">
-                                    <img src="{{ ($guard['covering_teacher_image'] ?? null) ? asset('storage/' . $guard['covering_teacher_image']) : asset('img/default.png') }}"
+                                    <img src="{{ ($guard['covering_teacher_image'] ?? null) ? asset( $guard['covering_teacher_image']) : asset('img/default.png') }}"
                                         class="rounded-circle me-3 bg-light"
                                         style="width: 48px; height: 48px; object-fit: cover;"
                                         alt="Foto profesor sustituto">

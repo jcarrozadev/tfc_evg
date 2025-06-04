@@ -6,7 +6,7 @@ use App\Models\Absence;
 use App\Models\Reason;
 use App\Models\Session;
 use App\Models\TeacherSchedule;
-
+use App\Models\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -128,10 +128,12 @@ class AbsenceService
 
         if ($request->hasFile('justify')) {
             $file = $request->file('justify');
-            $data['justify'] = $file->storeAs('justificantes', $file->getClientOriginalName(), 'public');
+            $filename =  time() . '-' . $file->getClientOriginalName();
+            $filename = preg_replace('/\s+/', '', $filename);
+            $data['justify'] = $file->storeAs('proofs', $filename, 'public');
         }
 
-        \App\Models\User::disabledTeacher(Auth::id());
+        User::disabledTeacher(Auth::id());
 
         return Absence::createAbsence($data);
     }
@@ -159,10 +161,12 @@ class AbsenceService
 
             if ($request->hasFile('justify')) {
                 $file = $request->file('justify');
-                $data['justify'] = $file->storeAs('justificantes', $file->getClientOriginalName(), 'public');
+                $filename =  time() . '-' . $file->getClientOriginalName();
+                $filename = preg_replace('/\s+/', '', $filename);
+                $data['justify'] = $file->storeAs('proofs', $filename, 'public');
             }
 
-            \App\Models\User::disabledTeacher(Auth::id());
+            User::disabledTeacher(Auth::id());
 
             if (!Absence::createAbsence($data)) {
                 $success = false;

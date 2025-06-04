@@ -39,6 +39,12 @@ h2, .text-primary {
 }
 
 @media (max-width: 767px) {
+    html, body {
+        height: 100%;
+        min-height: 100vh;
+        font-size: 0.875rem !important; 
+    }
+
     label.form-label {
         color: #ffffff !important;
     }

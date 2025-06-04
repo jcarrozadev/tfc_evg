@@ -18,9 +18,8 @@
         <div class="row justify-content-center align-items-center mt-custom">
             <div class="col-md-4 text-center mb-4 mb-md-0">
                 <div class="rounded-circle overflow-hidden mx-auto profile-pic mb-3" style="width: 300px; height: 300px;">
-                    <img src="{{ $user->image_profile ? asset('storage/' . $user->image_profile) : asset('img/default.png') }}" 
+                    <img src="{{ $user->image_profile ? asset( $user->image_profile) : asset('img/default.png') }}" 
                         class="img-fluid h-100 w-100 object-fit-cover">
-
                 </div>
 
                 <form action="{{ route('teacher.uploadAvatar') }}" method="POST" enctype="multipart/form-data">
