@@ -8,9 +8,24 @@
 
 @push('scripts')
     <script src="{{ asset('js/settings.js') }}"></script>
+    <script>
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.style.transition = 'opacity 0.5s ease';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 400); 
+            });
+        }, 4000);
+    </script>
 @endpush
 
 @section('content')
+    @if ($errors->has('avatar'))
+        <div class="alert alert-danger">
+            {{ $errors->first('avatar') }}
+        </div>
+    @endif
     <div class="container py-5">
 
         <h2 class="mb-5 fw-bold text-primary text-center">Ajustes del Profesor</h2>

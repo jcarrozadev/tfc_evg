@@ -22,7 +22,12 @@ class ProfileService
     public function updateAvatar(Request $request, $user): void
     {
         $request->validate([
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:5000',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            'avatar.max' => 'La imagen tiene un tamaño muy grande, debe ser menor a 2MB.',
+            'avatar.image' => 'El archivo debe ser una imagen.',
+            'avatar.mimes' => 'Solo se permiten imágenes en formato jpeg, png, jpg o gif.',
+            'avatar.required' => 'Debe subir una imagen de perfil.'
         ]);
 
         if ($user->image_profile && $user->image_profile !== 'default.png') {
