@@ -4,6 +4,16 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <script>
+        setTimeout(() => {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.style.transition = 'opacity 0.5s ease';
+                alert.style.opacity = '0';
+                setTimeout(() => alert.remove(), 400); 
+            });
+        }, 5000);
+    </script>
 @endpush
 
 @section('content')
