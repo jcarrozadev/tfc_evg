@@ -2,13 +2,11 @@
 
 namespace App\Services;
 
-use App\Mail\NotificationCustom;
 use App\Models\Absence;
 use App\Models\Classes;
 use App\Models\Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
 
 /**
  * Class NotificationService
@@ -31,6 +29,8 @@ class NotificationService
             ];
         }
 
+        $mailer = new GoogleMailService();
+
         foreach ($assignments as $assignment) {
             $guardTeacher = User::getTeacherByIdForGuard($assignment['teacher_id']);
             $dataAbsence = Absence::getUserAndClassByAbsenceId($assignment['absence_id']);
@@ -40,24 +40,27 @@ class NotificationService
 
             $hourStart = substr($session->hour_start, 0, 5);
             $hourEnd = substr($session->hour_end, 0, 5);
+            $fecha = now()->translatedFormat('j \d\e F \d\e Y');
 
-            $data = [
-                'name' => $guardTeacher->name,
-                'body' => 'Hola ' . $guardTeacher->name . ', estás cubriendo la guardia de ' . $absenceTeacher->name . ' en '
-                    . $class['num_class']
-                    . $class['course']
-                    . (isset($class['code']) && $class['code'] !== '-' ? ' ' . $class['code'] : '')
-                    . ' el día '
-                    . now()->translatedFormat('j \d\e F \d\e Y')
-                    . ' de ' . $hourStart . ' a ' . $hourEnd,
-            ];
+            $clase = "{$class['num_class']}{$class['course']}" .
+                    ((isset($class['code']) && $class['code'] !== '-') ? " {$class['code']}" : '');
 
-            Mail::to($guardTeacher->email)->send(new NotificationCustom($data));
+            $text = "👨‍🏫 Hola {$guardTeacher->name}, estás cubriendo la guardia de {$absenceTeacher->name} en {$clase} el día {$fecha} de {$hourStart} a {$hourEnd}.";
+
+            $html = "<p>Hola <strong>{$guardTeacher->name}</strong>,</p>
+                    <p>Estás cubriendo la guardia de <strong>{$absenceTeacher->name}</strong> en <strong>{$clase}</strong> el día <strong>{$fecha}</strong> de <strong>{$hourStart}</strong> a <strong>{$hourEnd}</strong>.</p>";
+
+            $mailer->send(
+                $guardTeacher->email,
+                'Gestión de guardia',
+                strip_tags($text),
+                $html
+            );
         }
 
         return [
             'success' => true,
-            'message' => 'Correos enviados a los profesores asignados.',
+            'message' => 'Correos enviados correctamente a los profesores asignados.',
         ];
     }
 
