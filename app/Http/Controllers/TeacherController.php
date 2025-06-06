@@ -214,6 +214,12 @@ class TeacherController extends Controller
      */
     public function storeNotifyAbsence(): RedirectResponse {
         $request = request();
+
+        $request->validate([
+            'date' => 'required|date',
+            'typeAbsence' => 'required|integer',
+        ]);
+
         $service = new \App\Services\AbsenceService();
 
         $success = $service->notifyAbsence($request);
