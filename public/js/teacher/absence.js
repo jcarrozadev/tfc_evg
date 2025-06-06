@@ -186,3 +186,56 @@ $(document).ready(function () {
     }
 
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const dateInput = document.getElementById('datepicker');
+    const typeAbsenceSelect = document.getElementById('typeAbsence');
+    const form = document.querySelector('form');
+
+    function validateField(field) {
+        const isValid = field.value.trim() !== '';
+
+        if (isValid) {
+            field.classList.remove('is-invalid');
+            field.classList.add('is-valid');
+        } else {
+            field.classList.add('is-invalid');
+            field.classList.remove('is-valid');
+        }
+
+        if ($(field).hasClass('select2-hidden-accessible')) {
+            const container = $(field).next('.select2-container');
+            if (isValid) {
+                container.removeClass('is-invalid').addClass('is-valid');
+            } else {
+                container.removeClass('is-valid').addClass('is-invalid');
+            }
+        }
+
+        return isValid;
+    }
+
+    dateInput.addEventListener('input', () => validateField(dateInput));
+    typeAbsenceSelect.addEventListener('change', () => validateField(typeAbsenceSelect));
+
+    form.addEventListener('submit', function (e) {
+        const isDateValid = validateField(dateInput);
+        const isTypeValid = validateField(typeAbsenceSelect);
+        if (!isDateValid || !isTypeValid) {
+            e.preventDefault();
+        }
+    });
+
+    document.getElementById('btn-today').addEventListener('click', () => {
+        const today = new Date();
+        dateInput.value = today.toLocaleDateString('es-ES');
+        validateField(dateInput);
+    });
+
+    document.getElementById('btn-tomorrow').addEventListener('click', () => {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        dateInput.value = tomorrow.toLocaleDateString('es-ES');
+        validateField(dateInput);
+    });
+});

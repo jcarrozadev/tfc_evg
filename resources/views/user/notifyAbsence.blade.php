@@ -32,6 +32,7 @@
                             <span class="input-group-text bg-white">
                                 <i class="fas fa-calendar-alt"></i>
                             </span>
+                            <div class="invalid-feedback">La fecha es obligatoria.</div>
                         </div>
                     
                         <div class="mt-2 d-flex gap-2">
@@ -63,6 +64,7 @@
                                 <option value="{{ $reason->id }}">{{ $reason->name }}</option>
                             @endforeach
                         </select>
+                        <div class="invalid-feedback">El tipo de ausencia es obligatoria.</div>
                     </div>
 
 
