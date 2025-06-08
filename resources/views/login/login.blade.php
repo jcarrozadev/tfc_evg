@@ -40,12 +40,35 @@
                 </div>
                 <span class="centered">o tu correo para registrarte</span>
 
-                <input type="text" name="name" placeholder="Nombre completo" required>
-                <input type="email" name="email" placeholder="Email" required autocomplete="off">
-                <input type="password" name="password" placeholder="Contraseña (min 8 caracteres)" required autocomplete="new-password">
-                <input type="password" name="password_confirmation" placeholder="Confirmar Contraseña" required autocomplete="new-password">
-                <input type="text" name="phone" placeholder="Teléfono" required>
-                <input type="text" name="dni" placeholder="DNI" required>
+                <div class="input-wrapper">
+                    <input type="text" name="name" placeholder="Nombre completo" required>
+                    <span class="input-icon"><i class="fa-solid fa-user"></i></span>
+                </div>
+
+                <div class="input-wrapper">
+                    <input type="email" name="email" placeholder="email@fundacionloyola.es" required autocomplete="off">
+                    <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+                </div>
+
+                <div class="input-wrapper">
+                    <input type="password" name="password" placeholder="Contraseña (min 8 caracteres)" required autocomplete="new-password">
+                    <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                </div>
+
+                <div class="input-wrapper">
+                    <input type="password" name="password_confirmation" placeholder="Confirmar Contraseña" required autocomplete="new-password">
+                    <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                </div>
+
+                <div class="input-wrapper">
+                    <input type="text" name="phone" placeholder="Teléfono" required>
+                    <span class="input-icon"><i class="fa-solid fa-phone"></i></span>
+                </div>
+
+                <div class="input-wrapper">
+                    <input type="text" name="dni" placeholder="DNI" required>
+                    <span class="input-icon"><i class="fa-solid fa-id-card"></i></span>
+                </div>
 
                 <button type="submit" class="mb-3">Registrarse</button>
             </form>            
@@ -58,8 +81,17 @@
                     <a href="{{ route('google.login') }}" class="icon"><i class="fa-brands fa-google-plus-g"></i>Continuar con Google</a>
                 </div>
                 <span class="centered">o correo y contraseña</span>
-                <input type="email" name="email" placeholder="Email" required autocomplete="off">
-                <input type="password" name="password" placeholder="Contraseña" required autocomplete="new-password">
+
+                <div class="input-wrapper">
+                    <input type="email" name="email" placeholder="email@fundacionloyola.es" required autocomplete="off">
+                    <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+                </div>
+
+                <div class="input-wrapper">
+                    <input type="password" name="password" placeholder="Contraseña" required autocomplete="new-password">
+                    <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                </div>
+
                 <a href="{{ route('password.request') }}" class="forgotPassword">¿Olvidaste la contraseña?</a>
                 <button type="submit">Entrar</button>
             </form>
