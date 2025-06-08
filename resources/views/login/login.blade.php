@@ -51,13 +51,15 @@
                 </div>
 
                 <div class="input-wrapper">
-                    <input type="password" name="password" placeholder="Contraseña (min 8 caracteres)" required autocomplete="new-password">
+                    <input type="password" name="password" placeholder="Contraseña" required autocomplete="new-password">
                     <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                    <span class="toggle-password"><i class="fa-solid fa-eye"></i></span>
                 </div>
 
                 <div class="input-wrapper">
-                    <input type="password" name="password_confirmation" placeholder="Confirmar Contraseña" required autocomplete="new-password">
+                    <input type="password" name="password_confirmation" placeholder="Confirmar contraseña" required autocomplete="new-password">
                     <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                    <span class="toggle-password"><i class="fa-solid fa-eye"></i></span>
                 </div>
 
                 <div class="input-wrapper">
@@ -88,8 +90,9 @@
                 </div>
 
                 <div class="input-wrapper">
-                    <input type="password" name="password" placeholder="Contraseña" required autocomplete="new-password">
+                    <input type="password" name="password" placeholder="Contraseña" required>
                     <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+                    <span class="toggle-password"><i class="fa-solid fa-eye"></i></span>
                 </div>
 
                 <a href="{{ route('password.request') }}" class="forgotPassword">¿Olvidaste la contraseña?</a>
