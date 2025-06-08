@@ -1,51 +1,44 @@
-@if(session('success'))
+@if(session('success') || session('error'))
     <script>
         const swalBox = document.createElement('div');
-        swalBox.textContent = "{{ session('success') }}";
+        const isSuccess = "{{ session('success') ? 'true' : 'false' }}" === 'true';
+        const message = isSuccess ? "{{ session('success') }}" : "{{ session('error') }}";
+
         swalBox.style.position = 'fixed';
-        swalBox.style.bottom = '1rem';
-        swalBox.style.right = '1rem';
-        swalBox.style.minWidth = '300px';
+        swalBox.style.bottom = '2rem';
+        swalBox.style.right = '2rem';
+        swalBox.style.minWidth = '380px';
         swalBox.style.maxWidth = '90%';
-        swalBox.style.textAlign = 'center';
-        swalBox.style.padding = '0.8rem 1.5rem';
-        swalBox.style.backgroundColor = '#dff0d8'; 
-        swalBox.style.color = '#3c763d';
-        swalBox.style.border = '1px solid #d6e9c6';
-        swalBox.style.borderRadius = '8px';
-        swalBox.style.fontSize = '0.9rem';
+        swalBox.style.textAlign = 'left';
+        swalBox.style.padding = '1rem 1.5rem';
+        swalBox.style.display = 'flex';
+        swalBox.style.alignItems = 'center';
+        swalBox.style.gap = '1rem';
+        swalBox.style.backgroundColor = isSuccess ? '#e6f9ec' : '#fdecea';
+        swalBox.style.color = isSuccess ? '#2e7d32' : '#c62828';
+        swalBox.style.border = `2px solid ${isSuccess ? '#81c784' : '#ef9a9a'}`;
+        swalBox.style.borderLeftWidth = '6px';
+        swalBox.style.borderRadius = '12px';
+        swalBox.style.fontSize = '1rem';
         swalBox.style.zIndex = 9999;
-        swalBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+        swalBox.style.boxShadow = '0 6px 15px rgba(0,0,0,0.25)';
+        swalBox.style.transition = 'opacity 0.3s ease-in-out';
+
+        const icon = document.createElement('i');
+        icon.className = isSuccess ? 'fas fa-check-circle' : 'fas fa-times-circle';
+        icon.style.fontSize = '1.5rem';
+        icon.style.color = isSuccess ? '#2e7d32' : '#c62828';
+
+        const text = document.createElement('span');
+        text.textContent = message;
+
+        swalBox.appendChild(icon);
+        swalBox.appendChild(text);
         document.body.appendChild(swalBox);
 
         setTimeout(() => {
-            swalBox.remove();
-        }, 4000);
-    </script>
-@endif
-
-@if(session('error'))
-    <script>
-        const swalBox = document.createElement('div');
-        swalBox.textContent = "{{ session('error') }}";
-        swalBox.style.position = 'fixed';
-        swalBox.style.bottom = '1rem';
-        swalBox.style.right = '1rem';
-        swalBox.style.minWidth = '300px';
-        swalBox.style.maxWidth = '90%';
-        swalBox.style.textAlign = 'center';
-        swalBox.style.padding = '0.8rem 1.5rem';
-        swalBox.style.backgroundColor = '#f2dede'; 
-        swalBox.style.color = '#a94442';
-        swalBox.style.border = '1px solid #ebccd1';
-        swalBox.style.borderRadius = '8px';
-        swalBox.style.fontSize = '0.9rem';
-        swalBox.style.zIndex = 9999;
-        swalBox.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
-        document.body.appendChild(swalBox);
-
-        setTimeout(() => {
-            swalBox.remove();
+            swalBox.style.opacity = '0';
+            setTimeout(() => swalBox.remove(), 300);
         }, 4000);
     </script>
 @endif
