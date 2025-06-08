@@ -160,6 +160,18 @@ class TeacherController extends Controller
     public function updateSettings(): RedirectResponse {
         $request = request();
 
+        if(!User::getIfExistsDni($request->input('dni'))){
+            return redirect()->route('teacher.home')->with('error', 'El dni ya existe.');
+        }
+
+        if(!User::getIfExistsEmail($request->input('email'))){
+            return redirect()->route('teacher.home')->with('error', 'El email ya existe.');
+        }
+
+        if(!User::getIfExistsPhone($request->input('phone'))){
+            return redirect()->route('teacher.home')->with('error', 'El teléfono ya esta en uso.');
+        }
+
         $user = User::getTeacherById(Auth::user()->id);
 
         return User::editTeacher($user, $request->all())
