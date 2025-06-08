@@ -295,4 +295,19 @@ class User extends Authenticatable
         return $updated > 0;
     }
 
+    public static function getIfExistsDni(string $dni): bool {
+        return self::where('dni', $dni)
+            ->exists();
+    }
+
+    public static function getIfExistsPhone(string $phone): bool {
+        return self::where('phone', $phone)
+            ->exists();
+    }
+
+    public static function getIfExistsEmail(string $email): bool {
+        return self::where('email', $email)
+            ->exists();
+    }
+
 }
