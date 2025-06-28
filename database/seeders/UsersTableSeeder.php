@@ -11,21 +11,21 @@ class UsersTableSeeder extends Seeder
     public function run(): void
     {
         $users = [
-            ['name' => 'Isabel Muñoz',     'email' => 'imunoz@fundacionloyola.es',      'phone' => '612345678', 'dni' => '12345678Z'],
-            ['name' => 'Ernesto Gonzalez', 'email' => 'egonzalez@fundacionloyola.es',   'phone' => '622345678', 'dni' => '87654321X'],
-            ['name' => 'Alberto Dominguez','email' => 'adominguez@fundacionloyola.es',  'phone' => '632345678', 'dni' => '11223344M'],
-            ['name' => 'Francisco Garcia', 'email' => 'fgarcia@fundacionloyola.es',     'phone' => '642345678', 'dni' => '22334455S'],
-            ['name' => 'Magdalena Sanchez','email' => 'msanchez@fundacionloyola.es',    'phone' => '652345678', 'dni' => '33445566L'],
-            ['name' => 'Manuel Merino',    'email' => 'mmerino@fundacionloyola.es',     'phone' => '662345678', 'dni' => '44556677H'],
-            ['name' => 'Miguel Jaque',     'email' => 'mjaque@fundacionloyola.es',      'phone' => '672345678', 'dni' => '55667788Y'],
-            ['name' => 'Zeus Martin',      'email' => 'zmartinllera1@gmail.com',        'phone' => '682345678', 'dni' => '66778899P'],
-            ['name' => 'Magdalena Pozo',   'email' => 'mpozo@fundacionloyola.es',       'phone' => '692345678', 'dni' => '77889900G'],
-            ['name' => 'Gema Lopez',       'email' => 'glopez@fundacionloyola.es',      'phone' => '702345678', 'dni' => '88990011T'],
-            ['name' => 'Tomas Garcia',     'email' => 'tgarcia@fundacionloyola.es',     'phone' => '712345678', 'dni' => '99001122A'],
-            ['name' => 'Ana Moreno',       'email' => 'amoreno@fundacionloyola.es',     'phone' => '722345678', 'dni' => '10112233C'],
-            ['name' => 'Lucia Romero',     'email' => 'lromero@fundacionloyola.es',     'phone' => '732345678', 'dni' => '19283746K'],
-            ['name' => 'Jorge Navarro',    'email' => 'jnavarro@fundacionloyola.es',    'phone' => '742345678', 'dni' => '38475629N'],
-            ['name' => 'Elena Serrano',    'email' => 'eserrano@fundacionloyola.es',    'phone' => '752345678', 'dni' => '47586932R'],
+            ['name' => 'Isabel Muñoz',     'email' => 'imunoz@fundacionloyola.es'],
+            ['name' => 'Ernesto Gonzalez', 'email' => 'egonzalez@fundacionloyola.es'],
+            ['name' => 'Alberto Dominguez','email' => 'adominguez@fundacionloyola.es'],
+            ['name' => 'Francisco Garcia', 'email' => 'fgarcia@fundacionloyola.es'],
+            ['name' => 'Magdalena Sanchez','email' => 'msanchez@fundacionloyola.es'],
+            ['name' => 'Manuel Merino',    'email' => 'mmerino@fundacionloyola.es'],
+            ['name' => 'Miguel Jaque',     'email' => 'mjaque@fundacionloyola.es'],
+            ['name' => 'Zeus Martin',      'email' => 'zmartinllera1@gmail.com'],
+            ['name' => 'Magdalena Pozo',   'email' => 'mpozo@fundacionloyola.es'],
+            ['name' => 'Gema Lopez',       'email' => 'glopez@fundacionloyola.es'],
+            ['name' => 'Tomas Garcia',     'email' => 'tgarcia@fundacionloyola.es'],
+            ['name' => 'Ana Moreno',       'email' => 'amoreno@fundacionloyola.es'],
+            ['name' => 'Lucia Romero',     'email' => 'lromero@fundacionloyola.es'],
+            ['name' => 'Jorge Navarro',    'email' => 'jnavarro@fundacionloyola.es'],
+            ['name' => 'Elena Serrano',    'email' => 'eserrano@fundacionloyola.es'],
         ];
 
         $now = now();
